@@ -89,7 +89,7 @@ export default async function EventDetailPage({
                 startsAt={item.startsAt || new Date().toISOString()}
                 venue={item.venue}
                 capacity={item.metadata?.capacity}
-                ticketPrice={item.metadata?.ticketPrice}
+                ticketPrice={item.ticketPrice ? Number(item.ticketPrice) : undefined}
               />
             ) : (
               <div className="px-5 py-3 rounded-full border border-ink-700 text-ink-400 text-sm">

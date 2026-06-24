@@ -63,6 +63,8 @@ function serializeContent(c: any) {
     venue: c.venue,
     venueAddress: c.venueAddress,
     price: c.price?.toString(),
+    ticketPrice: c.ticketPrice ? Number(c.ticketPrice) : undefined,
+    capacity: c.capacity,
     currency: c.currency,
     year: c.year,
     make: c.make,

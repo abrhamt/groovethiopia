@@ -34,6 +34,7 @@ export type ContentItem = {
   venue?: string;
   venueAddress?: string;
   price?: string;
+  ticketPrice?: number;
   currency?: string;
   year?: number;
   make?: string;
