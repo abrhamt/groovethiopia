@@ -7,6 +7,7 @@ import { Inter, JetBrains_Mono, Cormorant_Garamond } from "next/font/google";
 import { Nav } from "@/components/site/nav";
 import { Footer } from "@/components/site/footer";
 import { WhatsAppButton } from "@/components/site/whatsapp-button";
+import { CookieBanner } from "@/components/site/cookie-banner";
 import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -60,6 +61,7 @@ export default async function LocaleLayout({
           <main>{children}</main>
           <Footer />
           <WhatsAppButton />
+          <CookieBanner />
         </NextIntlClientProvider>
       </body>
     </html>

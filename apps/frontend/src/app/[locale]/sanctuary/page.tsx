@@ -2,6 +2,9 @@ import Link from "next/link";
 import { setRequestLocale } from "next-intl/server";
 import { api } from "@/lib/api";
 
+// Force dynamic rendering — fetches from backend API
+export const dynamic = "force-dynamic";
+
 export default async function SanctuaryPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);

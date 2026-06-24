@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { setRequestLocale } from "next-intl/server";
 
+// Force dynamic rendering — fetches from backend API
+export const dynamic = "force-dynamic";
+
 export default function DivisionsPage({ params }: { params: Promise<{ locale: string }> }) {
   return <DivisionsContent params={params} />;
 }

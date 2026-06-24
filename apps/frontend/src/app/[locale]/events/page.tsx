@@ -3,6 +3,9 @@ import { setRequestLocale } from "next-intl/server";
 import { api } from "@/lib/api";
 import { formatDate } from "@/lib/utils";
 
+// Force dynamic rendering — fetches from backend API
+export const dynamic = "force-dynamic";
+
 export default async function EventsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
