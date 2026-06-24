@@ -138,7 +138,7 @@ model Content {
   id              String        @id @default(cuid())
   type            ContentType
   status          ContentStatus @default(DRAFT)
-  slug            String        @unique
+  slug            String
   title           String
   subtitle        String?
   excerpt         String?
@@ -192,8 +192,9 @@ model Content {
   shukshutaSubEvents ShukshutaSubEvent[] @relation("ParentEvent")
   parentEvent     ShukshutaSubEvent[] @relation("SubEvent")
 
+  @@unique([slug, locale])
   @@index([type, status])
-  @@index([slug])
+  @@index([slug, locale])
   @@index([parentId])
   @@index([scheduledFor])
   @@index([unpublishAt])
