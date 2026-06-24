@@ -1,6 +1,16 @@
-// Email service via Resend
+// Email service via Resend — uses React Email templates
 import { Resend } from "resend";
+import { render } from "@react-email/render";
 import { prisma } from "@groovethiopia/db";
+import { OtpEmail } from "@/emails/otp";
+import { InquiryNotification } from "@/emails/inquiry";
+import {
+  ContentSubmittedEmail,
+  ContentApprovedEmail,
+  ContentRejectedEmail,
+} from "@/emails/approval";
+import { BookingConfirmation } from "@/emails/booking";
+import { NewUserRegistrationEmail, UserApprovedEmail } from "@/emails/user";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -8,62 +18,41 @@ const resend = process.env.RESEND_API_KEY
 
 const FROM = process.env.EMAIL_FROM || "Groovethiopia <hello@groovethiopia.com>";
 
-const layout = (content: string) => `
-  <div style="background:#0a0a0a;color:#f5f5f5;font-family:system-ui;padding:40px 20px;">
-    <div style="max-width:480px;margin:0 auto;background:#1a1a1a;border:1px solid #2d2d2d;border-radius:12px;padding:40px;">
-      <h1 style="color:#d49520;font-size:24px;margin:0 0 24px;font-weight:600;font-family:Georgia,serif;">Groovethiopia</h1>
-      ${content}
-    </div>
-  </div>
-`;
+async function send(to: string | string[], subject: string, reactElement: React.ReactElement) {
+  const html = await render(reactElement);
+  if (!resend) {
+    console.warn(`[email] Resend not configured — would send "${subject}" to`, to);
+    return { success: true, mocked: true };
+  }
+  return resend.emails.send({
+    from: FROM,
+    to,
+    subject,
+    html,
+  });
+}
+
+// ============================================================
+// OTP — Registration + Password Reset
+// ============================================================
 
 export async function sendOtpEmail(
   to: string,
   code: string,
   purpose: "REGISTRATION" | "PASSWORD_RESET" | "EMAIL_CHANGE"
 ) {
-  if (!resend) {
-    console.warn("[email] Resend not configured — would send OTP", { to, purpose });
-    return { success: true, mocked: true };
-  }
+  const subject = purpose === "REGISTRATION"
+    ? "Verify your Groovethiopia account"
+    : purpose === "PASSWORD_RESET"
+    ? "Reset your Groovethiopia password"
+    : "Verify your new email";
 
-  const subjects = {
-    REGISTRATION: "Verify your Groovethiopia account",
-    PASSWORD_RESET: "Reset your Groovethiopia password",
-    EMAIL_CHANGE: "Verify your new email",
-  };
-
-  await resend.emails.send({
-    from: FROM,
-    to,
-    subject: subjects[purpose],
-    html: layout(`
-      <p style="color:#a3a3a3;font-size:14px;margin:0 0 24px;">${subjects[purpose]}</p>
-      <div style="background:#0a0a0a;border:1px solid #404040;border-radius:8px;padding:24px;text-align:center;margin-bottom:24px;">
-        <p style="color:#737373;font-size:11px;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px;">Your code</p>
-        <p style="color:#d49520;font-size:32px;font-weight:700;letter-spacing:8px;margin:0;font-family:monospace;">${code}</p>
-      </div>
-      <p style="color:#737373;font-size:12px;margin:0;">This code expires in 10 minutes. If you didn't request this, you can safely ignore this email.</p>
-    `),
-  });
+  await send(to, subject, <OtpEmail code={code} purpose={purpose as any} />);
 }
 
-export async function sendEmail(args: {
-  to: string | string[];
-  subject: string;
-  html: string;
-}) {
-  if (!resend) {
-    console.warn("[email] Resend not configured — would send", args.subject);
-    return { success: true, mocked: true };
-  }
-  return resend.emails.send({
-    from: FROM,
-    to: args.to,
-    subject: args.subject,
-    html: layout(args.html),
-  });
-}
+// ============================================================
+// Contact Inquiries
+// ============================================================
 
 export async function sendNewInquiryNotification(inquiry: {
   id: string;
@@ -75,35 +64,118 @@ export async function sendNewInquiryNotification(inquiry: {
     where: { role: "ADMIN", status: "ACTIVE" },
     select: { email: true },
   });
-
   if (admins.length === 0) return;
 
-  await sendEmail({
-    to: admins.map((a) => a.email),
-    subject: `New ${inquiry.division} inquiry from ${inquiry.name}`,
-    html: `
-      <h2 style="color:#f5f5f5;font-size:18px;margin:0 0 16px;">New Inquiry</h2>
-      <p style="margin:8px 0;color:#a3a3a3;"><strong style="color:#f5f5f5;">Division:</strong> ${inquiry.division}</p>
-      <p style="margin:8px 0;color:#a3a3a3;"><strong style="color:#f5f5f5;">From:</strong> ${inquiry.name} (${inquiry.email})</p>
-      <a href="${process.env.NEXT_PUBLIC_ADMIN_URL}/inquiries/${inquiry.id}" style="display:inline-block;margin-top:24px;background:#d49520;color:#0a0a0a;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">View Inquiry</a>
-    `,
-  });
+  const full = await prisma.inquiry.findUnique({ where: { id: inquiry.id } });
+  if (!full) return;
+
+  await send(
+    admins.map((a) => a.email),
+    `New ${inquiry.division.toLowerCase()} inquiry from ${inquiry.name}`,
+    <InquiryNotification
+      inquiry={{
+        id: full.id,
+        division: full.division,
+        name: full.name,
+        organization: full.organization,
+        email: full.email,
+        phone: full.phone,
+        message: full.message,
+      }}
+    />
+  );
 }
+
+// ============================================================
+// Content Workflow
+// ============================================================
 
 export async function sendSubmissionNotification(
   adminEmails: string[],
   content: { type: string; title: string; authorName: string }
 ) {
   if (adminEmails.length === 0) return;
-  await sendEmail({
-    to: adminEmails,
-    subject: `New ${content.type} submission: ${content.title}`,
-    html: `
-      <h2 style="color:#f5f5f5;font-size:18px;margin:0 0 16px;">Content Awaiting Approval</h2>
-      <p style="margin:8px 0;color:#a3a3a3;"><strong style="color:#f5f5f5;">Type:</strong> ${content.type}</p>
-      <p style="margin:8px 0;color:#a3a3a3;"><strong style="color:#f5f5f5;">Title:</strong> ${content.title}</p>
-      <p style="margin:8px 0;color:#a3a3a3;"><strong style="color:#f5f5f5;">Author:</strong> ${content.authorName}</p>
-      <a href="${process.env.NEXT_PUBLIC_ADMIN_URL}/review" style="display:inline-block;margin-top:24px;background:#d49520;color:#0a0a0a;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">Review Now</a>
-    `,
-  });
+  await send(
+    adminEmails,
+    `New ${content.type} submission: ${content.title}`,
+    <ContentSubmittedEmail {...content} />
+  );
+}
+
+export async function sendContentApprovedEmail(
+  editorEmail: string,
+  content: { type: string; title: string; isLive: boolean }
+) {
+  await send(
+    editorEmail,
+    `Your ${content.type} "${content.title}" is ${content.isLive ? "live" : "approved"}`,
+    <ContentApprovedEmail
+      type={content.type}
+      title={content.title}
+      authorName=""
+      isLive={content.isLive}
+    />
+  );
+}
+
+export async function sendContentRejectedEmail(
+  editorEmail: string,
+  content: { type: string; title: string; reason: string; authorName?: string }
+) {
+  await send(
+    editorEmail,
+    `Changes requested on "${content.title}"`,
+    <ContentRejectedEmail
+      type={content.type}
+      title={content.title}
+      reason={content.reason}
+      authorName={content.authorName || ""}
+    />
+  );
+}
+
+// ============================================================
+// Booking Confirmations
+// ============================================================
+
+export async function sendBookingConfirmation(
+  to: string,
+  booking: {
+    name: string;
+    eventTitle: string;
+    eventDate: string;
+    venue: string;
+    partySize: number;
+    ticketPrice?: number;
+    bookingId: string;
+  }
+) {
+  await send(
+    to,
+    `You're confirmed for ${booking.eventTitle}`,
+    <BookingConfirmation booking={booking} />
+  );
+}
+
+// ============================================================
+// User Management
+// ============================================================
+
+export async function sendNewUserRegistrationNotification(
+  adminEmails: string[],
+  user: { name: string; email: string }
+) {
+  if (adminEmails.length === 0) return;
+  await send(
+    adminEmails,
+    `New admin request: ${user.name}`,
+    <NewUserRegistrationEmail {...user} />
+  );
+}
+
+export async function sendUserApprovedEmail(
+  to: string,
+  name: string
+) {
+  await send(to, "Your Groovethiopia admin access is active", <UserApprovedEmail name={name} />);
 }

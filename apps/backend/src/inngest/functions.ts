@@ -113,17 +113,11 @@ export const onUserRegistered = inngest.createFunction(
     });
 
     await step.run("notify-admins", async () => {
-      const { sendEmail } = await import("@/lib/email");
-      await sendEmail({
-        to: admins.map((a) => a.email),
-        subject: `New user registration: ${event.data.name}`,
-        html: `
-          <h2 style="color:#f5f5f5;font-size:18px;margin:0 0 16px;">New User Awaiting Approval</h2>
-          <p style="margin:8px 0;color:#a3a3a3;"><strong style="color:#f5f5f5;">Name:</strong> ${event.data.name}</p>
-          <p style="margin:8px 0;color:#a3a3a3;"><strong style="color:#f5f5f5;">Email:</strong> ${event.data.email}</p>
-          <a href="${process.env.NEXT_PUBLIC_ADMIN_URL}/users" style="display:inline-block;margin-top:24px;background:#d49520;color:#0a0a0a;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;">Approve User</a>
-        `,
-      });
+      const { sendNewUserRegistrationNotification } = await import("@/lib/email");
+      await sendNewUserRegistrationNotification(
+        admins.map((a) => a.email),
+        event.data
+      );
     });
   }
 );
