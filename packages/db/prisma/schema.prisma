@@ -456,6 +456,25 @@ model AuditLog {
 // TRANSLATION GLOSSARY
 // ============================================================
 
+model TeamMember {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  role         String
+  bio          String?  @db.Text
+  photoUrl     String?
+  photoBlurhash String?
+  email        String?
+  linkedinUrl  String?
+  displayOrder Int      @default(0)
+  isLeadership Boolean   @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isLeadership])
+  @@index([displayOrder])
+}
+
 model GlossaryTerm {
   id          String   @id @default(cuid())
   term        String   @unique

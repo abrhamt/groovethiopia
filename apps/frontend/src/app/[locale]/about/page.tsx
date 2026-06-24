@@ -1,5 +1,7 @@
-import { setRequestLocale, getTranslations } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import { AboutView } from "@/components/about/about-view";
+import { TeamGrid } from "@/components/about/team-grid";
 
 // Force dynamic rendering — server-side translation
 export const dynamic = "force-dynamic";
@@ -15,11 +17,21 @@ export default async function AboutPage({
   const t = await getTranslations({ locale, namespace: "about" });
   const tValues = await getTranslations({ locale, namespace: "about.values" });
 
-  // Resolve values list server-side
   const values = [0, 1, 2, 3].map((i) => ({
     title: tValues(`list.${i}.title`),
     body: tValues(`list.${i}.body`),
   }));
+
+  // Fetch team members
+  let team: any[] = [];
+  try {
+    const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+    const res = await fetch(`${API}/api/public/team`, { next: { revalidate: 300 } });
+    if (res.ok) {
+      const data = await res.json();
+      team = data.team || [];
+    }
+  } catch {}
 
   return (
     <AboutView
@@ -37,6 +49,9 @@ export default async function AboutPage({
       values={values}
       teamTitle={t("team.title")}
       teamSubtitle={t("team.subtitle")}
+      team={team}
     />
   );
 }
+
+import { getTranslations } from "next-intl/server";

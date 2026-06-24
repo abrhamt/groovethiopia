@@ -1,4 +1,6 @@
 // Client component view for About page — receives all translated strings as props
+import { TeamGrid } from "./team-grid";
+
 export function AboutView(props: {
   title: string;
   subtitle: string;
@@ -14,6 +16,7 @@ export function AboutView(props: {
   values: { title: string; body: string }[];
   teamTitle: string;
   teamSubtitle: string;
+  team?: any[];
 }) {
   return (
     <div className="pt-32">
@@ -81,17 +84,7 @@ export function AboutView(props: {
         <div className="max-w-7xl mx-auto">
           <h2 className="editorial-heading text-5xl mb-4">{props.teamTitle}</h2>
           <p className="text-ink-400 mb-16">{props.teamSubtitle}</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="text-center">
-                <div className="aspect-square rounded-2xl bg-ink-800 mb-4 flex items-center justify-center text-4xl font-serif text-gold-400">
-                  A
-                </div>
-                <p className="font-medium">Leadership {i}</p>
-                <p className="text-xs text-ink-400">Role</p>
-              </div>
-            ))}
-          </div>
+          <TeamGrid team={props.team || []} />
         </div>
       </section>
     </div>

@@ -354,6 +354,53 @@ async function main() {
   }
   console.log(`✅ Seeded ${projects.length} real estate projects`);
 
+  // ===== PARTNERS =====
+  const partners = [
+    { name: "NIB International Bank", tier: "STRATEGIC", description: "Banking partner since 2019", websiteUrl: "https://nibbank.com.et", displayOrder: 1, isFeatured: true },
+    { name: "Hyatt Regency Addis Ababa", tier: "STRATEGIC", description: "Hospitality & venue partner", websiteUrl: "https://hyatt.com", displayOrder: 2 },
+    { name: "Sheraton Addis", tier: "STRATEGIC", description: "Luxury hospitality partner", websiteUrl: "https://sheratonaddis.com", displayOrder: 3 },
+    { name: "Ethiopian Airlines", tier: "STRATEGIC", description: "Travel & logistics partner", websiteUrl: "https://ethiopianairlines.com", displayOrder: 4 },
+    { name: "Marathon Motors", tier: "STRATEGIC", description: "Automotive partner", websiteUrl: "https://marathonmotors.et", displayOrder: 5 },
+    { name: "Lucy Restaurant", tier: "CULTURAL", description: "Hospitality partner", websiteUrl: "https://lucyaddis.com", displayOrder: 6 },
+    { name: "Kana TV", tier: "MEDIA", description: "Media partner", websiteUrl: "https://kanatv.com", displayOrder: 7 },
+    { name: "Addis Ababa University", tier: "CULTURAL", description: "Cultural & academic partner", websiteUrl: "https://aau.edu.et", displayOrder: 8 },
+    { name: "Betr Media", tier: "MEDIA", description: "Digital media partner", displayOrder: 9 },
+    { name: "Habesha Brewery", tier: "CULTURAL", description: "Beverage partner", displayOrder: 10 },
+    { name: "Tomoca Coffee", tier: "CULTURAL", description: "Coffee partner", websiteUrl: "https://tomocacoffee.com", displayOrder: 11 },
+    { name: "Silk Road Events", tier: "CULTURAL", description: "Cultural events network", displayOrder: 12 },
+  ];
+
+  for (const p of partners) {
+    const existing = await prisma.partner.findFirst({ where: { name: p.name } });
+    if (existing) {
+      await prisma.partner.update({ where: { id: existing.id }, data: p });
+    } else {
+      await prisma.partner.create({ data: p });
+    }
+  }
+  console.log(`✅ Seeded ${partners.length} partners`);
+
+  // ===== TEAM MEMBERS =====
+  const teamMembers = [
+    { slug: "abel-tadesse", name: "Abel Tadesse", role: "Founder & CEO", bio: "Building Groovethiopia from the conviction that Ethiopia deserves world-class curation across culture, craft, and capital.", photoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80", email: "abel@groovethiopia.com", linkedinUrl: "https://linkedin.com/in/abaltadesse", displayOrder: 1, isLeadership: true },
+    { slug: "selamawit-bekele", name: "Selamawit Bekele", role: "Head of Events · The Pulse", bio: "Two decades producing electronic music events across East Africa. Believes in sound as architecture.", photoUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80", email: "selam@groovethiopia.com", displayOrder: 2, isLeadership: true },
+    { slug: "dawit-mekonnen", name: "Dawit Mekonnen", role: "Head of Trading · The Collection", bio: "Specialist in vintage automotive procurement. Former European auction house consultant.", photoUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80", email: "dawit@groovethiopia.com", displayOrder: 3, isLeadership: true },
+    { slug: "hana-bekele", name: "Hana Bekele", role: "Head of Real Estate · The Sanctuary", bio: "Architect and developer. Focused on sustainable-luxury hospitality destinations.", photoUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80", email: "hana@groovethiopia.com", displayOrder: 4, isLeadership: true },
+    { slug: "yonas-tefera", name: "Yonas Tefera", role: "Creative Director", bio: "Brand and visual identity. Makes everything look like it belongs in a magazine.", photoUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80", displayOrder: 5 },
+    { slug: "meron-assefa", name: "Meron Assefa", role: "Operations Manager", bio: "Keeps the trains running on time, across time zones.", photoUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=80", displayOrder: 6 },
+    { slug: "binyam-hailu", name: "Binyam Hailu", role: "Sound Architect", bio: "Designs sound systems for our venues. Studied acoustics in Berlin.", photoUrl: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&q=80", displayOrder: 7 },
+    { slug: "lensa-kebede", name: "Lensa Kebede", role: "Hospitality Lead", bio: "Front-of-house across all our events and properties.", photoUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80", displayOrder: 8 },
+  ];
+
+  for (const m of teamMembers) {
+    await prisma.teamMember.upsert({
+      where: { slug: m.slug },
+      update: m,
+      create: m,
+    });
+  }
+  console.log(`✅ Seeded ${teamMembers.length} team members`);
+
   // ===== PAGE SECTIONS =====
   const pages = [
     {
