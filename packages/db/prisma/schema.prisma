@@ -1,6 +1,3 @@
-// Groovethiopia Trading PLC — Database Schema
-// PostgreSQL via Neon
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,9 +7,328 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ============================================================
-// USERS & AUTH
-// ============================================================
+model User {
+  id              String           @id @default(cuid())
+  email           String           @unique
+  passwordHash    String?
+  name            String?
+  role            UserRole         @default(EDITOR)
+  status          UserStatus       @default(PENDING_APPROVAL)
+  approvedAt      DateTime?
+  approvedById    String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  lastLoginAt     DateTime?
+  approvalActions ApprovalAction[]
+  auditLogs       AuditLog[]
+  authoredContent Content[]        @relation("ContentAuthor")
+  reviewedContent Content[]        @relation("ContentReviewer")
+  otpCodes        OtpCode[]
+  revisions       Revision[]
+  sessions        Session[]
+  approvedBy      User?            @relation("ApprovedUsers", fields: [approvedById], references: [id])
+  approvedUsers   User[]           @relation("ApprovedUsers")
+
+  @@index([email])
+  @@index([status])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+}
+
+model OtpCode {
+  id         String     @id @default(cuid())
+  userId     String?
+  email      String
+  code       String
+  purpose    OtpPurpose
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime   @default(now())
+  user       User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([email, purpose])
+  @@index([code])
+}
+
+model PublicUser {
+  id               String            @id @default(cuid())
+  email            String            @unique
+  name             String?
+  avatarUrl        String?
+  googleId         String            @unique
+  phoneNumber      String?
+  createdAt        DateTime          @default(now())
+  lastLoginAt      DateTime?
+  eventBookings    EventBooking[]
+  onDemandRequests OnDemandRequest[]
+  ticketPurchases  TicketPurchase[]
+
+  @@index([googleId])
+}
+
+model Content {
+  id                 String              @id @default(cuid())
+  type               ContentType
+  status             ContentStatus       @default(DRAFT)
+  slug               String
+  title              String
+  subtitle           String?
+  excerpt            String?
+  body               String?
+  locale             String              @default("en")
+  parentId           String?
+  metadata           Json?
+  authorId           String
+  reviewerId         String?
+  publishedAt        DateTime?
+  scheduledFor       DateTime?
+  unpublishAt        DateTime?
+  startsAt           DateTime?
+  endsAt             DateTime?
+  venue              String?
+  venueAddress       String?
+  capacity           Int?
+  ticketPrice        Decimal?            @db.Decimal(12, 2)
+  price              Decimal?            @db.Decimal(12, 2)
+  currency           String?             @default("USD")
+  year               Int?
+  make               String?
+  model              String?
+  category           String?
+  location           String?
+  projectStage       String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  approvalActions    ApprovalAction[]
+  author             User                @relation("ContentAuthor", fields: [authorId], references: [id])
+  parent             Content?            @relation("ContentTranslations", fields: [parentId], references: [id])
+  translations       Content[]           @relation("ContentTranslations")
+  reviewer           User?               @relation("ContentReviewer", fields: [reviewerId], references: [id])
+  media              Media[]
+  revisions          Revision[]
+  shukshutaSubEvents ShukshutaSubEvent[] @relation("ParentEvent")
+  parentEvent        ShukshutaSubEvent?  @relation("SubEvent")
+
+  @@unique([slug, locale])
+  @@index([type, status])
+  @@index([slug, locale])
+  @@index([parentId])
+  @@index([scheduledFor])
+  @@index([unpublishAt])
+  @@index([locale])
+}
+
+model ShukshutaSubEvent {
+  id            String  @id @default(cuid())
+  parentEventId String
+  subEventId    String  @unique
+  displayOrder  Int     @default(0)
+  parentEvent   Content @relation("ParentEvent", fields: [parentEventId], references: [id], onDelete: Cascade)
+  subEvent      Content @relation("SubEvent", fields: [subEventId], references: [id], onDelete: Cascade)
+
+  @@index([parentEventId])
+}
+
+model ApprovalAction {
+  id           String             @id @default(cuid())
+  contentId    String
+  userId       String
+  action       ApprovalActionType
+  comment      String?
+  diffSnapshot Json?
+  createdAt    DateTime           @default(now())
+  content      Content            @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  user         User               @relation(fields: [userId], references: [id])
+
+  @@index([contentId])
+  @@index([userId])
+}
+
+model Revision {
+  id         String   @id @default(cuid())
+  contentId  String
+  userId     String
+  snapshot   Json
+  changeNote String?
+  createdAt  DateTime @default(now())
+  content    Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([contentId, createdAt])
+}
+
+model Media {
+  id           String    @id @default(cuid())
+  filename     String
+  mimeType     String
+  type         MediaType @default(IMAGE)
+  size         Int
+  width        Int?
+  height       Int?
+  r2Key        String    @unique
+  publicUrl    String
+  thumbnailUrl String?
+  blurhash     String?
+  altText      String?
+  contentId    String?
+  uploadedById String?
+  createdAt    DateTime  @default(now())
+  content      Content?  @relation(fields: [contentId], references: [id])
+
+  @@index([contentId])
+  @@index([type])
+}
+
+model Partner {
+  id           String      @id @default(cuid())
+  name         String
+  tier         PartnerTier
+  logoUrl      String?
+  websiteUrl   String?
+  description  String?
+  isFeatured   Boolean     @default(false)
+  displayOrder Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([tier])
+  @@index([isFeatured])
+}
+
+model Inquiry {
+  id           String          @id @default(cuid())
+  division     InquiryDivision
+  status       InquiryStatus   @default(NEW)
+  name         String
+  organization String?
+  email        String
+  phone        String?
+  message      String
+  metadata     Json?
+  ipAddress    String?
+  userAgent    String?
+  assignedToId String?
+  resolvedAt   DateTime?
+  createdAt    DateTime        @default(now())
+
+  @@index([division, status])
+  @@index([createdAt])
+}
+
+model EventBooking {
+  id           String        @id @default(cuid())
+  eventId      String
+  publicUserId String
+  status       BookingStatus @default(PENDING)
+  partySize    Int           @default(1)
+  phoneNumber  String
+  notes        String?
+  createdAt    DateTime      @default(now())
+  publicUser   PublicUser    @relation(fields: [publicUserId], references: [id])
+
+  @@index([eventId])
+  @@index([publicUserId])
+  @@index([status])
+}
+
+model TicketPurchase {
+  id           String        @id @default(cuid())
+  eventId      String
+  publicUserId String
+  ticketType   String
+  quantity     Int
+  unitPrice    Decimal       @db.Decimal(12, 2)
+  totalPrice   Decimal       @db.Decimal(12, 2)
+  currency     String        @default("USD")
+  paymentRef   String?
+  status       BookingStatus @default(PENDING)
+  phoneNumber  String
+  createdAt    DateTime      @default(now())
+  publicUser   PublicUser    @relation(fields: [publicUserId], references: [id])
+
+  @@index([eventId])
+  @@index([publicUserId])
+}
+
+model OnDemandRequest {
+  id           String        @id @default(cuid())
+  publicUserId String
+  projectType  String
+  location     String
+  budget       String?
+  timeline     String?
+  description  String
+  contactPhone String
+  status       BookingStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+  publicUser   PublicUser    @relation(fields: [publicUserId], references: [id])
+
+  @@index([publicUserId])
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  entityType String?
+  entityId   String?
+  metadata   Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([entityType, entityId])
+}
+
+model TeamMember {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  role          String
+  bio           String?
+  photoUrl      String?
+  photoBlurhash String?
+  email         String?
+  linkedinUrl   String?
+  displayOrder  Int      @default(0)
+  isLeadership  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([isLeadership])
+  @@index([displayOrder])
+}
+
+model GlossaryTerm {
+  id           String   @id @default(cuid())
+  term         String   @unique
+  translations Json
+  context      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
 
 enum UserRole {
   ADMIN
@@ -25,93 +341,11 @@ enum UserStatus {
   DEACTIVATED
 }
 
-model User {
-  id            String     @id @default(cuid())
-  email         String     @unique
-  passwordHash  String?
-  name          String?
-  role          UserRole   @default(EDITOR)
-  status        UserStatus @default(PENDING_APPROVAL)
-  approvedAt    DateTime?
-  approvedById  String?
-  approvedBy    User?      @relation("ApprovedUsers", fields: [approvedById], references: [id])
-  approvedUsers User[]     @relation("ApprovedUsers")
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  lastLoginAt   DateTime?
-
-  // Relations
-  sessions              Session[]
-  otpCodes              OtpCode[]
-  authoredContent       Content[]       @relation("ContentAuthor")
-  reviewedContent       Content[]       @relation("ContentReviewer")
-  approvalActions       ApprovalAction[]
-  revisions             Revision[]
-  auditLogs             AuditLog[]
-
-  @@index([email])
-  @@index([status])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  token        String   @unique
-  expiresAt    DateTime
-  ipAddress    String?
-  userAgent    String?
-  createdAt    DateTime @default(now())
-
-  @@index([token])
-  @@index([userId])
-}
-
 enum OtpPurpose {
   REGISTRATION
   PASSWORD_RESET
   EMAIL_CHANGE
 }
-
-model OtpCode {
-  id         String     @id @default(cuid())
-  userId     String?
-  user       User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  email      String
-  code       String
-  purpose    OtpPurpose
-  expiresAt  DateTime
-  consumedAt DateTime?
-  createdAt  DateTime   @default(now())
-
-  @@index([email, purpose])
-  @@index([code])
-}
-
-// ============================================================
-// PUBLIC USERS (Google OAuth for forms/bookings)
-// ============================================================
-
-model PublicUser {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name         String?
-  avatarUrl    String?
-  googleId     String   @unique
-  phoneNumber  String?
-  createdAt    DateTime @default(now())
-  lastLoginAt  DateTime?
-
-  eventBookings     EventBooking[]
-  ticketPurchases   TicketPurchase[]
-  onDemandRequests  OnDemandRequest[]
-
-  @@index([googleId])
-}
-
-// ============================================================
-// CONTENT (Events, Vehicles, RealEstate, Gallery, Partners, Pages)
-// ============================================================
 
 enum ContentType {
   EVENT
@@ -134,89 +368,6 @@ enum ContentStatus {
   ENDED
 }
 
-model Content {
-  id              String        @id @default(cuid())
-  type            ContentType
-  status          ContentStatus @default(DRAFT)
-  slug            String
-  title           String
-  subtitle        String?
-  excerpt         String?
-  body            String?       @db.Text
-  locale          String        @default("en") // en, am, fr, es
-  parentId        String?       // for translations of same content
-  parent          Content?      @relation("ContentTranslations", fields: [parentId], references: [id], onDelete: SetNull)
-  translations    Content[]     @relation("ContentTranslations")
-
-  // Type-specific data (JSON for flexibility)
-  metadata        Json?
-
-  // Authoring
-  authorId        String
-  author          User          @relation("ContentAuthor", fields: [authorId], references: [id])
-  reviewerId      String?
-  reviewer        User?         @relation("ContentReviewer", fields: [reviewerId], references: [id])
-
-  // Scheduling
-  publishedAt     DateTime?
-  scheduledFor    DateTime?
-  unpublishAt     DateTime?
-
-  // Event-specific (denormalized for query speed)
-  startsAt        DateTime?
-  endsAt          DateTime?
-  venue           String?
-  venueAddress    String?
-  capacity        Int?
-  ticketPrice     Decimal?      @db.Decimal(12, 2)
-
-  // Vehicle-specific
-  price           Decimal?      @db.Decimal(12, 2)
-  currency        String?       @default("USD")
-  year            Int?
-  make            String?
-  model           String?
-  category        String?       // "MODERN_LUXURY" or "VINTAGE_CLASSIC" for vehicles
-
-  // Real estate-specific
-  location        String?
-  projectStage    String?       // "PLANNING", "DESIGN", "CONSTRUCTION", "OPERATIONAL"
-
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-
-  // Relations
-  media           Media[]
-  approvalActions ApprovalAction[]
-  revisions       Revision[]
-  shukshutaSubEvents ShukshutaSubEvent[] @relation("ParentEvent")
-  parentEvent     ShukshutaSubEvent[] @relation("SubEvent")
-
-  @@unique([slug, locale])
-  @@index([type, status])
-  @@index([slug, locale])
-  @@index([parentId])
-  @@index([scheduledFor])
-  @@index([unpublishAt])
-  @@index([locale])
-}
-
-// Shukshuta Speakeasy: a parent event with multiple sub-events
-model ShukshutaSubEvent {
-  id            String   @id @default(cuid())
-  parentEventId String
-  parentEvent   Content  @relation("ParentEvent", fields: [parentEventId], references: [id], onDelete: Cascade)
-  subEventId    String   @unique
-  subEvent      Content  @relation("SubEvent", fields: [subEventId], references: [id], onDelete: Cascade)
-  displayOrder  Int      @default(0)
-
-  @@index([parentEventId])
-}
-
-// ============================================================
-// APPROVAL WORKFLOW
-// ============================================================
-
 enum ApprovalActionType {
   SUBMIT
   APPROVE
@@ -226,103 +377,17 @@ enum ApprovalActionType {
   UNPUBLISH
 }
 
-model ApprovalAction {
-  id          String            @id @default(cuid())
-  contentId   String
-  content     Content           @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  userId      String
-  user        User              @relation(fields: [userId], references: [id])
-  action      ApprovalActionType
-  comment     String?
-  diffSnapshot Json?
-  createdAt   DateTime          @default(now())
-
-  @@index([contentId])
-  @@index([userId])
-}
-
-// Revision history (snapshots for diffing)
-model Revision {
-  id          String   @id @default(cuid())
-  contentId   String
-  content     Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  snapshot    Json
-  changeNote  String?
-  createdAt   DateTime @default(now())
-
-  @@index([contentId, createdAt])
-}
-
-// ============================================================
-// MEDIA (Cloudflare R2)
-// ============================================================
-
 enum MediaType {
   IMAGE
   VIDEO
   DOCUMENT
 }
 
-model Media {
-  id            String    @id @default(cuid())
-  filename      String
-  mimeType      String
-  type          MediaType @default(IMAGE)
-  size          Int       // bytes
-  width         Int?
-  height        Int?
-
-  // R2 storage
-  r2Key         String    @unique
-  publicUrl     String
-
-  // Processing
-  thumbnailUrl  String?
-  blurhash      String?
-  altText       String?
-
-  // Relations
-  contentId     String?
-  content       Content?  @relation(fields: [contentId], references: [id], onDelete: SetNull)
-
-  uploadedById  String?
-  createdAt     DateTime  @default(now())
-
-  @@index([contentId])
-  @@index([type])
-}
-
-// ============================================================
-// PARTNERS
-// ============================================================
-
 enum PartnerTier {
   STRATEGIC
   CULTURAL
   MEDIA
 }
-
-model Partner {
-  id            String      @id @default(cuid())
-  name          String
-  tier          PartnerTier
-  logoUrl       String?
-  websiteUrl    String?
-  description   String?
-  isFeatured    Boolean     @default(false)
-  displayOrder  Int         @default(0)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
-  @@index([tier])
-  @@index([isFeatured])
-}
-
-// ============================================================
-// INQUIRIES (contact form submissions)
-// ============================================================
 
 enum InquiryDivision {
   EVENTS
@@ -338,148 +403,9 @@ enum InquiryStatus {
   SPAM
 }
 
-model Inquiry {
-  id              String          @id @default(cuid())
-  division        InquiryDivision
-  status          InquiryStatus   @default(NEW)
-  name            String
-  organization    String?
-  email           String
-  phone           String?
-  message         String          @db.Text
-  metadata        Json?           // extra fields per division
-  ipAddress       String?
-  userAgent       String?
-  assignedToId    String?
-  resolvedAt      DateTime?
-  createdAt       DateTime        @default(now())
-
-  @@index([division, status])
-  @@index([createdAt])
-}
-
-// ============================================================
-// EVENT BOOKINGS / TICKETS / ON-DEMAND
-// ============================================================
-
 enum BookingStatus {
   PENDING
   CONFIRMED
   CANCELLED
   ATTENDED
-}
-
-model EventBooking {
-  id              String        @id @default(cuid())
-  eventId         String
-  publicUserId    String
-  publicUser      PublicUser    @relation(fields: [publicUserId], references: [id])
-  status          BookingStatus @default(PENDING)
-  partySize       Int           @default(1)
-  phoneNumber     String
-  notes           String?
-  createdAt       DateTime      @default(now())
-
-  @@index([eventId])
-  @@index([publicUserId])
-  @@index([status])
-}
-
-model TicketPurchase {
-  id              String        @id @default(cuid())
-  eventId         String
-  publicUserId    String
-  publicUser      PublicUser    @relation(fields: [publicUserId], references: [id])
-  ticketType      String        // "GENERAL", "VIP", etc.
-  quantity        Int
-  unitPrice       Decimal       @db.Decimal(12, 2)
-  totalPrice      Decimal       @db.Decimal(12, 2)
-  currency        String        @default("USD")
-  paymentRef      String?       // payment processor reference
-  status          BookingStatus @default(PENDING)
-  phoneNumber     String
-  createdAt       DateTime      @default(now())
-
-  @@index([eventId])
-  @@index([publicUserId])
-}
-
-model OnDemandRequest {
-  id              String       @id @default(cuid())
-  publicUserId    String
-  publicUser      PublicUser   @relation(fields: [publicUserId], references: [id])
-  projectType     String
-  location        String
-  budget          String?
-  timeline        String?
-  description     String       @db.Text
-  contactPhone    String
-  status          BookingStatus @default(PENDING)
-  createdAt       DateTime     @default(now())
-
-  @@index([publicUserId])
-}
-
-// ============================================================
-// SETTINGS
-// ============================================================
-
-model Setting {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  value     Json
-  updatedAt DateTime @updatedAt
-  updatedBy String?
-}
-
-// ============================================================
-// AUDIT LOG
-// ============================================================
-
-model AuditLog {
-  id         String   @id @default(cuid())
-  userId     String?
-  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  action     String
-  entityType String?
-  entityId   String?
-  metadata   Json?
-  ipAddress  String?
-  createdAt  DateTime @default(now())
-
-  @@index([userId])
-  @@index([createdAt])
-  @@index([entityType, entityId])
-}
-
-// ============================================================
-// TRANSLATION GLOSSARY
-// ============================================================
-
-model TeamMember {
-  id           String   @id @default(cuid())
-  slug         String   @unique
-  name         String
-  role         String
-  bio          String?  @db.Text
-  photoUrl     String?
-  photoBlurhash String?
-  email        String?
-  linkedinUrl  String?
-  displayOrder Int      @default(0)
-  isLeadership Boolean   @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  @@index([isLeadership])
-  @@index([displayOrder])
-}
-
-model GlossaryTerm {
-  id          String   @id @default(cuid())
-  term        String   @unique
-  translations Json    // { en, am, fr, es }
-  context     String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 }

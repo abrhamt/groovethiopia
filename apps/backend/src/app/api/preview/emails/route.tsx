@@ -6,6 +6,7 @@ import { InquiryNotification } from "@/emails/inquiry";
 import { ContentSubmittedEmail, ContentApprovedEmail, ContentRejectedEmail } from "@/emails/approval";
 import { BookingConfirmation } from "@/emails/booking";
 import { NewUserRegistrationEmail, UserApprovedEmail } from "@/emails/user";
+import { WeeklyDigestEmail } from "@/emails/weekly-digest";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -68,6 +69,30 @@ export async function GET(req: NextRequest) {
     "user-approved": {
       subject: "Your Groovethiopia admin access is active",
       element: <UserApprovedEmail name="Hana Bekele" />,
+    },
+    "weekly-digest": {
+      subject: "Weekly digest · Jun 17 – Jun 24",
+      element: <WeeklyDigestEmail
+        adminName="Abel Tadesse"
+        stats={{
+          newInquiries: 12,
+          newBookings: 8,
+          newTickets: 24,
+          newUsers: 45,
+          newContent: 6,
+          publishedContent: 4,
+          newMessages: 3,
+          revenue: 184500,
+          pendingReviews: 2,
+          topEvents: [
+            { title: "Horizon Festival 2026", slug: "horizon-festival-2026", revenue: 102000, tickets: 12 },
+            { title: "Shukshuta Vol. III", slug: "shukshuta-vol-iii", revenue: 58500, tickets: 13 },
+            { title: "Open Air: After Hours", slug: "open-air-after-hours", revenue: 24000, tickets: 4 },
+          ],
+          periodStart: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+          periodEnd: new Date().toISOString(),
+        }}
+      />,
     },
   };
 

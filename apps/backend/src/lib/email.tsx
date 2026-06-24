@@ -11,6 +11,7 @@ import {
 } from "@/emails/approval";
 import { BookingConfirmation } from "@/emails/booking";
 import { NewUserRegistrationEmail, UserApprovedEmail } from "@/emails/user";
+import { WeeklyDigestEmail } from "@/emails/weekly-digest";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -178,4 +179,37 @@ export async function sendUserApprovedEmail(
   name: string
 ) {
   await send(to, "Your Groovethiopia admin access is active", <UserApprovedEmail name={name} />);
+}
+// ============================================================
+// Weekly Digest
+// ============================================================
+
+export async function sendWeeklyDigest({
+  to,
+  adminName,
+  stats,
+}: {
+  to: string;
+  adminName?: string;
+  stats: {
+    newInquiries: number;
+    newBookings: number;
+    newTickets: number;
+    newUsers: number;
+    newContent: number;
+    publishedContent: number;
+    newMessages: number;
+    revenue: number;
+    pendingReviews: number;
+    topEvents: { title: string; slug: string; revenue: number; tickets: number }[];
+    periodStart: string;
+    periodEnd: string;
+  };
+}) {
+  const period = `${new Date(stats.periodStart).toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${new Date(stats.periodEnd).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+  await send(
+    to,
+    `Weekly digest · ${period}`,
+    <WeeklyDigestEmail adminName={adminName || "Admin"} stats={stats as any} />
+  );
 }

@@ -1,6 +1,7 @@
 import { prisma } from "@groovethiopia/db";
 import { auth } from "@/lib/auth";
 import { formatDateTime } from "@/lib/utils";
+import { DigestButton } from "@/components/admin/digest-button";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -95,6 +96,12 @@ export default async function DashboardPage() {
           )}
         </div>
       </div>
+
+      {isAdmin && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <DigestButton />
+        </div>
+      )}
     </div>
   );
 }
