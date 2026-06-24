@@ -29,3 +29,19 @@ export function PartnersStrip({ partners }: { partners: Array<{ name: string; lo
     </section>
   );
 }
+
+export function InstagramSection({ username = "groovethiopia" }: { username?: string }) {
+  return (
+    <section className="py-24 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <span className="label-mono">Follow the journey</span>
+          <h2 className="editorial-heading text-4xl md:text-5xl mt-3">From the inside</h2>
+        </div>
+        <InstagramFeed username={username} limit={6} />
+      </div>
+    </section>
+  );
+}
+
+import { InstagramFeed } from "@/components/site/instagram-feed";

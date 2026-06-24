@@ -7,6 +7,8 @@ import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/site/logo";
 import { LanguageSwitcher } from "@/components/site/language-switcher";
+import { Search } from "lucide-react";
+import { LiveEventIndicator } from "@/components/site/live-event-indicator";
 
 export function Nav() {
   const t = useTranslations("nav");
@@ -71,6 +73,14 @@ export function Nav() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <LiveEventIndicator locale={locale} />
+          <Link
+            href={`/${locale}/search`}
+            className="p-2 text-ink-300 hover:text-gold-400 transition-colors"
+            aria-label="Search"
+          >
+            <Search size={18} />
+          </Link>
           <LanguageSwitcher />
           <Link href={`/${locale}/contact`} className="hidden md:inline-flex btn-primary text-sm px-5 py-2">
             {t("contact")}

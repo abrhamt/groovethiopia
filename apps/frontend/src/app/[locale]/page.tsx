@@ -11,7 +11,7 @@ import { Ecosystem } from "@/components/home/ecosystem";
 import { FeaturedEvent } from "@/components/home/featured-event";
 import { CollectionPreview } from "@/components/home/collection-preview";
 import { SanctuaryPreview } from "@/components/home/sanctuary-preview";
-import { PartnersStrip } from "@/components/home/partners-strip";
+import { PartnersStrip, InstagramSection } from "@/components/home/partners-strip";
 import { InquireCTA } from "@/components/home/inquire-cta";
 
 export default async function HomePage({
@@ -41,6 +41,7 @@ export default async function HomePage({
       <CollectionPreview vehicles={vehicles.items} />
       <SanctuaryPreview projects={projects.items} />
       <PartnersStrip partners={partners.partners || []} />
+      <InstagramSection username="groovethiopia" />
       <InquireCTA />
     </>
   );
