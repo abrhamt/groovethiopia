@@ -1,0 +1,148 @@
+{
+  "brand": {
+    "tagline": "Organiser le Nouvel Horizon",
+    "name": "Groovethiopia"
+  },
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "divisions": "Divisions",
+    "events": "Le Pouls",
+    "trading": "La Collection",
+    "realEstate": "Le Sanctuaire",
+    "gallery": "Galerie",
+    "partners": "Partenaires",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero": {
+      "tagline": "Organiser le Nouvel Horizon",
+      "subtitle": "Un écosystème curated de culture, d'artisanat et de lieu.",
+      "cta": "Explorer"
+    },
+    "manifesto": {
+      "title": "Notre philosophie",
+      "body": "Nous organisons le mode de vie africain moderne — reliant le patrimoine de notre terre à l'innovation du futur."
+    },
+    "ecosystem": {
+      "title": "Un lieu, trois expériences",
+      "subtitle": "Trois mondes, une vision.",
+      "events": "Le Pouls",
+      "eventsDesc": "Événements culturels qui font avancer la scène",
+      "trading": "La Collection",
+      "tradingDesc": "Patrimoine automobile et luxe moderne",
+      "realEstate": "Le Sanctuaire",
+      "realEstateDesc": "Destinations hôtelières de demain"
+    },
+    "featured": {
+      "events": "Événement à la une",
+      "collection": "La Collection",
+      "sanctuary": "Le Sanctuaire",
+      "viewAll": "Voir tout"
+    },
+    "cta": {
+      "title": "Construisons l'avenir ensemble",
+      "body": "Groovethiopia est un écosystème centré sur l'invitation.",
+      "button": "Demander"
+    }
+  },
+  "about": {
+    "title": "À propos de Groovethiopia",
+    "subtitle": "Un conglomérat éthiopien dédié à l'excellence.",
+    "manifesto": {
+      "title": "Manifeste",
+      "body": "Nous organisons le mode de vie africain moderne."
+    },
+    "mission": { "title": "Mission", "body": "Définir le paysage de l'hospitalité éthiopienne moderne." },
+    "vision": { "title": "Vision", "body": "Un avenir où l'Éthiopie est reconnue comme un nexus de culture et de luxe." },
+    "story": { "title": "Notre histoire", "body": "Né à Addis-Abeba de la conviction que l'Afrique mérite une curation de classe mondiale." },
+    "values": {
+      "title": "Nos valeurs",
+      "list": [
+        { "title": "Curation", "body": "Nous choisissons délibérément." },
+        { "title": "Artisanat", "body": "Le patrimoine rencontre la précision." },
+        { "title": "Pont culturel", "body": "Enraciné en Éthiopie, fluent dans le monde." },
+        { "title": "Vision long terme", "body": "Nous construisons pour des décennies." }
+      ]
+    },
+    "team": { "title": "Direction", "subtitle": "L'équipe derrière la curation" }
+  },
+  "events": {
+    "title": "Le Pouls",
+    "subtitle": "Événements & Production",
+    "tagline": "Nous n'organisons pas d'événements ; nous concevons des étapes culturelles.",
+    "shukshuta": { "title": "Shukshuta Speakeasy", "body": "Notre série intime signature." },
+    "upcoming": "À venir",
+    "past": "Événements passés",
+    "services": { "title": "Ce que nous faisons", "items": ["Production de festivals", "Stratégie événementielle", "Expériences sur mesure", "Activations de marque"] }
+  },
+  "trading": {
+    "title": "La Collection",
+    "subtitle": "Automobile de Luxe & Vintage",
+    "tagline": "Le vrai luxe est intemporel.",
+    "body": "Notre division d'importation est dédiée exclusivement à l'approvisionnement d'actifs automobiles de grande valeur.",
+    "categories": { "all": "Tous", "modern": "Luxe Moderne", "vintage": "Classique Vintage" },
+    "specs": "Spécifications",
+    "history": "Provenance",
+    "inquire": "Demander une consultation"
+  },
+  "realEstate": {
+    "title": "Le Sanctuaire",
+    "subtitle": "Immobilier & Développement",
+    "tagline": "Concevoir l'avenir de l'hospitalité.",
+    "vision": "Chez Groovethiopia, nous considérons l'immobilier comme la toile ultime de la connexion humaine.",
+    "pipeline": "Pipeline de projets",
+    "philosophy": { "title": "Philosophie de design", "body": "Éthos de luxe durable." },
+    "investment": { "title": "Thèse d'investissement", "body": "Une fenêtre unique pour l'investissement hôtelier visionnaire." },
+    "onDemand": { "title": "Commandes sur mesure", "body": "Vous avez un terrain ? Nous construisons." },
+    "explore": "Explorer l'investissement"
+  },
+  "gallery": {
+    "title": "Portfolio",
+    "subtitle": "Un voyage visuel",
+    "filter": { "all": "Tous", "events": "Événements", "collection": "Collection", "sanctuary": "Sanctuaire" }
+  },
+  "partners": {
+    "title": "Partenaires",
+    "subtitle": "Approuvé par les meilleurs",
+    "strategic": "Partenaires stratégiques",
+    "cultural": "Partenaires culturels et médias",
+    "featured": "Partenaire à la une"
+  },
+  "contact": {
+    "title": "Construisons l'avenir ensemble",
+    "subtitle": "Groovethiopia s'engage à cultiver des partenariats à long terme.",
+    "paths": {
+      "events": "Événements & Production",
+      "eventsDesc": "Partenariats de festivals, activations",
+      "trading": "Commerce & Import-Export",
+      "tradingDesc": "Approvisionnement automobile",
+      "realEstate": "Immobilier & Développement",
+      "realEstateDesc": "Investissement, partenariats"
+    },
+    "form": {
+      "name": "Nom / Organisation",
+      "email": "Email",
+      "phone": "Téléphone",
+      "division": "Nature de la demande",
+      "message": "Détails du projet",
+      "submit": "Envoyer",
+      "signIn": "Connectez-vous avec Google pour envoyer",
+      "signInRequired": "Vous devez vous connecter avec Google pour envoyer une demande."
+    },
+    "details": { "address": "Siège", "email": "Email", "phone": "Téléphone", "hours": "Horaires" }
+  },
+  "footer": {
+    "rights": "Tous droits réservés.",
+    "explore": "Explorer",
+    "connect": "Connecter"
+  },
+  "common": {
+    "viewMore": "Voir plus",
+    "learnMore": "En savoir plus",
+    "loading": "Chargement...",
+    "submitting": "Envoi...",
+    "error": "Une erreur est survenue",
+    "success": "Demande reçue — nous répondrons sous 24 heures."
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "groovethiopia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Groovethiopia Trading PLC — Curating the New Horizon",
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "pnpm run --parallel --filter './apps/*' dev",
+    "build": "pnpm run --recursive --filter './apps/*' build",
+    "start": "pnpm run --recursive --filter './apps/*' start",
+    "lint": "pnpm run --recursive --filter './apps/*' lint",
+    "typecheck": "pnpm run --recursive --filter './apps/*' typecheck",
+    "db:generate": "pnpm --filter @groovethiopia/db generate",
+    "db:migrate": "pnpm --filter @groovethiopia/db migrate",
+    "db:push": "pnpm --filter @groovethiopia/db push",
+    "db:studio": "pnpm --filter @groovethiopia/db studio",
+    "db:seed": "pnpm --filter @groovethiopia/db seed"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "@types/node": "^22.5.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

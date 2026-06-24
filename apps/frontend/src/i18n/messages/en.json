@@ -1,0 +1,194 @@
+{
+  "brand": {
+    "tagline": "Curating the New Horizon",
+    "name": "Groovethiopia"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "divisions": "Divisions",
+    "events": "The Pulse",
+    "trading": "The Collection",
+    "realEstate": "The Sanctuary",
+    "gallery": "Gallery",
+    "partners": "Partners",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero": {
+      "tagline": "Curating the New Horizon",
+      "subtitle": "A curated ecosystem of culture, craft, and place.",
+      "cta": "Explore"
+    },
+    "manifesto": {
+      "title": "Our philosophy",
+      "body": "We curate the modern African lifestyle — bridging the heritage of our land with the innovation of the future. Every detail is chosen with intention. Every experience is designed to last."
+    },
+    "ecosystem": {
+      "title": "One venue, three experiences",
+      "subtitle": "Three worlds, one vision. Each reinforces the others.",
+      "events": "The Pulse",
+      "eventsDesc": "Cultural events that move the scene forward",
+      "trading": "The Collection",
+      "tradingDesc": "Automotive heritage and modern luxury",
+      "realEstate": "The Sanctuary",
+      "realEstateDesc": "Hospitality destinations of tomorrow"
+    },
+    "featured": {
+      "events": "Featured Event",
+      "collection": "The Collection",
+      "sanctuary": "The Sanctuary",
+      "viewAll": "View all"
+    },
+    "cta": {
+      "title": "Let's build the future together",
+      "body": "Groovethiopia is an invitation-centric ecosystem. We prioritize collaboration with individuals, brands, and investors who value the intersection of culture, luxury, and long-term development.",
+      "button": "Inquire"
+    }
+  },
+  "about": {
+    "title": "About Groovethiopia",
+    "subtitle": "A premier Ethiopian conglomerate dedicated to excellence across hospitality, lifestyle, and strategic trade.",
+    "manifesto": {
+      "title": "Manifesto",
+      "body": "We curate the modern African lifestyle. We bridge the heritage of our land with the innovation of the future. At Groovethiopia, we view real estate as the canvas for human connection, events as the architecture of culture, and trade as the procurement of excellence. We are not generalists — we are specialists in high-concept living."
+    },
+    "mission": {
+      "title": "Mission",
+      "body": "To define the landscape of modern Ethiopian hospitality and culture by curating experiences, products, and destinations that exceed global standards of excellence."
+    },
+    "vision": {
+      "title": "Vision",
+      "body": "A future where Ethiopia is recognized globally as a nexus of culture, craft, and considered luxury — anchored by destinations, events, and assets that move the world forward."
+    },
+    "story": {
+      "title": "Our story",
+      "body": "Born in Addis Ababa from a conviction that Africa deserves world-class curation, Groovethiopia began with events that moved the local scene forward. From those first gatherings grew a portfolio spanning automotive heritage, hospitality development, and cultural production. Today, we operate as a diversified powerhouse — but our focus remains singular: curate what matters."
+    },
+    "values": {
+      "title": "What we value",
+      "list": [
+        { "title": "Curation", "body": "We choose deliberately. Less, but better." },
+        { "title": "Craft", "body": "Heritage meets precision. Every detail earns its place." },
+        { "title": "Cultural bridge", "body": "Rooted in Ethiopia, fluent in the world." },
+        { "title": "Long-term vision", "body": "We build for decades, not seasons." }
+      ]
+    },
+    "team": {
+      "title": "Leadership",
+      "subtitle": "The team behind the curation"
+    }
+  },
+  "events": {
+    "title": "The Pulse",
+    "subtitle": "Events & Production",
+    "tagline": "We do not host events; we engineer cultural milestones.",
+    "shukshuta": {
+      "title": "Shukshuta Speakeasy",
+      "body": "Our signature intimate series — a subterranean curation of sound, atmosphere, and gathering. Each edition is a one-night world."
+    },
+    "upcoming": "Upcoming",
+    "past": "Past events",
+    "services": {
+      "title": "What we do",
+      "items": [
+        "Large-scale festival production",
+        "Indoor & outdoor event strategy",
+        "Bespoke social experiences",
+        "Brand activations & launches"
+      ]
+    }
+  },
+  "trading": {
+    "title": "The Collection",
+    "subtitle": "Luxury & Vintage Automotive",
+    "tagline": "True luxury is timeless.",
+    "body": "Our import division is dedicated exclusively to the procurement of high-value automotive assets. We curate a specialized portfolio bridging elite modern luxury vehicles with meticulously refurbished vintage classics.",
+    "categories": {
+      "all": "All",
+      "modern": "Modern Luxury",
+      "vintage": "Vintage Classic"
+    },
+    "specs": "Specifications",
+    "history": "Provenance",
+    "inquire": "Request Consultation"
+  },
+  "realEstate": {
+    "title": "The Sanctuary",
+    "subtitle": "Real Estate & Development",
+    "tagline": "Designing the future of hospitality.",
+    "vision": "At Groovethiopia, we view real estate as the ultimate canvas for human connection. Our future developments are not merely buildings — they are immersive destinations that harmonize cutting-edge architecture with the raw beauty of the Ethiopian landscape.",
+    "pipeline": "Project pipeline",
+    "philosophy": {
+      "title": "Design philosophy",
+      "body": "Sustainable-luxury ethos. Architectural innovation that honors the environment while providing guests with unparalleled experience."
+    },
+    "investment": {
+      "title": "Investment thesis",
+      "body": "A growing middle class, rising tourism, and a global appetite for authentic African destinations create a once-in-a-generation window for visionary hospitality investment."
+    },
+    "onDemand": {
+      "title": "On-demand commissions",
+      "body": "Have land? Have a vision? We build bespoke destinations to specification — from concept to operational handover."
+    },
+    "explore": "Explore Investment"
+  },
+  "gallery": {
+    "title": "Portfolio",
+    "subtitle": "A visual journey",
+    "filter": {
+      "all": "All",
+      "events": "Events",
+      "collection": "Collection",
+      "sanctuary": "Sanctuary"
+    }
+  },
+  "partners": {
+    "title": "Partners",
+    "subtitle": "Trusted by the best",
+    "strategic": "Strategic partners",
+    "cultural": "Cultural & media partners",
+    "featured": "Featured partner"
+  },
+  "contact": {
+    "title": "Let's build the future together",
+    "subtitle": "Groovethiopia Trading PLC is committed to cultivating long-term partnerships that drive innovation across the Ethiopian market.",
+    "paths": {
+      "events": "Events & Production",
+      "eventsDesc": "Festival partnerships, activations, or Shukshuta bookings",
+      "trading": "Trading & Import-Export",
+      "tradingDesc": "Luxury & vintage automotive procurement",
+      "realEstate": "Real Estate & Development",
+      "realEstateDesc": "Investment, partnerships, project consultations"
+    },
+    "form": {
+      "name": "Name / Organization",
+      "email": "Email",
+      "phone": "Phone",
+      "division": "Nature of inquiry",
+      "message": "Project / partnership details",
+      "submit": "Submit Inquiry",
+      "signIn": "Sign in with Google to submit",
+      "signInRequired": "You'll need to sign in with Google to submit an inquiry."
+    },
+    "details": {
+      "address": "Headquarters",
+      "email": "Email",
+      "phone": "Phone",
+      "hours": "Hours"
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "explore": "Explore",
+    "connect": "Connect"
+  },
+  "common": {
+    "viewMore": "View more",
+    "learnMore": "Learn more",
+    "loading": "Loading...",
+    "submitting": "Submitting...",
+    "error": "Something went wrong",
+    "success": "Inquiry received — we'll respond within 24 hours."
+  }
+}

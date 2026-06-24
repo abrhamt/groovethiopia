@@ -1,0 +1,148 @@
+{
+  "brand": {
+    "tagline": "Curando el Nuevo Horizonte",
+    "name": "Groovethiopia"
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Acerca",
+    "divisions": "Divisiones",
+    "events": "El Pulso",
+    "trading": "La Colección",
+    "realEstate": "El Santuario",
+    "gallery": "Galería",
+    "partners": "Socios",
+    "contact": "Contacto"
+  },
+  "home": {
+    "hero": {
+      "tagline": "Curando el Nuevo Horizonte",
+      "subtitle": "Un ecosistema curado de cultura, artesanía y lugar.",
+      "cta": "Explorar"
+    },
+    "manifesto": {
+      "title": "Nuestra filosofía",
+      "body": "Curamos el estilo de vida africano moderno — conectando la herencia de nuestra tierra con la innovación del futuro."
+    },
+    "ecosystem": {
+      "title": "Un lugar, tres experiencias",
+      "subtitle": "Tres mundos, una visión.",
+      "events": "El Pulso",
+      "eventsDesc": "Eventos culturales que mueven la escena",
+      "trading": "La Colección",
+      "tradingDesc": "Patrimonio automotriz y lujo moderno",
+      "realEstate": "El Santuario",
+      "realEstateDesc": "Destinos hoteleros del mañana"
+    },
+    "featured": {
+      "events": "Evento destacado",
+      "collection": "La Colección",
+      "sanctuary": "El Santuario",
+      "viewAll": "Ver todo"
+    },
+    "cta": {
+      "title": "Construyamos el futuro juntos",
+      "body": "Groovethiopia es un ecosistema centrado en la invitación.",
+      "button": "Consultar"
+    }
+  },
+  "about": {
+    "title": "Acerca de Groovethiopia",
+    "subtitle": "Un conglomerado etíope dedicado a la excelencia.",
+    "manifesto": {
+      "title": "Manifiesto",
+      "body": "Curamos el estilo de vida africano moderno."
+    },
+    "mission": { "title": "Misión", "body": "Definir el panorama de la hospitalidad etíope moderna." },
+    "vision": { "title": "Visión", "body": "Un futuro donde Etiopía sea reconocida como nexo de cultura y lujo." },
+    "story": { "title": "Nuestra historia", "body": "Nacido en Addis Abeba de la convicción de que África merece curación de clase mundial." },
+    "values": {
+      "title": "Nuestros valores",
+      "list": [
+        { "title": "Curación", "body": "Elegimos deliberadamente." },
+        { "title": "Artesanía", "body": "El patrimonio se encuentra con la precisión." },
+        { "title": "Puente cultural", "body": "Arraigado en Etiopía, fluido en el mundo." },
+        { "title": "Visión a largo plazo", "body": "Construimos para décadas." }
+      ]
+    },
+    "team": { "title": "Liderazgo", "subtitle": "El equipo detrás de la curación" }
+  },
+  "events": {
+    "title": "El Pulso",
+    "subtitle": "Eventos y Producción",
+    "tagline": "No organizamos eventos; diseñamos hitos culturales.",
+    "shukshuta": { "title": "Shukshuta Speakeasy", "body": "Nuestra serie íntima insignia." },
+    "upcoming": "Próximos",
+    "past": "Eventos pasados",
+    "services": { "title": "Lo que hacemos", "items": ["Producción de festivales", "Estrategia de eventos", "Experiencias a medida", "Activaciones de marca"] }
+  },
+  "trading": {
+    "title": "La Colección",
+    "subtitle": "Automotriz de Lujo y Vintage",
+    "tagline": "El verdadero lujo es atemporal.",
+    "body": "Nuestra división de importación se dedica exclusivamente a la adquisición de activos automotrices de alto valor.",
+    "categories": { "all": "Todos", "modern": "Lujo Moderno", "vintage": "Clásico Vintage" },
+    "specs": "Especificaciones",
+    "history": "Procedencia",
+    "inquire": "Solicitar Consulta"
+  },
+  "realEstate": {
+    "title": "El Santuario",
+    "subtitle": "Inmobiliaria y Desarrollo",
+    "tagline": "Diseñando el futuro de la hospitalidad.",
+    "vision": "En Groovethiopia, vemos la inmobiliaria como el lienzo definitivo para la conexión humana.",
+    "pipeline": "Pipeline de proyectos",
+    "philosophy": { "title": "Filosofía de diseño", "body": "Ética de lujo sostenible." },
+    "investment": { "title": "Tesis de inversión", "body": "Una ventana única para la inversión hotelera visionaria." },
+    "onDemand": { "title": "Encargos personalizados", "body": "¿Tienes terreno? Construimos." },
+    "explore": "Explorar Inversión"
+  },
+  "gallery": {
+    "title": "Portafolio",
+    "subtitle": "Un viaje visual",
+    "filter": { "all": "Todos", "events": "Eventos", "collection": "Colección", "sanctuary": "Santuario" }
+  },
+  "partners": {
+    "title": "Socios",
+    "subtitle": "Confianza de los mejores",
+    "strategic": "Socios estratégicos",
+    "cultural": "Socios culturales y medios",
+    "featured": "Socio destacado"
+  },
+  "contact": {
+    "title": "Construyamos el futuro juntos",
+    "subtitle": "Groovethiopia se compromete a cultivar asociaciones a largo plazo.",
+    "paths": {
+      "events": "Eventos y Producción",
+      "eventsDesc": "Asociaciones de festivales, activaciones",
+      "trading": "Comercio e Importación-Exportación",
+      "tradingDesc": "Adquisición automotriz",
+      "realEstate": "Inmobiliaria y Desarrollo",
+      "realEstateDesc": "Inversión, asociaciones"
+    },
+    "form": {
+      "name": "Nombre / Organización",
+      "email": "Correo",
+      "phone": "Teléfono",
+      "division": "Naturaleza de la consulta",
+      "message": "Detalles del proyecto",
+      "submit": "Enviar Consulta",
+      "signIn": "Inicia sesión con Google para enviar",
+      "signInRequired": "Necesitas iniciar sesión con Google para enviar una consulta."
+    },
+    "details": { "address": "Sede", "email": "Correo", "phone": "Teléfono", "hours": "Horario" }
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "explore": "Explorar",
+    "connect": "Conectar"
+  },
+  "common": {
+    "viewMore": "Ver más",
+    "learnMore": "Saber más",
+    "loading": "Cargando...",
+    "submitting": "Enviando...",
+    "error": "Algo salió mal",
+    "success": "Consulta recibida — responderemos en 24 horas."
+  }
+}

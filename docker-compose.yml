@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  # Frontend (public site) — groovethiopia.com
+  frontend:
+    image: ghcr.io/abrhamt/groovethiopia-frontend:latest
+    container_name: groovethiopia-frontend
+    restart: unless-stopped
+    expose:
+      - "3000"
+    env_file:
+      - ./apps/frontend/.env
+    depends_on:
+      - backend
+
+  # Backend (admin + API) — admin.groovethiopia.com
+  backend:
+    image: ghcr.io/abrhamt/groovethiopia-backend:latest
+    container_name: groovethiopia-backend
+    restart: unless-stopped
+    expose:
+      - "3001"
+    env_file:
+      - ./apps/backend/.env
+
+  # Caddy reverse proxy — handles SSL + routing
+  caddy:
+    image: caddy:2-alpine
+    container_name: groovethiopia-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+      - backend
+
+  # Inngest dev server (only for local dev; in prod use Inngest Cloud)
+  # inngest:
+  #   image: inngest/inngest:latest
+  #   container_name: inngest
+  #   command: ["inngest", "dev", "-u", "http://backend:3001/api/inngest"]
+  #   ports:
+  #     - "8288:8288"
+
+volumes:
+  caddy_data:
+  caddy_config:

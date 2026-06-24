@@ -1,0 +1,49 @@
+{
+  "name": "@groovethiopia/backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "inngest:dev": "inngest-cli@latest dev"
+  },
+  "dependencies": {
+    "@groovethiopia/db": "workspace:*",
+    "@auth/prisma-adapter": "^2.7.2",
+    "@aws-sdk/client-s3": "^3.665.0",
+    "@aws-sdk/s3-request-presigner": "^3.665.0",
+    "@inngest/middleware-encryption": "^0.1.0",
+    "@prisma/client": "^5.20.0",
+    "@sentry/nextjs": "^8.30.0",
+    "bcryptjs": "^2.4.3",
+    "blurhash": "^2.0.5",
+    "inngest": "^3.22.0",
+    "next": "^15.0.0",
+    "next-auth": "5.0.0-beta.22",
+    "nodemailer": "^6.9.15",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "resend": "^4.0.0",
+    "sharp": "^0.33.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.5.0",
+    "@types/nodemailer": "^6.4.16",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.20",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.4",
+    "eslint": "^9.11.1",
+    "eslint-config-next": "^15.0.0",
+    "postcss": "^8.4.47",
+    "prisma": "^5.20.0",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.5.4"
+  }
+}
