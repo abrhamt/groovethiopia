@@ -26,3 +26,14 @@ export function formatDateTime(d: Date | string | null | undefined): string {
     minute: "2-digit",
   });
 }
+
+export function formatPrice(price: string | number | null | undefined, currency = "USD"): string {
+  if (!price) return "—";
+  const num = typeof price === "string" ? parseFloat(price) : price;
+  if (isNaN(num)) return "—";
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+  }).format(num);
+}
