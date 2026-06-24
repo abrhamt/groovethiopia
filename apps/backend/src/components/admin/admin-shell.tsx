@@ -10,6 +10,7 @@ import { NotificationBell } from "@/components/admin/notification-bell";
 
 const NAV = [
   { href: "/dashboard", label: "Dashboard", icon: "◆" },
+  { href: "/analytics", label: "Analytics", icon: "▤", adminOnly: true },
   { href: "/review", label: "Pending Review", icon: "✓", badge: true },
   { href: "/events", label: "Events", icon: "♪" },
   { href: "/shukshuta", label: "Shukshuta Series", icon: "✦" },
