@@ -12,7 +12,7 @@ export default async function PageEditor({
   const { slug, title } = await searchParams;
   const isNew = id === "new";
 
-  let page = null;
+  let page: any = null;
   if (!isNew) {
     page = await prisma.content.findUnique({
       where: { id },
@@ -24,7 +24,7 @@ export default async function PageEditor({
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-serif font-semibold mb-2">
-          {isNew ? "New Page Section" : page?.title || title || "Edit Page"}
+          {isNew ? "New Page Section" : (page as any)?.title || title || "Edit Page"}
         </h1>
         <p className="text-ink-400">
           Edit the content that appears on the public site.

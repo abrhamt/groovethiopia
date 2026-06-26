@@ -50,7 +50,7 @@ export default async function DashboardPage() {
               <p className="text-sm text-ink-400">No inquiries yet.</p>
             ) : (
               <div className="space-y-3">
-                {recentInquiries.map((i) => (
+                {recentInquiries.map((i: any) => (
                   <a key={i.id} href={`/inquiries/${i.id}`} className="block p-3 -mx-3 rounded-lg hover:bg-ink-800/50 transition-colors">
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
@@ -77,7 +77,7 @@ export default async function DashboardPage() {
             <p className="text-sm text-ink-400">No submissions yet.</p>
           ) : (
             <div className="space-y-3">
-              {recentSubmissions.map((s) => (
+              {recentSubmissions.map((s: any) => (
                 <a key={s.id} href={`/review/${s.content.id}`} className="block p-3 -mx-3 rounded-lg hover:bg-ink-800/50 transition-colors">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-0">

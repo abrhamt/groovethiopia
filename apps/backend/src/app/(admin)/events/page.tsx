@@ -15,7 +15,7 @@ export default async function EventsPage() {
     },
   });
 
-  const serialized = events.map((e) => ({
+  const serialized = events.map((e: any) => ({
     id: e.id,
     title: e.title,
     slug: e.slug,

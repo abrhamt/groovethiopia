@@ -23,7 +23,7 @@ export default async function GalleryPage() {
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-          {media.map((m) => (
+          {media.map((m: any) => (
             <div key={m.id} className="aspect-square rounded-lg overflow-hidden bg-ink-800 relative group">
               <img
                 src={m.thumbnailUrl || m.publicUrl}

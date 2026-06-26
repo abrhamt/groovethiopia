@@ -58,7 +58,7 @@ export default async function ShukshutaPage() {
         </div>
       ) : (
         <div className="grid gap-3">
-          {subEvents.map((e) => (
+          {subEvents.map((e: any) => (
             <Link key={e.id} href={`/events/${e.id}`} className="admin-card flex gap-4 hover:border-gold-500/50">
               {e.media[0] && (
                 <img src={e.media[0].thumbnailUrl || e.media[0].publicUrl} alt="" className="w-24 h-24 object-cover rounded-lg shrink-0" />

@@ -1,0 +1,12 @@
+# Groovethiopia — robots.txt
+# Allow all well-behaved crawlers
+User-agent: *
+Allow: /
+Disallow: /404.html
+Disallow: /lang.html
+
+# Sitemap
+Sitemap: https://abrhamt.github.io/groovethiopia/sitemap.xml
+
+# Crawl-delay for bots
+Crawl-delay: 1

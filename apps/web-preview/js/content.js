@@ -19,19 +19,19 @@ const NAV = [
 ];
 
 const EVENTS = [
-  { id: 1, slug: "horizon-festival-2026", title: "Horizon Festival 2026", date: "August 23-24, 2026", venue: "Entoto Hills · Addis Ababa", price: 8500, type: "FLAGSHIP", featured: true, image: "festival" },
-  { id: 2, slug: "shukshuta-vol-iii", title: "Shukshuta Vol. III", date: "July 18, 2026", venue: "Skyline Rooftop · Addis Ababa", price: 4500, type: "SHUKSHUTA", featured: true, image: "shukshuta" },
-  { id: 3, slug: "open-air-after-hours", title: "Open Air: After Hours", date: "August 9, 2026", venue: "Friendship Park · Addis Ababa", price: 5500, type: "EVENT", featured: false, image: "openair" },
-  { id: 4, slug: "shukshuta-speakeasy", title: "Shukshuta Speakeasy", date: "September 6, 2026", venue: "Sarbet · Addis Ababa", price: 3500, type: "SHUKSHUTA", featured: true, image: "speakeasy" },
+  { id: 1, slug: "horizon-festival-2026", title: "Horizon Festival 2026", date: "August 23-24, 2026", venue: "Entoto Hills · Addis Ababa", price: 8500, type: "FLAGSHIP", featured: true, image: "assets/event-horizon.jpg" },
+  { id: 2, slug: "shukshuta-vol-iii", title: "Shukshuta Vol. III", date: "July 18, 2026", venue: "Skyline Rooftop · Addis Ababa", price: 4500, type: "SHUKSHUTA", featured: true, image: "assets/event-shukshuta.jpg" },
+  { id: 3, slug: "open-air-after-hours", title: "Open Air: After Hours", date: "August 9, 2026", venue: "Friendship Park · Addis Ababa", price: 5500, type: "EVENT", featured: false, image: "assets/event-openair.jpg" },
+  { id: 4, slug: "shukshuta-speakeasy", title: "Shukshuta Speakeasy", date: "September 6, 2026", venue: "Sarbet · Addis Ababa", price: 3500, type: "SHUKSHUTA", featured: true, image: "assets/event-speakeasy.jpg" },
 ];
 
 const VEHICLES = [
-  { id: 1, title: "1962 Jaguar E-Type Series 1", year: 1962, price: 240000, status: "AVAILABLE", color: "Carmen Red" },
-  { id: 2, title: "1971 Mercedes-Benz 280SL", year: 1971, price: 195000, status: "AVAILABLE", color: "Silver" },
-  { id: 3, title: "1989 Porsche 930 Turbo Cabriolet", year: 1989, price: 285000, status: "RESERVED", color: "Black" },
-  { id: 4, title: "1973 Land Rover Series III", year: 1973, price: 78000, status: "AVAILABLE", color: "Bronze Green" },
-  { id: 5, title: "1995 BMW M3 (E36)", year: 1995, price: 95000, status: "AVAILABLE", color: "Alpine White" },
-  { id: 6, title: "1965 Aston Martin DB5", year: 1965, price: 1200000, status: "SOLD", color: "Silver Birch" },
+  { id: 1, title: "1962 Jaguar E-Type Series 1", year: 1962, price: 240000, status: "AVAILABLE", color: "Carmen Red", image: "assets/vehicle-jaguar.jpg" },
+  { id: 2, title: "1971 Mercedes-Benz 280SL", year: 1971, price: 195000, status: "AVAILABLE", color: "Silver", image: "assets/vehicle-mercedes.jpg" },
+  { id: 3, title: "1989 Porsche 930 Turbo Cabriolet", year: 1989, price: 285000, status: "RESERVED", color: "Black", image: "assets/vehicle-porsche.jpg" },
+  { id: 4, title: "1973 Land Rover Series III", year: 1973, price: 78000, status: "AVAILABLE", color: "Bronze Green", image: "assets/vehicle-landrover.jpg" },
+  { id: 5, title: "1995 BMW M3 (E36)", year: 1995, price: 95000, status: "AVAILABLE", color: "Alpine White", image: "assets/vehicle-bmw.jpg" },
+  { id: 6, title: "1965 Aston Martin DB5", year: 1965, price: 1200000, status: "SOLD", color: "Silver Birch", image: "assets/vehicle-aston.jpg" },
 ];
 
 const TEAM = [
@@ -77,30 +77,34 @@ function renderNav(active) {
   ).join("\n        ");
 }
 
-// SVG placeholder for event images
-function eventImage(slug, aspect = "16/10") {
+// Render event/vehicle image (real photo or SVG fallback)
+function eventImage(src, altText = "") {
+  if (src && src.startsWith("assets/")) {
+    return `<img src="${src}" alt="${altText}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">`;
+  }
+  // Fallback SVG placeholder
   const palettes = {
     festival: ["#1a1a1a", "#3d2817", "#d49520"],
     shukshuta: ["#0a0a0a", "#2a1a3a", "#9b4dca"],
     openair: ["#1a1a1a", "#1a3a2a", "#4dca7a"],
     speakeasy: ["#0a0a0a", "#3a1a1a", "#ca4d4d"],
   };
-  const colors = palettes[s] || ["#1a1a1a", "#2a2a2a", "#d49520"];
+  const colors = palettes[src] || ["#1a1a1a", "#2a2a2a", "#d49520"];
   const [c1, c2, c3] = colors;
   return `<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block">
     <defs>
-      <linearGradient id="g-${slug}" x1="0" y1="0" x2="1" y2="1">
+      <linearGradient id="g-${src}" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0%" stop-color="${c1}"/>
         <stop offset="50%" stop-color="${c2}"/>
         <stop offset="100%" stop-color="${c1}"/>
       </linearGradient>
-      <radialGradient id="r-${slug}" cx="50%" cy="50%" r="50%">
+      <radialGradient id="r-${src}" cx="50%" cy="50%" r="50%">
         <stop offset="0%" stop-color="${c3}" stop-opacity="0.4"/>
         <stop offset="100%" stop-color="${c3}" stop-opacity="0"/>
       </radialGradient>
     </defs>
-    <rect width="320" height="200" fill="url(#g-${slug})"/>
-    <ellipse cx="160" cy="100" rx="120" ry="80" fill="url(#r-${slug})"/>
-    <text x="160" y="115" fill="${c3}" font-family="Cormorant Garamond, serif" font-size="48" font-weight="300" text-anchor="middle" opacity="0.5">${slug.split('-')[0]}</text>
+    <rect width="320" height="200" fill="url(#g-${src})"/>
+    <ellipse cx="160" cy="100" rx="120" ry="80" fill="url(#r-${src})"/>
+    <text x="160" y="115" fill="${c3}" font-family="Cormorant Garamond, serif" font-size="48" font-weight="300" text-anchor="middle" opacity="0.5">${(src || '').split('-')[0]}</text>
   </svg>`;
 }

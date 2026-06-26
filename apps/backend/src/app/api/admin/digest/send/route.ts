@@ -39,11 +39,11 @@ export async function POST(req: NextRequest) {
     const events = eventIds.length > 0
       ? await prisma.content.findMany({ where: { id: { in: eventIds } }, select: { id: true, title: true, slug: true } })
       : [];
-    const eventMap = new Map(events.map((e) => [e.id, e]));
+    const eventMap = new Map(events.map((e: any) => [e.id, e]));
 
     const topEvents = topEventsRaw
-      .map((t) => {
-        const e = eventMap.get(t.eventId);
+      .map((t: any) => {
+        const e: any = eventMap.get(t.eventId);
         if (!e) return null;
         return {
           title: e.title,

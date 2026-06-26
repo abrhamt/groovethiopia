@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
     if (["PUBLISH", "ARCHIVE", "APPROVE", "REJECT"].includes(action)) {
       const existing = await prisma.content.findMany({ where: { id: { in: ids } } });
       await prisma.revision.createMany({
-        data: existing.map((e) => ({
+        data: existing.map((e: any) => ({
           contentId: e.id,
           userId: session.user.id,
           snapshot: e as any,

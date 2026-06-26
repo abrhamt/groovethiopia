@@ -300,3 +300,22 @@ Proprietary — © Groovethiopia Trading PLC. All rights reserved.
 - **Email**: hello@groovethiopia.com
 - **Domain**: https://groovethiopia.com
 - **Admin**: https://admin.groovethiopia.com
+
+---
+
+## More documentation
+
+- **[`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)** — System architecture, data flow, auth, security
+- **[`docs/DEPLOY.md`](./docs/DEPLOY.md)** — Hetzner deployment guide with Docker
+- **[`docs/DISCOVERY.md`](./docs/DISCOVERY.md)** — Original discovery document with all decisions
+
+---
+
+## Live preview (GitHub Pages)
+
+A static preview of the public site is auto-deployed to GitHub Pages on every push to `main`:
+- **URL:** https://abrhamt.github.io/groovethiopia/
+- **Source:** `apps/web-preview/` (vanilla HTML/CSS/JS, no build step)
+- **Workflow:** `.github/workflows/pages.yml`
+
+This is a design preview only — full dynamic features (booking, tickets, CMS) require the full Next.js stack to be deployed (see DEPLOY.md).

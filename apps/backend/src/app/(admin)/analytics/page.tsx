@@ -72,9 +72,9 @@ export default async function AnalyticsPage() {
 
   const topContent = await Promise.all(
     topContentRaw
-      .sort((a, b) => Number(b._sum.totalPrice || 0) - Number(a._sum.totalPrice || 0))
+      .sort((a: any, b: any) => Number(b._sum.totalPrice || 0) - Number(a._sum.totalPrice || 0))
       .slice(0, 5)
-      .map(async (t) => {
+      .map(async (t: any) => {
         const c = await prisma.content.findUnique({
           where: { id: t.eventId },
           select: { id: true, title: true, slug: true, type: true },

@@ -181,11 +181,11 @@ export const weeklyDigest = inngest.createFunction(
             select: { id: true, title: true, slug: true },
           })
         : [];
-      const eventMap = new Map(events.map((e) => [e.id, e]));
+      const eventMap = new Map(events.map((e: any) => [e.id, e]));
 
       const topEvents = topEventsRaw
         .map((t) => {
-          const e = eventMap.get(t.eventId);
+          const e: any = eventMap.get(t.eventId);
           if (!e) return null;
           return {
             title: e.title,
