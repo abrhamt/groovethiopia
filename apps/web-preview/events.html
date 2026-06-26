@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — Groovethiopia</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">Groove<span class="thin">thiopia</span></a>
+    <ul class="nav-links" id="navLinks"></ul>
+    <div class="flex items-center">
+      <a href="lang.html" class="lang-switch">EN</a>
+      <a href="contact.html" class="nav-cta">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head text-center">
+      <span class="label-mono">— THE PULSE</span>
+      <h2>Where the scene<br>is gathering.</h2>
+      <p>Four divisions of cultural programming — flagship, intimate, and underground. Pick your frequency.</p>
+    </div>
+    <div class="grid grid-2" id="eventsGrid"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-meta">
+      <div>© 2026 Groovethiopia Trading PLC. All rights reserved.</div>
+      <div>Addis Ababa · Ethiopia</div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/content.js"></script>
+<script>
+  document.getElementById('navLinks').innerHTML = renderNav('events.html');
+  document.getElementById('eventsGrid').innerHTML = EVENTS.map(e => `
+    <a href="event-detail.html?slug=${e.slug}" class="event-card">
+      <div class="event-card-img">
+        <span class="event-card-tag">${e.type}</span>
+        ${eventImage(e.image)}
+      </div>
+      <div class="event-card-body">
+        <span class="label-mono">${e.date}</span>
+        <h3>${e.title}</h3>
+        <p class="meta">${e.venue}</p>
+        <div class="mt-4" style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--gold-300); font-family: 'JetBrains Mono', monospace;">$${e.price.toLocaleString()}</span>
+          <span style="color: var(--gold-300); font-family: 'JetBrains Mono', monospace; font-size: 12px;">→ Reserve</span>
+        </div>
+      </div>
+    </a>
+  `).join('');
+</script>
+
+</body>
+</html>

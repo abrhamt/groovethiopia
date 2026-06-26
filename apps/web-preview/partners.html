@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partners — Groovethiopia</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">Groove<span class="thin">thiopia</span></a>
+    <ul class="nav-links" id="navLinks"></ul>
+    <div class="flex items-center">
+      <a href="lang.html" class="lang-switch">EN</a>
+      <a href="contact.html" class="nav-cta">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head text-center">
+      <span class="label-mono">— PARTNERS</span>
+      <h2>Trusted by<br><em style="color: var(--gold-300);">the best</em></h2>
+      <p>Strategic, cultural, and media partners who share our standard.</p>
+    </div>
+
+    <div style="margin-bottom: 64px;">
+      <div class="grid grid-2" style="grid-template-columns: 1fr 1fr; align-items: center; gap: 64px; margin-bottom: 32px;">
+        <div>
+          <span class="label-mono">FEATURED PARTNER</span>
+          <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; color: white; margin: 16px 0 8px;">NIB International Bank</h3>
+          <p style="color: var(--ink-300);">Banking partner since 2019</p>
+          <a href="contact.html" class="btn-secondary mt-8" style="display: inline-block;">Visit website →</a>
+        </div>
+        <div class="partner-card" style="aspect-ratio: 1; display: flex; align-items: center; justify-content: center;">
+          <div class="partner-letter" style="font-size: 120px;">N</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-head">
+      <span class="label-mono">STRATEGIC PARTNERS</span>
+      <h2 style="font-size: 32px;">Five strategic partners.</h2>
+    </div>
+    <div class="grid grid-4" id="strategicGrid"></div>
+
+    <div class="divider"></div>
+
+    <div class="section-head">
+      <span class="label-mono">CULTURAL & MEDIA PARTNERS</span>
+      <h2 style="font-size: 32px;">Seven collaborators.</h2>
+    </div>
+    <div class="grid grid-4" id="culturalGrid"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-meta">
+      <div>© 2026 Groovethiopia Trading PLC. All rights reserved.</div>
+      <div>Addis Ababa · Ethiopia</div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/content.js"></script>
+<script>
+  document.getElementById('navLinks').innerHTML = renderNav('partners.html');
+  document.getElementById('strategicGrid').innerHTML = PARTNERS_STRATEGIC.map(p => `
+    <div class="partner-card">
+      <div class="partner-letter">${p.initial}</div>
+      <div class="partner-name">${p.name}</div>
+      <div class="partner-tier">${p.tier}</div>
+    </div>
+  `).join('');
+  document.getElementById('culturalGrid').innerHTML = PARTNERS_CULTURAL.map(p => `
+    <div class="partner-card">
+      <div class="partner-letter">${p.initial}</div>
+      <div class="partner-name">${p.name}</div>
+      <div class="partner-tier">${p.tier}</div>
+    </div>
+  `).join('');
+</script>
+
+</body>
+</html>

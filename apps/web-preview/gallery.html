@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — Groovethiopia</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+@media (max-width: 768px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+.gallery-item {
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--ink-800), var(--ink-700));
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  color: var(--gold-400);
+  border: 1px solid var(--ink-700);
+  position: relative;
+  overflow: hidden;
+}
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(212, 149, 32, 0.15) 0%, transparent 70%);
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">Groove<span class="thin">thiopia</span></a>
+    <ul class="nav-links" id="navLinks"></ul>
+    <div class="flex items-center">
+      <a href="lang.html" class="lang-switch">EN</a>
+      <a href="contact.html" class="nav-cta">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head text-center">
+      <span class="label-mono">— GALLERY</span>
+      <h2>From the scene.</h2>
+      <p>Photography from our events, members, and travels.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item">H</div>
+      <div class="gallery-item">S</div>
+      <div class="gallery-item">V</div>
+      <div class="gallery-item">A</div>
+      <div class="gallery-item">D</div>
+      <div class="gallery-item">E</div>
+      <div class="gallery-item">T</div>
+      <div class="gallery-item">O</div>
+      <div class="gallery-item">N</div>
+      <div class="gallery-item">C</div>
+      <div class="gallery-item">E</div>
+      <div class="gallery-item">N</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-meta">
+      <div>© 2026 Groovethiopia Trading PLC. All rights reserved.</div>
+      <div>Addis Ababa · Ethiopia</div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/content.js"></script>
+<script>document.getElementById('navLinks').innerHTML = renderNav('gallery.html');</script>
+
+</body>
+</html>

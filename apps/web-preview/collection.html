@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Collection — Groovethiopia</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="logo">Groove<span class="thin">thiopia</span></a>
+    <ul class="nav-links" id="navLinks"></ul>
+    <div class="flex items-center">
+      <a href="lang.html" class="lang-switch">EN</a>
+      <a href="contact.html" class="nav-cta">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head text-center">
+      <span class="label-mono">— THE COLLECTION</span>
+      <h2>Objects of<br>distinction.</h2>
+      <p>Curated collector vehicles and rare pieces with a story. Every object is inspected, documented, and sold by introduction.</p>
+    </div>
+    <div class="grid grid-3" id="vehiclesGrid"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-meta">
+      <div>© 2026 Groovethiopia Trading PLC. All rights reserved.</div>
+      <div>Addis Ababa · Ethiopia</div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/content.js"></script>
+<script>
+  document.getElementById('navLinks').innerHTML = renderNav('collection.html');
+  document.getElementById('vehiclesGrid').innerHTML = VEHICLES.map(v => `
+    <div class="card">
+      <span class="label-mono">${v.year} · ${v.status}</span>
+      <h3>${v.title}</h3>
+      <p>${v.color}</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px;">
+        <span style="color: var(--gold-300); font-family: 'JetBrains Mono', monospace; font-size: 18px;">$${v.price.toLocaleString()}</span>
+        <a href="contact.html" style="color: var(--gold-300); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-decoration: none;">Inquire →</a>
+      </div>
+    </div>
+  `).join('');
+</script>
+
+</body>
+</html>
