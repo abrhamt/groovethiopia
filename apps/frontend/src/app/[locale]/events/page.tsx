@@ -2,6 +2,7 @@ import Link from "next/link";
 import { setRequestLocale } from "next-intl/server";
 import { api } from "@/lib/api";
 import { formatDate } from "@/lib/utils";
+import { dummyEvents, dummyFeaturedEvent, dummyImages, withFallback } from "@/lib/dummy-data";
 
 // Force dynamic rendering — fetches from backend API
 export const dynamic = "force-dynamic";
@@ -10,7 +11,10 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const { items: events } = await api.getContent({ type: "EVENT", locale, limit: 50 }).catch(() => ({ items: [] }));
+  const { items: apiEvents } = await api
+    .getContent({ type: "EVENT", locale, limit: 50 })
+    .catch(() => ({ items: [] }));
+  const events = withFallback(apiEvents, dummyEvents);
 
   return (
     <div className="pt-32">
@@ -30,7 +34,7 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
       <section className="px-6 py-24 border-y border-ink-800/50 bg-ink-900/30">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="aspect-[4/5] rounded-2xl overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200&q=80" alt="Shukshuta Speakeasy" className="w-full h-full object-cover" />
+            <img src={dummyImages.heroAlt} alt="Shukshuta Speakeasy" className="w-full h-full object-cover" />
           </div>
           <div>
             <span className="label-mono">Signature Series</span>
@@ -38,7 +42,7 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
             <p className="text-xl text-ink-200 font-serif leading-relaxed mb-8">
               Our signature intimate series — a subterranean curation of sound, atmosphere, and gathering. Each edition is a one-night world.
             </p>
-            <Link href="/contact" className="btn-primary">Request Invitation</Link>
+            <Link href={`/${locale}/events/${dummyFeaturedEvent.slug}`} className="btn-primary">Book Tickets</Link>
           </div>
         </div>
       </section>
@@ -52,7 +56,7 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
           ) : (
             <div className="space-y-4">
               {events.map((e) => (
-                <Link key={e.id} href={`/events/${e.slug}`} className="group block p-6 border border-ink-800 rounded-2xl hover:border-gold-500/30 transition-all bg-ink-900/40">
+                <Link key={e.id} href={`/${locale}/events/${e.slug}`} className="group block p-6 border border-ink-800 rounded-2xl hover:border-gold-500/30 transition-all bg-ink-900/40">
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
                     <div className="md:col-span-2">
                       <p className="label-mono text-gold-400">{e.startsAt && formatDate(e.startsAt, locale)}</p>

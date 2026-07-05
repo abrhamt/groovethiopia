@@ -1,29 +1,33 @@
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
+import { dummyImages } from "@/lib/dummy-data";
+import { localePath } from "@/lib/locale-path";
 
-export function Ecosystem() {
-  const t = useTranslations("home.ecosystem");
+export async function Ecosystem() {
+  const t = await getTranslations("home.ecosystem");
+  const locale = await getLocale();
+  const lp = (p: string) => localePath(locale, p);
 
   const divisions = [
     {
-      href: "/events",
+      href: lp("/events"),
       title: t("events"),
       desc: t("eventsDesc"),
-      image: "https://images.unsplash.com/photo-1571266028243-d220bc56b8f3?w=1200&q=80",
+      image: dummyImages.ecosystemEvents,
       label: "01",
     },
     {
-      href: "/collection",
+      href: lp("/collection"),
       title: t("trading"),
       desc: t("tradingDesc"),
-      image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80",
+      image: dummyImages.ecosystemCollection,
       label: "02",
     },
     {
-      href: "/sanctuary",
+      href: lp("/sanctuary"),
       title: t("realEstate"),
       desc: t("realEstateDesc"),
-      image: "https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=1200&q=80",
+      image: dummyImages.ecosystemSanctuary,
       label: "03",
     },
   ];
@@ -46,6 +50,8 @@ export function Ecosystem() {
             >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                role="img"
+                aria-label={d.title}
                 style={{ backgroundImage: `url(${d.image})` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />

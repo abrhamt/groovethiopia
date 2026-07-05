@@ -10,6 +10,7 @@ const schema = z.object({
   ticketType: z.string().default("GENERAL"),
   quantity: z.number().int().min(1).max(10).default(1),
   phoneNumber: z.string().min(7).max(50),
+  paymentMethod: z.string().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -73,6 +74,7 @@ export async function POST(req: NextRequest) {
       successUrl: `${FRONTEND}/${data.publicUserId.startsWith("demo-") ? "en" : "en"}/tickets/success`,
       cancelUrl: `${FRONTEND}/en/events/${event.slug}`,
       customerEmail: user!.email,
+      paymentMethod: data.paymentMethod,
     });
 
     // In simulated mode, also create the ticket immediately
@@ -83,6 +85,7 @@ export async function POST(req: NextRequest) {
         publicUserId: user!.id,
         ticketType: data.ticketType,
         quantity: data.quantity,
+        phoneNumber: data.phoneNumber,
       });
     }
 

@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { getLocale } from "next-intl/server";
 import type { ContentItem } from "@/lib/api";
+import { localePath } from "@/lib/locale-path";
 
-export function SanctuaryPreview({ projects }: { projects: ContentItem[] }) {
+export async function SanctuaryPreview({ projects }: { projects: ContentItem[] }) {
   if (projects.length === 0) return null;
   const featured = projects[0];
+  const locale = await getLocale();
+  const lp = (p: string) => localePath(locale, p);
 
   return (
     <section className="py-32 px-6">
@@ -22,7 +26,7 @@ export function SanctuaryPreview({ projects }: { projects: ContentItem[] }) {
                 <span className="label-mono text-ink-500 mr-3">Featured</span> {featured.title} · {featured.location}
               </p>
             )}
-            <Link href="/sanctuary" className="btn-primary">
+            <Link href={lp("/sanctuary")} className="btn-primary">
               Explore Investment
             </Link>
           </div>

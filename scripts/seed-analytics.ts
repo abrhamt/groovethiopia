@@ -93,6 +93,7 @@ async function main() {
           totalPrice: ticketPrice * qty,
           currency: "USD",
           paymentRef: `seed-sim-${i}-${Date.now()}`,
+          serialNumber: `GT-TKT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${i}`,
           status: "CONFIRMED",
           phoneNumber: `+251911${String(i).padStart(6, "0")}`,
           createdAt,

@@ -1,11 +1,12 @@
 // Inngest functions — scheduled jobs + event-driven
 import { inngest } from "@/lib/inngest";
 import { prisma } from "@groovethiopia/db";
+import { expireStaleSessions } from "@/lib/payments/state-machine";
 
 // Auto-publish scheduled content
 export const autoPublishScheduled = inngest.createFunction(
   { id: "auto-publish-scheduled" },
-  { cron: "*/1 * * * *" }, // every minute
+  { cron: "*/1 * * * *" },
   async ({ step }) => {
     const now = new Date();
     const due = await prisma.content.findMany({
@@ -29,7 +30,7 @@ export const autoPublishScheduled = inngest.createFunction(
 // Auto-unpublish expired content
 export const autoUnpublishExpired = inngest.createFunction(
   { id: "auto-unpublish-expired" },
-  { cron: "*/5 * * * *" }, // every 5 minutes
+  { cron: "*/5 * * * *" },
   async ({ step }) => {
     const now = new Date();
     const expired = await prisma.content.findMany({
@@ -53,7 +54,7 @@ export const autoUnpublishExpired = inngest.createFunction(
 // Auto-end past events
 export const autoEndEvents = inngest.createFunction(
   { id: "auto-end-events" },
-  { cron: "*/15 * * * *" }, // every 15 minutes
+  { cron: "*/15 * * * *" },
   async ({ step }) => {
     const now = new Date();
     const past = await prisma.content.findMany({
@@ -71,6 +72,16 @@ export const autoEndEvents = inngest.createFunction(
       });
     }
     return { ended: past.length };
+  }
+);
+
+// Expire stale checkout sessions — every minute
+export const expireCheckoutSessions = inngest.createFunction(
+  { id: "expire-checkout-sessions" },
+  { cron: "*/1 * * * *" },
+  async () => {
+    const count = await expireStaleSessions();
+    return { expired: count };
   }
 );
 
@@ -107,16 +118,13 @@ export const onUserRegistered = inngest.createFunction(
     const admins = await step.run("get-admins", async () => {
       return prisma.user.findMany({
         where: { role: "ADMIN", status: "ACTIVE" },
-        select: { email: true },
+        select: { email: true, name: true },
       });
     });
 
     await step.run("notify-admins", async () => {
       const { sendNewUserRegistrationNotification } = await import("@/lib/email");
-      await sendNewUserRegistrationNotification(
-        admins.map((a) => a.email),
-        event.data
-      );
+      await sendNewUserRegistrationNotification(admins.map((a) => a.email), event.data);
     });
   }
 );
@@ -177,9 +185,9 @@ export const weeklyDigest = inngest.createFunction(
       const eventIds = topEventsRaw.map((t) => t.eventId);
       const events = eventIds.length > 0
         ? await prisma.content.findMany({
-            where: { id: { in: eventIds } },
-            select: { id: true, title: true, slug: true },
-          })
+          where: { id: { in: eventIds } },
+          select: { id: true, title: true, slug: true },
+        })
         : [];
       const eventMap = new Map(events.map((e: any) => [e.id, e]));
 
@@ -235,7 +243,7 @@ export const weeklyDigest = inngest.createFunction(
             stats,
           });
         } catch (e) {
-          console.error(`[digest] failed to send to ${admin.email}`, e);
+          console.error("[digest] failed to send to " + admin.email, e);
         }
       }
     });
@@ -248,6 +256,7 @@ export const functions = [
   autoPublishScheduled,
   autoUnpublishExpired,
   autoEndEvents,
+  expireCheckoutSessions,
   onSubmission,
   onUserRegistered,
   onInquiry,

@@ -130,4 +130,110 @@ export const api = {
       body: JSON.stringify(data),
     });
   },
+
+  getTicketPass: async (paymentRef: string): Promise<{
+    qrPayloadBase64: string;
+    payload: any;
+    publicKey: string;
+    ticket: any;
+  }> => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+    const res = await fetch(`${API_URL}/api/public/tickets/pass?paymentRef=${paymentRef}`, {
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`API error ${res.status}: ${text}`);
+    }
+    return res.json();
+  },
+
+  // ===== Unified checkout state machine =====
+  createCheckout: async (data: {
+    eventId: string;
+    ticketType?: string;
+    quantity?: number;
+    paymentProvider: "STRIPE" | "BOA" | "TELEBIRR" | "CBEBIRR" | "CHAPA" | "SIMULATED";
+    publicUserId?: string;
+    customerEmail?: string;
+    customerPhone?: string;
+  }) => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+    const res = await fetch(`${API_URL}/api/public/checkout/create`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`API error ${res.status}: ${text}`);
+    }
+    return res.json() as Promise<{
+      mode: "redirect" | "qr" | "simulated";
+      sessionId: string;
+      expiresAt: string;
+      provider: string;
+      providerSessionId: string;
+      url: string | null;
+      qrPayload: string | null;
+      paymentRef: string;
+    }>;
+  },
+
+  getCheckoutStatus: async (sessionId: string) => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+    const res = await fetch(`${API_URL}/api/public/checkout/status/${sessionId}`, {
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`API error ${res.status}: ${text}`);
+    }
+    return res.json() as Promise<{
+      id: string;
+      status: "INITIATED" | "PENDING_PAYMENT" | "PAID" | "TICKET_ISSUED" | "EXPIRED" | "FAILED";
+      paymentProvider: string;
+      providerSessionId: string | null;
+      expiresAt: string;
+      paidAt: string | null;
+      issuedAt: string | null;
+      ticket: {
+        id: string;
+        serialNumber: string;
+        ticketType: string;
+        quantity: number;
+        status: string;
+        passExpiresAt: string | null;
+      } | null;
+      pass: {
+        qrPayloadBase64: string;
+        payload: any;
+        publicKey: string;
+        ticket: any;
+      } | null;
+    }>;
+  },
+
+  confirmSimulatedCheckout: async (sessionId: string) => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+    const res = await fetch(`${API_URL}/api/public/checkout/confirm/${sessionId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`API error ${res.status}: ${(await res.text())}`);
+    }
+    return res.json() as Promise<{
+      success: boolean;
+      sessionId: string;
+      status: string;
+      ticketId: string;
+      serialNumber: string;
+    }>;
+  },
 };

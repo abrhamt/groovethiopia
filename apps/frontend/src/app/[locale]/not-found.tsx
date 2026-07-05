@@ -1,11 +1,8 @@
 import Link from "next/link";
+import { useLocale } from "next-intl";
 
-export default async function NotFound({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
+export default function NotFound() {
+  const locale = useLocale();
 
   return (
     <div className="min-h-screen flex items-center justify-center px-6">

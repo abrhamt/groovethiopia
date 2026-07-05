@@ -1,7 +1,6 @@
-import { setRequestLocale } from "next-intl/server";
-import { useTranslations } from "next-intl";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { AboutView } from "@/components/about/about-view";
-import { TeamGrid } from "@/components/about/team-grid";
+import { dummyTeam } from "@/lib/dummy-data";
 
 // Force dynamic rendering — server-side translation
 export const dynamic = "force-dynamic";
@@ -22,7 +21,8 @@ export default async function AboutPage({
     body: tValues(`list.${i}.body`),
   }));
 
-  // Fetch team members
+  // Fetch team members from the backend, falling back to a curated
+  // dummy roster so the page is never empty.
   let team: any[] = [];
   try {
     const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
@@ -31,7 +31,11 @@ export default async function AboutPage({
       const data = await res.json();
       team = data.team || [];
     }
-  } catch {}
+  } catch { }
+
+  if (!team || team.length === 0) {
+    team = dummyTeam;
+  }
 
   return (
     <AboutView
@@ -53,5 +57,3 @@ export default async function AboutPage({
     />
   );
 }
-
-import { getTranslations } from "next-intl/server";

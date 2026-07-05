@@ -1,7 +1,7 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export function ManifestoTeaser() {
-  const t = useTranslations("home.manifesto");
+export async function ManifestoTeaser() {
+  const t = await getTranslations("home.manifesto");
   return (
     <section className="relative py-32 px-6">
       <div className="max-w-4xl mx-auto text-center">

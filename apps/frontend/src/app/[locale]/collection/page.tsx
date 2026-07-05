@@ -2,6 +2,7 @@ import Link from "next/link";
 import { setRequestLocale } from "next-intl/server";
 import { api } from "@/lib/api";
 import { formatPrice } from "@/lib/utils";
+import { dummyVehicles, withFallback } from "@/lib/dummy-data";
 
 // Force dynamic rendering — fetches from backend API
 export const dynamic = "force-dynamic";
@@ -10,7 +11,10 @@ export default async function CollectionPage({ params }: { params: Promise<{ loc
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const { items: vehicles } = await api.getContent({ type: "VEHICLE", locale, limit: 100 }).catch(() => ({ items: [] }));
+  const { items: apiVehicles } = await api
+    .getContent({ type: "VEHICLE", locale, limit: 100 })
+    .catch(() => ({ items: [] }));
+  const vehicles = withFallback(apiVehicles, dummyVehicles);
 
   return (
     <div className="pt-32">
@@ -34,7 +38,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ loc
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {vehicles.map((v) => (
-                <Link key={v.id} href={`/collection/${v.slug}`} className="group block">
+                <Link key={v.id} href={`/${locale}/collection/${v.slug}`} className="group block">
                   <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-ink-900 mb-4">
                     {v.image && (
                       <img

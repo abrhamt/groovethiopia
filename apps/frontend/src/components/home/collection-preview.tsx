@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { getLocale } from "next-intl/server";
 import { formatPrice } from "@/lib/utils";
+import { localePath } from "@/lib/locale-path";
 import type { ContentItem } from "@/lib/api";
 
-export function CollectionPreview({ vehicles }: { vehicles: ContentItem[] }) {
+export async function CollectionPreview({ vehicles }: { vehicles: ContentItem[] }) {
   if (vehicles.length === 0) return null;
+  const locale = await getLocale();
+  const lp = (p: string) => localePath(locale, p);
 
   return (
     <section className="py-32 px-6 border-t border-ink-800/50">
@@ -13,14 +17,14 @@ export function CollectionPreview({ vehicles }: { vehicles: ContentItem[] }) {
             <span className="label-mono">The Collection</span>
             <h2 className="editorial-heading text-5xl md:text-7xl mt-4">Heritage & Modernity</h2>
           </div>
-          <Link href="/collection" className="hidden md:inline-flex btn-ghost">
+          <Link href={lp("/collection")} className="hidden md:inline-flex btn-ghost">
             View all
           </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {vehicles.slice(0, 3).map((v) => (
-            <Link key={v.id} href={`/collection/${v.slug}`} className="group block">
+            <Link key={v.id} href={lp(`/collection/${v.slug}`)} className="group block">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-ink-900 mb-4">
                 {v.image && (
                   <img
@@ -48,7 +52,7 @@ export function CollectionPreview({ vehicles }: { vehicles: ContentItem[] }) {
         </div>
 
         <div className="md:hidden mt-8 text-center">
-          <Link href="/collection" className="btn-ghost">View all</Link>
+          <Link href={lp("/collection")} className="btn-ghost">View all</Link>
         </div>
       </div>
     </section>

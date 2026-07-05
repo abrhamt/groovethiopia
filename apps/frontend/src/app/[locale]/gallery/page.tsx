@@ -1,6 +1,12 @@
 import { setRequestLocale } from "next-intl/server";
 import { api } from "@/lib/api";
 import { GalleryGrid } from "@/components/gallery/grid";
+import {
+  dummyEvents,
+  dummyVehicles,
+  dummyProjects,
+  withFallback,
+} from "@/lib/dummy-data";
 
 // Force dynamic rendering — fetches from backend API
 export const dynamic = "force-dynamic";
@@ -9,17 +15,27 @@ export default async function GalleryPage({ params }: { params: Promise<{ locale
   const { locale } = await params;
   setRequestLocale(locale);
 
-  // Get all published content with images
+  // Get all published content with images. Each list falls back to a
+  // curated dummy set so the gallery is always visually populated.
   const [events, vehicles, projects] = await Promise.all([
-    api.getContent({ type: "EVENT", locale, limit: 30 }).catch(() => ({ items: [] })),
-    api.getContent({ type: "VEHICLE", locale, limit: 30 }).catch(() => ({ items: [] })),
-    api.getContent({ type: "REAL_ESTATE_PROJECT", locale, limit: 30 }).catch(() => ({ items: [] })),
+    api
+      .getContent({ type: "EVENT", locale, limit: 30 })
+      .then((r) => withFallback(r.items, dummyEvents))
+      .catch(() => dummyEvents),
+    api
+      .getContent({ type: "VEHICLE", locale, limit: 30 })
+      .then((r) => withFallback(r.items, dummyVehicles))
+      .catch(() => dummyVehicles),
+    api
+      .getContent({ type: "REAL_ESTATE_PROJECT", locale, limit: 30 })
+      .then((r) => withFallback(r.items, dummyProjects))
+      .catch(() => dummyProjects),
   ]);
 
   const allItems = [
-    ...events.items.filter((i) => i.image).map((i) => ({ ...i, division: "events" as const })),
-    ...vehicles.items.filter((i) => i.image).map((i) => ({ ...i, division: "collection" as const })),
-    ...projects.items.filter((i) => i.image).map((i) => ({ ...i, division: "sanctuary" as const })),
+    ...events.filter((i) => i.image).map((i) => ({ ...i, division: "events" as const })),
+    ...vehicles.filter((i) => i.image).map((i) => ({ ...i, division: "collection" as const })),
+    ...projects.filter((i) => i.image).map((i) => ({ ...i, division: "sanctuary" as const })),
   ];
 
   return (

@@ -1,12 +1,16 @@
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 import { Logo } from "./logo";
 import { Instagram, Send, Music2, Twitter } from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
 
-export function Footer() {
-  const t = useTranslations("footer");
-  const tNav = useTranslations("nav");
-  const tBrand = useTranslations("brand");
+export async function Footer() {
+  const t = await getTranslations("footer");
+  const tNav = await getTranslations("nav");
+  const tBrand = await getTranslations("brand");
+  // Resolve the current locale so all internal links stay inside the
+  // active locale segment (e.g. /am/about instead of /about for Amharic).
+  const locale = await getLocale();
+  const lpath = (p: string) => `/${locale}${p}`;
 
   return (
     <footer className="border-t border-ink-800 mt-32 bg-ink-900/40">
@@ -28,19 +32,19 @@ export function Footer() {
           <div>
             <h4 className="label-mono mb-4">{t("explore")}</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/about" className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("about")}</Link></li>
-              <li><Link href="/events" className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("events")}</Link></li>
-              <li><Link href="/collection" className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("trading")}</Link></li>
-              <li><Link href="/sanctuary" className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("realEstate")}</Link></li>
-              <li><Link href="/gallery" className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("gallery")}</Link></li>
+              <li><Link href={lpath("/about")} className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("about")}</Link></li>
+              <li><Link href={lpath("/events")} className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("events")}</Link></li>
+              <li><Link href={lpath("/collection")} className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("trading")}</Link></li>
+              <li><Link href={lpath("/sanctuary")} className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("realEstate")}</Link></li>
+              <li><Link href={lpath("/gallery")} className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("gallery")}</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="label-mono mb-4">{t("connect")}</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/contact" className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("contact")}</Link></li>
-              <li><Link href="/partners" className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("partners")}</Link></li>
+              <li><Link href={lpath("/contact")} className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("contact")}</Link></li>
+              <li><Link href={lpath("/partners")} className="text-ink-300 hover:text-gold-400 transition-colors">{tNav("partners")}</Link></li>
               <li>
                 <a href="mailto:hello@groovethiopia.com" className="text-ink-300 hover:text-gold-400 transition-colors">
                   hello@groovethiopia.com
@@ -55,9 +59,9 @@ export function Footer() {
             © {new Date().getFullYear()} Groovethiopia Trading PLC. {t("rights")}
           </p>
           <div className="flex items-center gap-6 text-xs text-ink-500">
-            <Link href="/legal/privacy" className="hover:text-gold-400 transition-colors">Privacy</Link>
-            <Link href="/legal/terms" className="hover:text-gold-400 transition-colors">Terms</Link>
-            <Link href="/legal/cookies" className="hover:text-gold-400 transition-colors">Cookies</Link>
+            <Link href={lpath("/legal/privacy")} className="hover:text-gold-400 transition-colors">Privacy</Link>
+            <Link href={lpath("/legal/terms")} className="hover:text-gold-400 transition-colors">Terms</Link>
+            <Link href={lpath("/legal/cookies")} className="hover:text-gold-400 transition-colors">Cookies</Link>
           </div>
         </div>
       </div>

@@ -39,13 +39,15 @@ export async function createCheckoutSession(args: {
   successUrl: string;
   cancelUrl: string;
   customerEmail?: string;
+  paymentMethod?: string;
 }): Promise<CheckoutSessionResult> {
   const totalAmount = args.unitPrice * args.quantity;
+  const method = args.paymentMethod || "simulated";
 
-  if (!stripe) {
+  if (method !== "stripe" || !stripe) {
     // Simulated checkout for dev/demo
-    const paymentRef = `sim_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
-    console.log(`[stripe:simulated] Would charge ${totalAmount} ${args.currency || "USD"} for ${args.quantity}x ${args.ticketType} (${args.eventTitle}) — ref ${paymentRef}`);
+    const paymentRef = `${method}_sim_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+    console.log(`[stripe:simulated] Would charge ${totalAmount} ${args.currency || "USD"} via ${method} for ${args.quantity}x ${args.ticketType} (${args.eventTitle}) — ref ${paymentRef}`);
     return { type: "simulated", paymentRef };
   }
 
@@ -118,6 +120,7 @@ export async function processCheckoutComplete(session: Stripe.Checkout.Session) 
       totalPrice: ticketPrice * qty,
       currency: session.currency?.toUpperCase() || "USD",
       paymentRef: session.id,
+      serialNumber: `GT-TKT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`,
       status: "CONFIRMED",
       phoneNumber: "", // Could pull from publicUser if needed
     },
@@ -133,6 +136,7 @@ export async function processSimulatedCheckout(args: {
   publicUserId: string;
   ticketType: string;
   quantity: number;
+  phoneNumber?: string;
 }) {
   const event = await prisma.content.findUnique({ where: { id: args.eventId } });
   if (!event) return;
@@ -149,8 +153,9 @@ export async function processSimulatedCheckout(args: {
       totalPrice: ticketPrice * args.quantity,
       currency: "USD",
       paymentRef: args.paymentRef,
+      serialNumber: `GT-TKT-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString().slice(-4)}`,
       status: "CONFIRMED",
-      phoneNumber: "",
+      phoneNumber: args.phoneNumber || "",
     },
   });
 }

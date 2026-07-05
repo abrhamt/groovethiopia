@@ -34,69 +34,40 @@
 <section class="hero" style="background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), url('assets/hero-home.jpg') center/cover no-repeat; min-height: 90vh; display: flex; align-items: center;">
   <div class="container hero-content fade-in">
     <span class="label-mono hero-eyebrow">EST. 2019 · ADDIS ABABA</span>
-    <h1>Curating the<br><em>New Horizon</em></h1>
-    <p class="hero-sub">A curated ecosystem of flagship events, rare objects, and refined hospitality — where Ethiopian craft meets contemporary culture.</p>
-    <div class="hero-actions">
-      <a href="events.html" class="btn-primary">Explore the Pulse</a>
-      <a href="about.html" class="btn-secondary">Our Story</a>
+    <h1>Curating the<br><em class="text-gradient-gold">New Horizon</em></h1>
+  </div>
+</section>
+
+<section class="section" style="overflow: visible; padding: 120px 0;">
+  <div class="container">
+    <div style="display: flex; flex-direction: row; gap: 64px; position: relative; flex-wrap: wrap;">
+      <!-- Left Column -->
+      <div style="flex: 1; min-width: 280px; max-width: 320px;">
+        <div style="position: sticky; top: 140px; min-height: 75vh; padding-top: 16px;">
+          <span class="label-mono">THE PULSE</span>
+          <h2 class="editorial-heading text-gradient-gold" style="font-size: clamp(36px, 5vw, 64px); line-height: 1.05; margin-top: 16px; margin-bottom: 24px;">
+            One scene,<br><em style="color: var(--white); font-style: italic;">four experiences.</em>
+          </h2>
+          <p style="font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--ink-400); line-height: 1.6;">
+            Where the contemporary scene gathers. Explore our seasonal flagships, private gatherings, and curated showcases.
+          </p>
+        </div>
+      </div>
+      <!-- Right Column containing the sticky card stack -->
+      <div style="flex: 2; min-width: 320px; display: flex; flex-direction: column; gap: 64px; padding-bottom: 128px;" id="stickyCardContainer">
+        <!-- JS renders 4 cards here -->
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <span class="label-mono">FOUR DIVISIONS · ONE HORIZON</span>
-      <h2>An ecosystem,<br>not a portfolio.</h2>
-      <p>Four disciplines, one editorial line. Each division is a doorway into the world of Groovethiopia — distinct in craft, unified in intent.</p>
-    </div>
-    <div class="grid grid-2" id="divisionsGrid">
-      <!-- divisions rendered by JS -->
-    </div>
+<section class="section" style="border-top: 1px solid var(--ink-800); border-bottom: 1px solid var(--ink-800); overflow: hidden; padding: 60px 0;">
+  <div class="container" style="text-align: center; margin-bottom: 32px;">
+    <span class="label-mono">Trusted by</span>
   </div>
-</section>
-
-<section class="section" style="background: var(--black-soft);">
-  <div class="container">
-    <div class="section-head">
-      <span class="label-mono">THE PULSE</span>
-      <h2>Upcoming</h2>
-      <p>Where the scene gathers. What the calendar holds.</p>
-    </div>
-    <div class="grid grid-2" id="eventsGrid">
-      <!-- events rendered by JS -->
-    </div>
-    <div class="text-center mt-12">
-      <a href="events.html" class="btn-secondary">All events →</a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <span class="label-mono">THE COLLECTION</span>
-      <h2>Objects of <em style="color: var(--gold-300);">distinction</em></h2>
-      <p>From rare collector vehicles to architectural properties — a curated catalogue of pieces that carry history.</p>
-    </div>
-    <div class="grid grid-3" id="vehiclesGrid">
-      <!-- vehicles rendered by JS -->
-    </div>
-  </div>
-</section>
-
-<section class="section" style="background: var(--black-soft);">
-  <div class="container">
-    <div class="section-head">
-      <span class="label-mono">PARTNERS</span>
-      <h2>Trusted by <em style="color: var(--gold-300);">the best</em></h2>
-      <p>Strategic and cultural partners who share our standard.</p>
-    </div>
-    <div class="grid grid-4" id="partnersGrid">
+  <div class="marquee-wrapper">
+    <div class="marquee-content" id="partnersMarquee">
       <!-- partners rendered by JS -->
-    </div>
-    <div class="text-center mt-12">
-      <a href="partners.html" class="btn-secondary">All partners →</a>
     </div>
   </div>
 </section>
@@ -151,48 +122,48 @@
   document.getElementById('navLinks').innerHTML = renderNav('index.html');
   document.getElementById('langSwitch').href = 'lang.html';
 
-  // Render divisions
-  document.getElementById('divisionsGrid').innerHTML = DIVISIONS.map(d => `
-    <a href="${d.href}" class="card" style="text-decoration: none; color: inherit; display: block;">
-      <span class="label-mono">${d.label}</span>
-      <h3>${d.label}</h3>
-      <p>${d.description}</p>
-      <div class="mt-8" style="color: var(--gold-300); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em;">→ Explore</div>
-    </a>
-  `).join('');
-
-  // Render featured events
-  document.getElementById('eventsGrid').innerHTML = EVENTS.filter(e => e.featured).slice(0, 2).map(e => `
-    <a href="event-detail.html?slug=${e.slug}" class="event-card">
-      <div class="event-card-img">
-        <span class="event-card-tag">${e.type}</span>
-        ${eventImage(e.image)}
+  // Render sticky events
+  const stickyEvents = EVENTS.slice(0, 4);
+  document.getElementById('stickyCardContainer').innerHTML = stickyEvents.map((e, index) => `
+    <div class="pointer-events-none" style="position: sticky; top: calc(140px + ${index} * 32px); z-index: ${index + 10}; width: 100%;">
+      <div class="pointer-events-auto" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 24px; border: 1px solid var(--ink-800); background: var(--ink-900); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+        <!-- Image stack -->
+        <div style="position: relative; aspect-ratio: 16/10; width: 100%; overflow: hidden; background: var(--black);">
+          ${eventImage(e.image)}
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--black) 0%, rgba(10,10,10,0.4) 60%, transparent 100%);"></div>
+          <div style="position: absolute; top: 24px; left: 24px;">
+            <span class="label-mono" style="background: var(--gold-500); color: var(--black); padding: 4px 12px; border-radius: 99px; font-size: 10px; font-weight: 600;">${e.type}</span>
+          </div>
+          <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
+            <h3 class="editorial-heading" style="font-size: 32px; color: var(--white); margin: 0 0 4px 0;">${e.title}</h3>
+          </div>
+        </div>
+        <!-- Grid date/venue -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink-800); background: var(--black);">
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; border-right: 1px solid var(--ink-800); text-align: center;">
+            <span class="label-mono" style="color: var(--ink-400); margin-bottom: 4px;">When</span>
+            <span style="font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--ink-100);">${e.date}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center;">
+            <span class="label-mono" style="color: var(--ink-400); margin-bottom: 4px;">Where</span>
+            <span style="font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--ink-100);">${e.venue.split('·')[0].trim()}</span>
+          </div>
+        </div>
+        <!-- CTA link -->
+        <a href="event-detail.html?slug=${e.slug}" class="btn-primary" style="display: block; border-radius: 0; padding: 18px 0; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-decoration: none; border-top: 1px solid var(--ink-800); background: var(--ink-900); color: var(--gold-400);">
+          Request Invitation
+        </a>
       </div>
-      <div class="event-card-body">
-        <span class="label-mono">${e.date}</span>
-        <h3>${e.title}</h3>
-        <p class="meta">${e.venue}</p>
-        <p class="meta mt-4" style="color: var(--gold-300); font-family: 'JetBrains Mono', monospace;">$${e.price.toLocaleString()}</p>
-      </div>
-    </a>
-  `).join('');
-
-  // Render 3 vehicles
-  document.getElementById('vehiclesGrid').innerHTML = VEHICLES.slice(0, 3).map(v => `
-    <div class="card">
-      <span class="label-mono">${v.year} · ${v.status}</span>
-      <h3>${v.title}</h3>
-      <p>${v.color}</p>
-      <p class="mt-4" style="color: var(--gold-300); font-family: 'JetBrains Mono', monospace;">$${v.price.toLocaleString()}</p>
     </div>
   `).join('');
 
-  // Render 4 partners
-  document.getElementById('partnersGrid').innerHTML = PARTNERS_STRATEGIC.slice(0, 4).map(p => `
-    <div class="partner-card">
-      <div class="partner-letter">${p.initial}</div>
-      <div class="partner-name">${p.name}</div>
-      <div class="partner-tier">${p.tier}</div>
+  // Render partners marquee
+  const allPartners = [...PARTNERS_STRATEGIC, ...PARTNERS_CULTURAL];
+  const marqueePartners = [...allPartners, ...allPartners];
+  document.getElementById('partnersMarquee').innerHTML = marqueePartners.map(p => `
+    <div class="marquee-item">
+      <div class="marquee-dot">${p.initial}</div>
+      <span class="marquee-name">${p.name}</span>
     </div>
   `).join('');
 

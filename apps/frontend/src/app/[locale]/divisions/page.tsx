@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { setRequestLocale } from "next-intl/server";
+import { dummyImages } from "@/lib/dummy-data";
 
 // Force dynamic rendering — fetches from backend API
 export const dynamic = "force-dynamic";
@@ -14,28 +15,28 @@ async function DivisionsContent({ params }: { params: Promise<{ locale: string }
 
   const divisions = [
     {
-      href: "/events",
+      href: `/${locale}/events`,
       label: "01",
       title: "The Pulse",
       tagline: "We engineer cultural milestones",
       desc: "Large-scale festivals, intimate speakeasies, bespoke social experiences.",
-      image: "https://images.unsplash.com/photo-1571266028243-d220bc56b8f3?w=1600&q=80",
+      image: dummyImages.ecosystemEvents,
     },
     {
-      href: "/collection",
+      href: `/${locale}/collection`,
       label: "02",
       title: "The Collection",
       tagline: "True luxury is timeless",
       desc: "Elite modern vehicles and meticulously refurbished vintage classics.",
-      image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1600&q=80",
+      image: dummyImages.ecosystemCollection,
     },
     {
-      href: "/sanctuary",
+      href: `/${locale}/sanctuary`,
       label: "03",
       title: "The Sanctuary",
       tagline: "Designing the future of hospitality",
       desc: "Boutique escapes nestled in forests, mountains, and along iconic rivers.",
-      image: "https://images.unsplash.com/photo-1542718610-a1d656d1884c?w=1600&q=80",
+      image: dummyImages.ecosystemSanctuary,
     },
   ];
 

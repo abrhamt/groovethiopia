@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { setRequestLocale } from "next-intl/server";
 import { api } from "@/lib/api";
+import { dummyProjects, withFallback } from "@/lib/dummy-data";
 
 // Force dynamic rendering — fetches from backend API
 export const dynamic = "force-dynamic";
@@ -9,7 +10,10 @@ export default async function SanctuaryPage({ params }: { params: Promise<{ loca
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const { items: projects } = await api.getContent({ type: "REAL_ESTATE_PROJECT", locale, limit: 50 }).catch(() => ({ items: [] }));
+  const { items: apiProjects } = await api
+    .getContent({ type: "REAL_ESTATE_PROJECT", locale, limit: 50 })
+    .catch(() => ({ items: [] }));
+  const projects = withFallback(apiProjects, dummyProjects);
 
   return (
     <div className="pt-32">
@@ -34,7 +38,7 @@ export default async function SanctuaryPage({ params }: { params: Promise<{ loca
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {projects.map((p) => (
-                <Link key={p.id} href={`/sanctuary/${p.slug}`} className="group block">
+                <Link key={p.id} href={`/${locale}/sanctuary/${p.slug}`} className="group block">
                   <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-ink-900 mb-4 relative">
                     {p.image && (
                       <img src={p.image.url} alt={p.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
@@ -84,7 +88,7 @@ export default async function SanctuaryPage({ params }: { params: Promise<{ loca
           <p className="text-xl text-ink-200 font-serif mb-8">
             We build bespoke destinations to specification — from concept to operational handover. Mountain retreats, forest lodges, lakeside sanctuaries.
           </p>
-          <Link href="/contact" className="btn-primary text-lg">Start a Conversation</Link>
+          <Link href={`/${locale}/contact`} className="btn-primary text-lg">Start a Conversation</Link>
         </div>
       </section>
     </div>

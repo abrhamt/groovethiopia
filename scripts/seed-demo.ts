@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 // Cinematic placeholder images (royalty-free Unsplash)
 const images = {
-  event1: "https://images.unsplash.com/photo-1571266028243-d220bc56b8f3?w=1600&q=80",
+  event1: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1600&q=80",
   event2: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1600&q=80",
   event3: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80",
   event4: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600&q=80",
@@ -22,7 +22,7 @@ const images = {
   project2: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1600&q=80",
   project3: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1600&q=80",
   hero: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=2400&q=80",
-  shukshuta: "https://images.unsplash.com/photo-1571266028243-d220bc56b8f3?w=1600&q=80",
+  shukshuta: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1600&q=80",
 };
 
 async function main() {

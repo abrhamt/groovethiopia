@@ -1,59 +1,138 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import Link from "next/link";
-import { ArrowDown } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
 
-export function Hero() {
-  const t = useTranslations("home.hero");
-  const tNav = useTranslations("nav");
+export type EventMediaItem = {
+  id: string;
+  image?: {
+    url: string;
+  };
+  media?: Array<{
+    url: string;
+  }>;
+};
+
+export function Hero({ events }: { events?: EventMediaItem[] }) {
+  const mediaList = useMemo(() => {
+    const list: { url: string; isVideo: boolean }[] = [];
+
+    if (events && events.length > 0) {
+      events.forEach((e) => {
+        if (e.image?.url) {
+          list.push({ url: e.image.url, isVideo: false });
+        }
+        if (e.media && Array.isArray(e.media)) {
+          e.media.forEach((m) => {
+            if (m.url) {
+              const isVideo =
+                m.url.toLowerCase().endsWith(".mp4") ||
+                m.url.toLowerCase().endsWith(".webm") ||
+                m.url.toLowerCase().endsWith(".mov");
+              list.push({ url: m.url, isVideo });
+            }
+          });
+        }
+      });
+    }
+
+    // Default fallbacks if no events or no images
+    if (list.length === 0) {
+      list.push(
+        { url: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600&q=80", isVideo: false },
+        { url: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80", isVideo: false },
+        { url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1600&q=80", isVideo: false }
+      );
+    }
+
+    // Deduplicate list by URL
+    const uniqueList: typeof list = [];
+    const seen = new Set<string>();
+    list.forEach((item) => {
+      if (!seen.has(item.url)) {
+        seen.add(item.url);
+        uniqueList.push(item);
+      }
+    });
+
+    return uniqueList;
+  }, [events]);
+
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (mediaList.length <= 1) return;
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % mediaList.length);
+    }, 6000); // 6 seconds per item
+    return () => clearInterval(interval);
+  }, [mediaList]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background image with overlay */}
-      <div className="absolute inset-0 z-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center scale-105 animate-fade-in"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=2400&q=80')",
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
-        <div className="absolute inset-0 grain" />
+      {/* Background Media Slideshow */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {mediaList.map((item, i) => {
+          const isActive = i === index;
+          if (item.isVideo) {
+            return (
+              <video
+                key={item.url}
+                src={item.url}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+                  isActive ? "opacity-100 z-10 animate-kenburns" : "opacity-0 z-0"
+                }`}
+              />
+            );
+          } else {
+            return (
+              <div
+                key={item.url}
+                className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out ${
+                  isActive ? "opacity-100 z-10 animate-kenburns" : "opacity-0 z-0"
+                }`}
+                style={{ backgroundImage: `url(${item.url})` }}
+              />
+            );
+          }
+        })}
+
+        {/* Dark elegant overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background z-20" />
+        <div className="absolute inset-0 bg-black/40 z-20" />
+        <div className="absolute inset-0 grain z-20" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-32">
+      <div className="relative z-30 max-w-6xl mx-auto px-6 text-center pt-32">
         <div className="mb-8 animate-fade-up">
-          <span className="label-mono">A Curated Ecosystem</span>
+          <span className="label-mono tracking-[0.25em] text-gold-400 text-xs md:text-sm">
+            EST. 2019 &middot; ADDIS ABABA
+          </span>
         </div>
 
-        <h1 className="editorial-heading text-6xl md:text-8xl lg:text-9xl mb-8 animate-fade-up">
-          <span className="block text-foreground">{t("tagline").split(" ").slice(0, 2).join(" ")}</span>
-          <span className="block text-gradient-gold italic">{t("tagline").split(" ").slice(2).join(" ")}</span>
+        <h1 className="editorial-heading text-6xl md:text-8xl lg:text-9xl mb-8 animate-fade-up text-foreground">
+          Curating the <br />
+          <span className="text-gradient-gold italic font-serif">New Horizon</span>
         </h1>
-
-        <p className="text-lg md:text-xl text-ink-200 max-w-2xl mx-auto mb-12 font-serif font-light animate-fade-up">
-          {t("subtitle")}
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up">
-          <Link href="/divisions" className="btn-primary">
-            {t("cta")}
-          </Link>
-          <Link href="/contact" className="btn-ghost">
-            Partner with us
-          </Link>
-        </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 animate-fade-in">
-        <div className="flex flex-col items-center gap-2 text-ink-400">
-          <ArrowDown size={20} className="animate-bounce" />
-        </div>
-      </div>
+      <style>{`
+        @keyframes kenburns {
+          0% {
+            transform: scale(1);
+          }
+          100% {
+            transform: scale(1.1);
+          }
+        }
+        .animate-kenburns {
+          animation: kenburns 6.5s ease-out forwards;
+        }
+      `}</style>
     </section>
   );
 }

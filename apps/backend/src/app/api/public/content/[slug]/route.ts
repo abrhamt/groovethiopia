@@ -73,6 +73,14 @@ function serializeContent(c: any) {
     location: c.location,
     projectStage: c.projectStage,
     metadata: c.metadata,
+    image: c.media?.[0] ? {
+      url: c.media[0].publicUrl,
+      thumbnailUrl: c.media[0].thumbnailUrl,
+      blurhash: c.media[0].blurhash,
+      altText: c.media[0].altText,
+      width: c.media[0].width,
+      height: c.media[0].height,
+    } : null,
     media: c.media?.map((m: any) => ({
       url: m.publicUrl,
       thumbnailUrl: m.thumbnailUrl,

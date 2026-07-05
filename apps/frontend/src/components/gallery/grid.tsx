@@ -1,16 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import type { ContentItem } from "@/lib/api";
 
 type GalleryItem = ContentItem & { division: "events" | "collection" | "sanctuary" };
 
 export function GalleryGrid({ items }: { items: GalleryItem[] }) {
+  const params = useParams();
+  const router = useRouter();
+  const locale = (params.locale as string) || "en";
   const [filter, setFilter] = useState<"all" | "events" | "collection" | "sanctuary">("all");
   const [lightbox, setLightbox] = useState<GalleryItem | null>(null);
 
   const filtered = filter === "all" ? items : items.filter((i) => i.division === filter);
+
+  const detailHref = (item: GalleryItem) => {
+    const base = `/${locale}/${item.division}/${item.slug}`;
+    return base;
+  };
 
   return (
     <>
@@ -37,9 +46,9 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
         {filtered.map((item, i) => (
           <button
             key={item.id}
-            onClick={() => setLightbox(item)}
+            onClick={() => router.push(detailHref(item))}
             className={cn(
-              "block w-full break-inside-avoid group relative overflow-hidden rounded-xl bg-ink-900",
+              "block w-full text-left break-inside-avoid group relative overflow-hidden rounded-xl bg-ink-900 cursor-pointer",
               i % 3 === 0 ? "aspect-[4/5]" : i % 3 === 1 ? "aspect-[3/4]" : "aspect-square"
             )}
           >
@@ -77,9 +86,17 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
                 <span className="label-mono mr-3">{lightbox.division}</span>
                 <span className="font-serif">{lightbox.title}</span>
               </div>
-              <button onClick={() => setLightbox(null)} className="text-ink-400 hover:text-gold-400">
-                Close ✕
-              </button>
+              <div className="flex items-center gap-4">
+                <a
+                  href={detailHref(lightbox)}
+                  className="text-gold-400 hover:text-gold-300 font-mono uppercase tracking-widest text-xs"
+                >
+                  Open →
+                </a>
+                <button onClick={() => setLightbox(null)} className="text-ink-400 hover:text-gold-400">
+                  Close ✕
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useLocalePath } from "@/lib/locale-path-client";
 
 const COOKIE_KEY = "groovethiopia-cookie-consent";
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
+  const lpath = useLocalePath();
 
   useEffect(() => {
     const consent = localStorage.getItem(COOKIE_KEY);
@@ -42,7 +44,7 @@ export function CookieBanner() {
             Decline
           </button>
         </div>
-        <Link href="/legal/cookies" className="text-xs text-ink-400 hover:text-gold-400">
+        <Link href={lpath("/legal/cookies")} className="text-xs text-ink-400 hover:text-gold-400">
           Cookie Policy →
         </Link>
       </div>
