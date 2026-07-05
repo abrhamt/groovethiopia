@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — Groovethiopia</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="theme-color" content="#0a0a0a">
+<style>
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}
+.hero-slide.active {
+  opacity: 1;
+  z-index: 1;
+  animation: kenburns-static 6.5s ease-out forwards;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+@keyframes kenburns-static {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+.am-serif { font-family: 'Cormorant Garamond', 'Nyala', 'Abyssinica SIL', serif; }
+body { font-family: 'Söhne', 'Nyala', 'Abyssinica SIL', -apple-system, sans-serif; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="../en/index.html" class="logo">Groove<span class="thin">thiopia</span></a>
+    <ul class="nav-links">
+      <li><a href="../en/index.html" >Home</a></li>
+      <li><a href="../en/about.html" >About</a></li>
+      <li><a href="../en/events.html" class="active">Events</a></li>
+      <li><a href="../en/collection.html" >The Collection</a></li>
+      <li><a href="../en/sanctuary.html" >The Sanctuary</a></li>
+      <li><a href="../en/gallery.html" >Gallery</a></li>
+      <li><a href="../en/partners.html" >Partners</a></li>
+    </ul>
+    <div class="flex items-center">
+      <a href="../en/events.html" class="active">EN</a>
+      <a href="../am/events.html" >አማ</a>
+      <a href="../fr/events.html" >FR</a>
+      <a href="../en/contact.html" class="nav-cta">Contact</a>
+    </div>
+  </div>
+</nav>
+
+      <section class="section" style="padding-top: 120px;">
+        <div class="container">
+          <span class="label-mono">EVENTS & CULTURE</span>
+          <h1 class="editorial-heading text-gradient-gold" style="font-size: 56px; margin-top: 16px; margin-bottom: 40px;">The Pulse</h1>
+          <div class="grid grid-2">
+            
+              <div class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+                <div style="aspect-ratio: 16/9; background: var(--black); overflow: hidden;">
+                  <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1600&q=80" alt="Shukshuta Speakeasy" style="width:100%;height:100%;object-fit:cover;display:block;">
+                </div>
+                <div style="padding: 24px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <span class="label-mono" style="color: var(--gold-400); font-size: 11px;">July 10, 2026</span>
+                    <h3 class="editorial-heading" style="font-size: 28px; color: white; margin-top: 8px; margin-bottom: 12px;">Shukshuta Speakeasy</h3>
+                    <p style="color: var(--ink-400); font-size: 14px;">An intimate underground gathering of sound, atmosphere, and curated community.</p>
+                  </div>
+                  <a href="events/shukshuta-speakeasy.html" class="btn-primary" style="margin-top: 24px; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-decoration: none; padding: 12px 0; border-radius: 99px;">
+                    View Invitation
+                  </a>
+                </div>
+              </div>
+            
+              <div class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+                <div style="aspect-ratio: 16/9; background: var(--black); overflow: hidden;">
+                  <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80" alt="Horizon Festival 2026" style="width:100%;height:100%;object-fit:cover;display:block;">
+                </div>
+                <div style="padding: 24px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <span class="label-mono" style="color: var(--gold-400); font-size: 11px;">September 1, 2026</span>
+                    <h3 class="editorial-heading" style="font-size: 28px; color: white; margin-top: 8px; margin-bottom: 12px;">Horizon Festival 2026</h3>
+                    <p style="color: var(--ink-400); font-size: 14px;">Our flagship outdoor festival returns — bigger, bolder, more immersive.</p>
+                  </div>
+                  <a href="events/horizon-festival-2026.html" class="btn-primary" style="margin-top: 24px; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-decoration: none; padding: 12px 0; border-radius: 99px;">
+                    View Invitation
+                  </a>
+                </div>
+              </div>
+            
+              <div class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+                <div style="aspect-ratio: 16/9; background: var(--black); overflow: hidden;">
+                  <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1600&q=80" alt="Shukshuta Vol. III" style="width:100%;height:100%;object-fit:cover;display:block;">
+                </div>
+                <div style="padding: 24px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <span class="label-mono" style="color: var(--gold-400); font-size: 11px;">July 24, 2026</span>
+                    <h3 class="editorial-heading" style="font-size: 28px; color: white; margin-top: 8px; margin-bottom: 12px;">Shukshuta Vol. III</h3>
+                    <p style="color: var(--ink-400); font-size: 14px;">The third installment. An all-night-to-sunrise format.</p>
+                  </div>
+                  <a href="events/shukshuta-volume-iii.html" class="btn-primary" style="margin-top: 24px; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-decoration: none; padding: 12px 0; border-radius: 99px;">
+                    View Invitation
+                  </a>
+                </div>
+              </div>
+            
+              <div class="card" style="display: flex; flex-direction: column; overflow: hidden;">
+                <div style="aspect-ratio: 16/9; background: var(--black); overflow: hidden;">
+                  <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600&q=80" alt="Open Air: After Hours" style="width:100%;height:100%;object-fit:cover;display:block;">
+                </div>
+                <div style="padding: 24px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <span class="label-mono" style="color: var(--gold-400); font-size: 11px;">August 7, 2026</span>
+                    <h3 class="editorial-heading" style="font-size: 28px; color: white; margin-top: 8px; margin-bottom: 12px;">Open Air: After Hours</h3>
+                    <p style="color: var(--ink-400); font-size: 14px;">An outdoor production combining electronic music, visual art, and Ethiopian landscape.</p>
+                  </div>
+                  <a href="events/open-air-after-hours.html" class="btn-primary" style="margin-top: 24px; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-decoration: none; padding: 12px 0; border-radius: 99px;">
+                    View Invitation
+                  </a>
+                </div>
+              </div>
+            
+          </div>
+        </div>
+      </section>
+      
+<footer class="footer">
+  <div class="container">
+    <div class="footer-meta">
+      <div>© 2026 Groovethiopia Trading PLC. All rights reserved.</div>
+      <div>Addis Ababa · Ethiopia</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

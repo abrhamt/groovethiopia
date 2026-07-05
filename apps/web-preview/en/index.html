@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curating the New Horizon — Groovethiopia</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="theme-color" content="#0a0a0a">
+<style>
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}
+.hero-slide.active {
+  opacity: 1;
+  z-index: 1;
+  animation: kenburns-static 6.5s ease-out forwards;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+@keyframes kenburns-static {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+.am-serif { font-family: 'Cormorant Garamond', 'Nyala', 'Abyssinica SIL', serif; }
+body { font-family: 'Söhne', 'Nyala', 'Abyssinica SIL', -apple-system, sans-serif; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="../en/index.html" class="logo">Groove<span class="thin">thiopia</span></a>
+    <ul class="nav-links">
+      <li><a href="../en/index.html" class="active">Home</a></li>
+      <li><a href="../en/about.html" >About</a></li>
+      <li><a href="../en/events.html" >Events</a></li>
+      <li><a href="../en/collection.html" >The Collection</a></li>
+      <li><a href="../en/sanctuary.html" >The Sanctuary</a></li>
+      <li><a href="../en/gallery.html" >Gallery</a></li>
+      <li><a href="../en/partners.html" >Partners</a></li>
+    </ul>
+    <div class="flex items-center">
+      <a href="../en/index.html" class="active">EN</a>
+      <a href="../am/index.html" >አማ</a>
+      <a href="../fr/index.html" >FR</a>
+      <a href="../en/contact.html" class="nav-cta">Contact</a>
+    </div>
+  </div>
+</nav>
+
+      <section class="hero" id="heroSlideshow" style="position: relative; min-height: 90vh; display: flex; align-items: center; overflow: hidden;">
+        <div class="container hero-content fade-in" style="position: relative; z-index: 10;">
+          <span class="label-mono hero-eyebrow">EST. 2019 · ADDIS ABABA</span>
+          <h1 class="">
+            Curating the<br><em class="text-gradient-gold">New Horizon</em>
+          </h1>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div style="display: flex; flex-direction: row; gap: 64px; position: relative; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 280px; max-width: 320px;">
+              <div style="position: sticky; top: 140px; min-height: 75vh; padding-top: 16px;">
+                <span class="label-mono">THE PULSE</span>
+                <h2 class="editorial-heading text-gradient-gold" style="font-size: clamp(36px, 5vw, 64px); line-height: 1.05; margin-top: 16px; margin-bottom: 24px;">
+                  One scene,<br><em style="color: var(--white); font-style: italic;">four experiences.</em>
+                </h2>
+              </div>
+            </div>
+            <div style="flex: 2; min-width: 320px; display: flex; flex-direction: column; gap: 64px; padding-bottom: 128px;">
+              
+                <div style="position: sticky; top: calc(140px + 0 * 32px); z-index: 10; width: 100%;">
+                  <div style="display: flex; flex-direction: column; overflow: hidden; border-radius: 24px; border: 1px solid var(--ink-800); background: var(--ink-900); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+                    <div style="position: relative; aspect-ratio: 16/10; width: 100%; overflow: hidden; background: var(--black);">
+                      <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1600&q=80" alt="Shukshuta Speakeasy" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--black) 0%, rgba(10,10,10,0.4) 60%, transparent 100%);"></div>
+                      <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
+                        <h3 class="editorial-heading" style="font-size: 32px; color: var(--white); margin: 0 0 4px 0;">Shukshuta Speakeasy</h3>
+                      </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink-800); background: var(--black);">
+                      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; border-right: 1px solid var(--ink-800); text-align: center;">
+                        <span class="label-mono" style="color: var(--ink-400); margin-bottom: 4px;">When</span>
+                        <span style="font-size: 16px; color: var(--ink-100);">July 10, 2026</span>
+                      </div>
+                      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center;">
+                        <span class="label-mono" style="color: var(--ink-400); margin-bottom: 4px;">Where</span>
+                        <span style="font-size: 16px; color: var(--ink-100);">Addis Ababa · Secret Location</span>
+                      </div>
+                    </div>
+                    <a href="events/shukshuta-speakeasy.html" class="btn-primary" style="display: block; border-radius: 0; padding: 18px 0; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-decoration: none; border-top: 1px solid var(--ink-800); background: var(--ink-900); color: var(--gold-400);">
+                      Request Invitation
+                    </a>
+                  </div>
+                </div>
+              
+                <div style="position: sticky; top: calc(140px + 1 * 32px); z-index: 11; width: 100%;">
+                  <div style="display: flex; flex-direction: column; overflow: hidden; border-radius: 24px; border: 1px solid var(--ink-800); background: var(--ink-900); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+                    <div style="position: relative; aspect-ratio: 16/10; width: 100%; overflow: hidden; background: var(--black);">
+                      <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80" alt="Horizon Festival 2026" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--black) 0%, rgba(10,10,10,0.4) 60%, transparent 100%);"></div>
+                      <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
+                        <h3 class="editorial-heading" style="font-size: 32px; color: var(--white); margin: 0 0 4px 0;">Horizon Festival 2026</h3>
+                      </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink-800); background: var(--black);">
+                      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; border-right: 1px solid var(--ink-800); text-align: center;">
+                        <span class="label-mono" style="color: var(--ink-400); margin-bottom: 4px;">When</span>
+                        <span style="font-size: 16px; color: var(--ink-100);">September 1, 2026</span>
+                      </div>
+                      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center;">
+                        <span class="label-mono" style="color: var(--ink-400); margin-bottom: 4px;">Where</span>
+                        <span style="font-size: 16px; color: var(--ink-100);">Entoto Hills · Addis Ababa</span>
+                      </div>
+                    </div>
+                    <a href="events/horizon-festival-2026.html" class="btn-primary" style="display: block; border-radius: 0; padding: 18px 0; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-decoration: none; border-top: 1px solid var(--ink-800); background: var(--ink-900); color: var(--gold-400);">
+                      Request Invitation
+                    </a>
+                  </div>
+                </div>
+              
+                <div style="position: sticky; top: calc(140px + 2 * 32px); z-index: 12; width: 100%;">
+                  <div style="display: flex; flex-direction: column; overflow: hidden; border-radius: 24px; border: 1px solid var(--ink-800); background: var(--ink-900); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+                    <div style="position: relative; aspect-ratio: 16/10; width: 100%; overflow: hidden; background: var(--black);">
+                      <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1600&q=80" alt="Shukshuta Vol. III" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--black) 0%, rgba(10,10,10,0.4) 60%, transparent 100%);"></div>
+                      <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
+                        <h3 class="editorial-heading" style="font-size: 32px; color: var(--white); margin: 0 0 4px 0;">Shukshuta Vol. III</h3>
+                      </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink-800); background: var(--black);">
+                      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; border-right: 1px solid var(--ink-800); text-align: center;">
+                        <span class="label-mono" style="color: var(--ink-400); margin-bottom: 4px;">When</span>
+                        <span style="font-size: 16px; color: var(--ink-100);">July 24, 2026</span>
+                      </div>
+                      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center;">
+                        <span class="label-mono" style="color: var(--ink-400); margin-bottom: 4px;">Where</span>
+                        <span style="font-size: 16px; color: var(--ink-100);">Addis Ababa · Skyline Rooftop</span>
+                      </div>
+                    </div>
+                    <a href="events/shukshuta-volume-iii.html" class="btn-primary" style="display: block; border-radius: 0; padding: 18px 0; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-decoration: none; border-top: 1px solid var(--ink-800); background: var(--ink-900); color: var(--gold-400);">
+                      Request Invitation
+                    </a>
+                  </div>
+                </div>
+              
+                <div style="position: sticky; top: calc(140px + 3 * 32px); z-index: 13; width: 100%;">
+                  <div style="display: flex; flex-direction: column; overflow: hidden; border-radius: 24px; border: 1px solid var(--ink-800); background: var(--ink-900); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+                    <div style="position: relative; aspect-ratio: 16/10; width: 100%; overflow: hidden; background: var(--black);">
+                      <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600&q=80" alt="Open Air: After Hours" style="width:100%;height:100%;object-fit:cover;display:block;">
+                      <div style="position: absolute; inset: 0; background: linear-gradient(to top, var(--black) 0%, rgba(10,10,10,0.4) 60%, transparent 100%);"></div>
+                      <div style="position: absolute; bottom: 24px; left: 24px; right: 24px;">
+                        <h3 class="editorial-heading" style="font-size: 32px; color: var(--white); margin: 0 0 4px 0;">Open Air: After Hours</h3>
+                      </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ink-800); background: var(--black);">
+                      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; border-right: 1px solid var(--ink-800); text-align: center;">
+                        <span class="label-mono" style="color: var(--ink-400); margin-bottom: 4px;">When</span>
+                        <span style="font-size: 16px; color: var(--ink-100);">August 7, 2026</span>
+                      </div>
+                      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center;">
+                        <span class="label-mono" style="color: var(--ink-400); margin-bottom: 4px;">Where</span>
+                        <span style="font-size: 16px; color: var(--ink-100);">Bishoftu · Lake Bishoftu</span>
+                      </div>
+                    </div>
+                    <a href="events/open-air-after-hours.html" class="btn-primary" style="display: block; border-radius: 0; padding: 18px 0; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-decoration: none; border-top: 1px solid var(--ink-800); background: var(--ink-900); color: var(--gold-400);">
+                      Request Invitation
+                    </a>
+                  </div>
+                </div>
+              
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+<footer class="footer">
+  <div class="container">
+    <div class="footer-meta">
+      <div>© 2026 Groovethiopia Trading PLC. All rights reserved.</div>
+      <div>Addis Ababa · Ethiopia</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
+
+
+      <script>
+        const slidesData = ["https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1600&q=80","https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80","https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1600&q=80","https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600&q=80"];
+        const heroSection = document.getElementById('heroSlideshow');
+        if (heroSection) {
+          const overlay = document.createElement('div');
+          overlay.className = 'hero-overlay';
+          heroSection.appendChild(overlay);
+
+          const slideElements = slidesData.map((src, i) => {
+            const slide = document.createElement('div');
+            slide.className = `hero-slide${i === 0 ? ' active' : ''}`;
+            slide.style.backgroundImage = `url('${src}')`;
+            heroSection.insertBefore(slide, heroSection.firstChild);
+            return slide;
+          });
+
+          let currentSlide = 0;
+          setInterval(() => {
+            slideElements[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slideElements.length;
+            slideElements[currentSlide].classList.add('active');
+          }, 6000);
+        }
+      </script>

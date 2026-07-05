@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — Groovethiopia</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="theme-color" content="#0a0a0a">
+<style>
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}
+.hero-slide.active {
+  opacity: 1;
+  z-index: 1;
+  animation: kenburns-static 6.5s ease-out forwards;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+@keyframes kenburns-static {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+.am-serif { font-family: 'Cormorant Garamond', 'Nyala', 'Abyssinica SIL', serif; }
+body { font-family: 'Söhne', 'Nyala', 'Abyssinica SIL', -apple-system, sans-serif; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="../am/index.html" class="logo">Groove<span class="thin">thiopia</span></a>
+    <ul class="nav-links">
+      <li><a href="../am/index.html" >መነሻ</a></li>
+      <li><a href="../am/about.html" >ስለ እኛ</a></li>
+      <li><a href="../am/events.html" >ዝግጅቶች</a></li>
+      <li><a href="../am/collection.html" >ስብስብ</a></li>
+      <li><a href="../am/partners.html" >አጋሮች</a></li>
+    </ul>
+    <div class="flex items-center">
+      <a href="../en/contact.html" >EN</a>
+      <a href="../am/contact.html" class="active">አማ</a>
+      <a href="../fr/contact.html" >FR</a>
+      <a href="../am/contact.html" class="nav-cta">አግኙን</a>
+    </div>
+  </div>
+</nav>
+
+      <section class="section" style="padding-top: 120px;">
+        <div class="container" style="max-w: 600px; margin: 0 auto;">
+          <span class="label-mono">አግኙን</span>
+          <h1 class="editorial-heading text-gradient-gold" style="font-size: 56px; margin-top: 16px; margin-bottom: 24px;">Get in Touch</h1>
+          <p style="color: var(--ink-300); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; margin-bottom: 40px;">
+            For partnerships, invitations, and acquisition inquiries.
+          </p>
+
+          <form class="card" style="padding: 32px; display: flex; flex-direction: column; gap: 20px;" onsubmit="event.preventDefault(); alert('Message sent successfully!'); this.reset();">
+            <div class="form-group" style="margin: 0;">
+              <label>Full Name</label>
+              <input type="text" class="input-field" placeholder="E.g. Abel Tesfaye" required>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label>Email Address</label>
+              <input type="email" class="input-field" placeholder="name@example.com" required>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label>Inquiry Type</label>
+              <select class="input-field" style="background: var(--ink-950); cursor: pointer;">
+                <option>General Inquiry</option>
+                <option>Event Booking</option>
+                <option>Asset Acquisition</option>
+                <option>Partnerships</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label>Message</label>
+              <textarea class="input-field" rows="5" placeholder="Tell us about your inquiry..." required style="resize: none;"></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="border: none; cursor: pointer; padding: 14px 0; border-radius: 99px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;">Send Message</button>
+          </form>
+        </div>
+      </section>
+      
+<footer class="footer">
+  <div class="container">
+    <div class="footer-meta">
+      <div>© 2026 Groovethiopia Trading PLC. መብቱ የተጠበቀ ነው።</div>
+      <div>አዲስ አበባ · ኢትዮጵያ</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

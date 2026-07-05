@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — Groovethiopia</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="theme-color" content="#0a0a0a">
+<style>
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}
+.hero-slide.active {
+  opacity: 1;
+  z-index: 1;
+  animation: kenburns-static 6.5s ease-out forwards;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+@keyframes kenburns-static {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+.am-serif { font-family: 'Cormorant Garamond', 'Nyala', 'Abyssinica SIL', serif; }
+body { font-family: 'Söhne', 'Nyala', 'Abyssinica SIL', -apple-system, sans-serif; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="../fr/index.html" class="logo">Groove<span class="thin">thiopia</span></a>
+    <ul class="nav-links">
+      <li><a href="../fr/index.html" >Accueil</a></li>
+      <li><a href="../fr/about.html" class="active">À Propos</a></li>
+      <li><a href="../fr/events.html" >Événements</a></li>
+      <li><a href="../fr/collection.html" >La Collection</a></li>
+      <li><a href="../fr/partners.html" >Partenaires</a></li>
+    </ul>
+    <div class="flex items-center">
+      <a href="../en/about.html" >EN</a>
+      <a href="../am/about.html" >አማ</a>
+      <a href="../fr/about.html" class="active">FR</a>
+      <a href="../fr/contact.html" class="nav-cta">Contact</a>
+    </div>
+  </div>
+</nav>
+
+      <section class="section" style="padding-top: 120px;">
+        <div class="container">
+          <span class="label-mono">ABOUT US</span>
+          <h1 class="editorial-heading text-gradient-gold" style="font-size: 56px; margin-top: 16px; margin-bottom: 24px;">Our Manifesto</h1>
+          <p style="font-size: 24px; line-height: 1.6; color: white; font-family: 'Cormorant Garamond', serif; font-style: italic; max-w: 800px; margin-bottom: 64px;">
+            We do not host events; we engineer cultural milestones. Bringing together high art, custom design, and modern electronics.
+          </p>
+
+          <h2 class="editorial-heading" style="font-size: 32px; color: white; margin-bottom: 32px;">The Roster</h2>
+          <div class="grid grid-4">
+            
+              <div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--ink-800); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; color: var(--gold-400);">
+                  A
+                </div>
+                <div>
+                  <h3 style="color: white; font-size: 18px; margin-bottom: 4px;">Abel Tadesse</h3>
+                  <span class="label-mono" style="font-size: 10px; color: var(--ink-400);">Founder & CEO</span>
+                </div>
+              </div>
+            
+              <div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--ink-800); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; color: var(--gold-400);">
+                  S
+                </div>
+                <div>
+                  <h3 style="color: white; font-size: 18px; margin-bottom: 4px;">Selamawit Bekele</h3>
+                  <span class="label-mono" style="font-size: 10px; color: var(--ink-400);">Head of Events · The Pulse</span>
+                </div>
+              </div>
+            
+              <div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--ink-800); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; color: var(--gold-400);">
+                  D
+                </div>
+                <div>
+                  <h3 style="color: white; font-size: 18px; margin-bottom: 4px;">Dawit Mekonnen</h3>
+                  <span class="label-mono" style="font-size: 10px; color: var(--ink-400);">Head of Trading · The Collection</span>
+                </div>
+              </div>
+            
+              <div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--ink-800); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; color: var(--gold-400);">
+                  H
+                </div>
+                <div>
+                  <h3 style="color: white; font-size: 18px; margin-bottom: 4px;">Hana Bekele</h3>
+                  <span class="label-mono" style="font-size: 10px; color: var(--ink-400);">Head of Real Estate · The Sanctuary</span>
+                </div>
+              </div>
+            
+              <div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--ink-800); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; color: var(--gold-400);">
+                  Y
+                </div>
+                <div>
+                  <h3 style="color: white; font-size: 18px; margin-bottom: 4px;">Yonas Tefera</h3>
+                  <span class="label-mono" style="font-size: 10px; color: var(--ink-400);">Creative Director</span>
+                </div>
+              </div>
+            
+              <div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--ink-800); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; color: var(--gold-400);">
+                  M
+                </div>
+                <div>
+                  <h3 style="color: white; font-size: 18px; margin-bottom: 4px;">Meron Assefa</h3>
+                  <span class="label-mono" style="font-size: 10px; color: var(--ink-400);">Operations Manager</span>
+                </div>
+              </div>
+            
+              <div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--ink-800); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; color: var(--gold-400);">
+                  B
+                </div>
+                <div>
+                  <h3 style="color: white; font-size: 18px; margin-bottom: 4px;">Binyam Hailu</h3>
+                  <span class="label-mono" style="font-size: 10px; color: var(--ink-400);">Sound Architect</span>
+                </div>
+              </div>
+            
+              <div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--ink-800); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; color: var(--gold-400);">
+                  L
+                </div>
+                <div>
+                  <h3 style="color: white; font-size: 18px; margin-bottom: 4px;">Lensa Kebede</h3>
+                  <span class="label-mono" style="font-size: 10px; color: var(--ink-400);">Hospitality Lead</span>
+                </div>
+              </div>
+            
+          </div>
+        </div>
+      </section>
+      
+<footer class="footer">
+  <div class="container">
+    <div class="footer-meta">
+      <div>© 2026 Groovethiopia Trading PLC. All rights reserved.</div>
+      <div>Addis Ababa · Ethiopia</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shukshuta Vol. III — Groovethiopia</title>
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<meta name="theme-color" content="#0a0a0a">
+<style>
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}
+.hero-slide.active {
+  opacity: 1;
+  z-index: 1;
+  animation: kenburns-static 6.5s ease-out forwards;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+@keyframes kenburns-static {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+.am-serif { font-family: 'Cormorant Garamond', 'Nyala', 'Abyssinica SIL', serif; }
+body { font-family: 'Söhne', 'Nyala', 'Abyssinica SIL', -apple-system, sans-serif; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="../../en/index.html" class="logo">Groove<span class="thin">thiopia</span></a>
+    <ul class="nav-links">
+      <li><a href="../../en/index.html" >Home</a></li>
+      <li><a href="../../en/about.html" >About</a></li>
+      <li><a href="../../en/events.html" class="active">Events</a></li>
+      <li><a href="../../en/collection.html" >The Collection</a></li>
+      <li><a href="../../en/sanctuary.html" >The Sanctuary</a></li>
+      <li><a href="../../en/gallery.html" >Gallery</a></li>
+      <li><a href="../../en/partners.html" >Partners</a></li>
+    </ul>
+    <div class="flex items-center">
+      <a href="../../en/events.html" class="active">EN</a>
+      <a href="../../am/events.html" >አማ</a>
+      <a href="../../fr/events.html" >FR</a>
+      <a href="../../en/contact.html" class="nav-cta">Contact</a>
+    </div>
+  </div>
+</nav>
+
+        <section class="section" style="padding-top: 120px;">
+          <div class="container">
+            <div style="margin-bottom: 32px;">
+              <a href="../events.html" style="color: var(--ink-300); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;">← BACK TO EVENTS</a>
+            </div>
+            <div class="grid grid-2" style="grid-template-columns: 1fr 1fr; align-items: start; gap: 48px;">
+              <div>
+                <div style="aspect-ratio: 4/3; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 32px; background: var(--ink-950);">
+                  <img src="../../https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1600&q=80" alt="Shukshuta Vol. III" style="width:100%;height:100%;object-fit:cover;display:block;">
+                </div>
+                <span class="label-mono" style="color: var(--gold-400);">July 24, 2026</span>
+                <h1 class="editorial-heading mt-4" style="font-size: 56px; color: white; line-height: 1.1; margin-top: 8px;">Shukshuta Vol. III</h1>
+                <p style="color: var(--ink-300); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 20px; margin: 16px 0 24px;">Edition III — Sunrise Set</p>
+                <div style="color: var(--ink-200); font-size: 16px; line-height: 1.7;">Volume III takes the Shukshuta format to its longest iteration yet — from midnight through sunrise. Curated specifically for the night owls and early risers, with a lineup built for the journey, not just the peak.</div>
+              </div>
+              <div style="position: sticky; top: 120px;">
+                <div class="card" style="background: linear-gradient(135deg, var(--ink-800) 0%, var(--ink-700) 100%); border-color: var(--gold-700); padding: 32px;">
+                  <span class="label-mono" style="color: var(--gold-400);">RESERVE</span>
+                  <p style="font-family: 'Cormorant Garamond', serif; font-size: 56px; color: var(--gold-300); margin: 16px 0 8px; line-height: 1;">$4500</p>
+                  <p style="color: var(--ink-300); font-size: 14px; margin-bottom: 24px;">Per ticket · Capacity 2,000</p>
+                  <a href="../tickets/checkout.html?slug=shukshuta-volume-iii" class="btn-primary" style="width: 100%; text-align: center; display: block; box-sizing: border-box; text-decoration: none; border-radius: 99px; padding: 14px 0; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 11px;">Request Invitation</a>
+                  <a href="../contact.html" class="btn-secondary mt-4" style="width: 100%; text-align: center; display: block; box-sizing: border-box; text-decoration: none; border-radius: 99px; padding: 14px 0; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 11px;">More inquiries</a>
+                  <div class="divider" style="margin: 24px 0; height: 1px; background: var(--ink-800);"></div>
+                  <p style="color: var(--ink-400); font-size: 12px; line-height: 1.6;">Limited inventory. Member rate available. By application.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+<footer class="footer">
+  <div class="container">
+    <div class="footer-meta">
+      <div>© 2026 Groovethiopia Trading PLC. All rights reserved.</div>
+      <div>Addis Ababa · Ethiopia</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

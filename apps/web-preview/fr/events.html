@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — Groovethiopia</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="theme-color" content="#0a0a0a">
+<style>
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}
+.hero-slide.active {
+  opacity: 1;
+  z-index: 1;
+  animation: kenburns-static 6.5s ease-out forwards;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+@keyframes kenburns-static {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+.am-serif { font-family: 'Cormorant Garamond', 'Nyala', 'Abyssinica SIL', serif; }
+body { font-family: 'Söhne', 'Nyala', 'Abyssinica SIL', -apple-system, sans-serif; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="../fr/index.html" class="logo">Groove<span class="thin">thiopia</span></a>
+    <ul class="nav-links">
+      <li><a href="../fr/index.html" >Accueil</a></li>
+      <li><a href="../fr/about.html" >À Propos</a></li>
+      <li><a href="../fr/events.html" class="active">Événements</a></li>
+      <li><a href="../fr/collection.html" >La Collection</a></li>
+      <li><a href="../fr/partners.html" >Partenaires</a></li>
+    </ul>
+    <div class="flex items-center">
+      <a href="../en/events.html" >EN</a>
+      <a href="../am/events.html" >አማ</a>
+      <a href="../fr/events.html" class="active">FR</a>
+      <a href="../fr/contact.html" class="nav-cta">Contact</a>
+    </div>
+  </div>
+</nav>
+
+      <section class="section" style="padding-top: 120px;">
+        <div class="container">
+          <span class="label-mono">EVENTS & CULTURE</span>
+          <h1 class="editorial-heading text-gradient-gold" style="font-size: 56px; margin-top: 16px; margin-bottom: 40px;">The Pulse</h1>
+          <div class="grid grid-2">
+            
+          </div>
+        </div>
+      </section>
+      
+<footer class="footer">
+  <div class="container">
+    <div class="footer-meta">
+      <div>© 2026 Groovethiopia Trading PLC. All rights reserved.</div>
+      <div>Addis Ababa · Ethiopia</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
