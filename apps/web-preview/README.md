@@ -10,6 +10,8 @@ A lightweight static HTML/CSS/JS site that mirrors the design and content of the
 | `/about.html` | About + Team |
 | `/events.html` | Events index |
 | `/event-detail.html?slug=...` | Event detail (with booking CTA) |
+| `/checkout.html?slug=...` | Checkout simulator (matches Next.js payment options) |
+| `/success.html?slug=...` | Success ticket pass & offline QR download |
 | `/collection.html` | The Collection (vehicles) |
 | `/partners.html` | Partners directory |
 | `/sanctuary.html` | The Sanctuary |

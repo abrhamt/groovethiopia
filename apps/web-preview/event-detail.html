@@ -47,7 +47,7 @@
           <span class="label-mono">RESERVE</span>
           <p style="font-family: 'Cormorant Garamond', serif; font-size: 56px; color: var(--gold-300); margin: 16px 0 8px; line-height: 1;" id="eventPrice">$8,500</p>
           <p style="color: var(--ink-300); font-size: 14px; margin-bottom: 24px;">Per ticket · Capacity 2,000</p>
-          <a href="#" class="btn-primary" style="width: 100%; text-align: center; display: block; box-sizing: border-box;">Request Invitation</a>
+          <a href="#" id="btnBook" class="btn-primary" style="width: 100%; text-align: center; display: block; box-sizing: border-box;">Request Invitation</a>
           <a href="#" class="btn-secondary mt-4" style="width: 100%; text-align: center; display: block; box-sizing: border-box;">More inquiries</a>
           <div class="divider" style="margin: 24px 0;"></div>
           <p style="color: var(--ink-400); font-size: 12px; line-height: 1.6;">Limited inventory. Member rate available. By application.</p>
@@ -76,6 +76,7 @@
   document.getElementById('eventVenue').textContent = ev.venue;
   document.getElementById('eventPrice').textContent = '$' + ev.price.toLocaleString();
   document.getElementById('eventImage').innerHTML = eventImage(ev.image);
+  document.getElementById('btnBook').href = 'checkout.html?slug=' + ev.slug;
 </script>
 
 </body>
