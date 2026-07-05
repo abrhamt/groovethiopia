@@ -15,6 +15,37 @@
 <meta property="og:image" content="https://abrhamt.github.io/groovethiopia/assets/og-default.jpg">
 <meta name="twitter:image" content="https://abrhamt.github.io/groovethiopia/assets/og-default.jpg">
 <link rel="stylesheet" href="css/style.css">
+<style>
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}
+.hero-slide.active {
+  opacity: 1;
+  z-index: 1;
+  animation: kenburns-static 6.5s ease-out forwards;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+@keyframes kenburns-static {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+</style>
 </head>
 <body>
 
@@ -29,8 +60,8 @@
   </div>
 </nav>
 
-<section class="hero" style="background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), url('assets/hero-home.jpg') center/cover no-repeat; min-height: 90vh; display: flex; align-items: center;">
-  <div class="container hero-content fade-in">
+<section class="hero" id="heroSlideshow" style="position: relative; min-height: 90vh; display: flex; align-items: center; overflow: hidden;">
+  <div class="container hero-content fade-in" style="position: relative; z-index: 10;">
     <span class="label-mono hero-eyebrow">ÉTABLI 2019 · ADDIS-ABEBA</span>
     <h1>Façonner le<br><em>Nouvel Horizon</em></h1>
     <p class="hero-sub">Un écosystème curated d'événements phares, d'objets rares et d'hospitalité raffinée — où l'artisanat éthiopien rencontre la culture contemporaine.</p>
@@ -149,6 +180,39 @@
 
 <script src="js/content.js"></script>
 <script>document.getElementById('navLinks').innerHTML = NAV.map(item => `<li><a href="${item.href.replace('.html', '.fr.html')}" ${item.href === 'index.html' ? 'class="active"' : ''}>${item.label === 'Home' ? 'Accueil' : item.label === 'About' ? 'À Propos' : item.label === 'Events' ? 'Événements' : item.label === 'The Collection' ? 'La Collection' : item.label === 'The Sanctuary' ? 'Le Sanctuaire' : item.label === 'Gallery' ? 'Galerie' : item.label === 'Partners' ? 'Partenaires' : item.label}</a></li>`).join('');</script>
+<script>
+  // Slideshow Logic
+  const slidesData = [
+    'assets/hero-home.jpg',
+    'assets/event-horizon.jpg',
+    'assets/event-shukshuta.jpg',
+    'assets/event-openair.jpg',
+    'assets/event-speakeasy.jpg'
+  ];
 
+  const heroSection = document.getElementById('heroSlideshow');
+  if (heroSection) {
+    // Insert overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'hero-overlay';
+    heroSection.appendChild(overlay);
+
+    // Insert slides
+    const slideElements = slidesData.map((src, i) => {
+      const slide = document.createElement('div');
+      slide.className = `hero-slide${i === 0 ? ' active' : ''}`;
+      slide.style.backgroundImage = `url('${src}')`;
+      heroSection.insertBefore(slide, heroSection.firstChild);
+      return slide;
+    });
+
+    let currentSlide = 0;
+    setInterval(() => {
+      slideElements[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slideElements.length;
+      slideElements[currentSlide].classList.add('active');
+    }, 6000);
+  }
+</script>
 </body>
 </html>

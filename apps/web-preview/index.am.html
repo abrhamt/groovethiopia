@@ -18,6 +18,35 @@
 <style>
   .am-serif { font-family: 'Cormorant Garamond', 'Nyala', 'Abyssinica SIL', serif; }
   body { font-family: 'Söhne', 'Nyala', 'Abyssinica SIL', -apple-system, sans-serif; }
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+  }
+  .hero-slide.active {
+    opacity: 1;
+    z-index: 1;
+    animation: kenburns-static 6.5s ease-out forwards;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    pointer-events: none;
+  }
+  @keyframes kenburns-static {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.1);
+    }
+  }
 </style>
 </head>
 <body>
@@ -39,8 +68,8 @@
   </div>
 </nav>
 
-<section class="hero" style="background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.4) 50%, var(--black) 100%), url('assets/hero-home.jpg') center/cover no-repeat; min-height: 90vh; display: flex; align-items: center;">
-  <div class="container hero-content fade-in">
+<section class="hero" id="heroSlideshow" style="position: relative; min-height: 90vh; display: flex; align-items: center; overflow: hidden;">
+  <div class="container hero-content fade-in" style="position: relative; z-index: 10;">
     <span class="label-mono hero-eyebrow">የተመሰረተው 2019 · አዲስ አበባ</span>
     <h1 class="am-serif">አዲሱን<br><em style="font-style: italic; color: var(--gold-300);">ማዕቀን</em><br>መምረጥ</h1>
     <p class="hero-sub">የተመረጠ የባህል ፕሮግራሚንግ፣ የተፈለገ ዕቃ እና የተሻለ እንግዳ ቤት ስርዓት — የኢትዮጵያ ድንቅ ሥራ ከዘመናዊ ባህል ጋር የሚገናኝበት።</p>
@@ -157,5 +186,39 @@
   </div>
 </div>
 
+<script>
+  // Slideshow Logic
+  const slidesData = [
+    'assets/hero-home.jpg',
+    'assets/event-horizon.jpg',
+    'assets/event-shukshuta.jpg',
+    'assets/event-openair.jpg',
+    'assets/event-speakeasy.jpg'
+  ];
+
+  const heroSection = document.getElementById('heroSlideshow');
+  if (heroSection) {
+    // Insert overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'hero-overlay';
+    heroSection.appendChild(overlay);
+
+    // Insert slides
+    const slideElements = slidesData.map((src, i) => {
+      const slide = document.createElement('div');
+      slide.className = `hero-slide${i === 0 ? ' active' : ''}`;
+      slide.style.backgroundImage = `url('${src}')`;
+      heroSection.insertBefore(slide, heroSection.firstChild);
+      return slide;
+    });
+
+    let currentSlide = 0;
+    setInterval(() => {
+      slideElements[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slideElements.length;
+      slideElements[currentSlide].classList.add('active');
+    }, 6000);
+  }
+</script>
 </body>
 </html>
