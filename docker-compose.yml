@@ -6,6 +6,7 @@ services:
     image: ghcr.io/abrhamt/groovethiopia-frontend:latest
     container_name: groovethiopia-frontend
     restart: unless-stopped
+    profiles: ["prod"]
     expose:
       - "3000"
     env_file:
@@ -18,12 +19,61 @@ services:
     image: ghcr.io/abrhamt/groovethiopia-backend:latest
     container_name: groovethiopia-backend
     restart: unless-stopped
+    profiles: ["prod"]
     expose:
       - "3001"
     env_file:
       - ./apps/backend/.env
 
-  # Caddy reverse proxy — handles SSL + routing
+  # ------------------------------------------------------------------
+  # Staging — preview environment served at groovethiopia.livejamgames.com
+  # before the code is promoted to groovethiopia.com. Uses the same
+  # container images (latest tag) but separate env, separate MySQL,
+  # separate container names. Bring it up with:
+  #   docker compose --profile staging up -d
+  # ------------------------------------------------------------------
+  staging-frontend:
+    image: ghcr.io/abrhamt/groovethiopia-frontend:latest
+    container_name: groovethiopia-staging-frontend
+    restart: unless-stopped
+    profiles: ["staging"]
+    expose:
+      - "3000"
+    env_file:
+      - ./apps/frontend/.env.staging
+    depends_on:
+      - staging-backend
+
+  staging-backend:
+    image: ghcr.io/abrhamt/groovethiopia-backend:latest
+    container_name: groovethiopia-staging-backend
+    restart: unless-stopped
+    profiles: ["staging"]
+    expose:
+      - "3001"
+    env_file:
+      - ./apps/backend/.env.staging
+    depends_on:
+      - staging-mysql
+
+  staging-mysql:
+    image: mysql:8.0
+    container_name: groovethiopia-staging-mysql
+    restart: unless-stopped
+    profiles: ["staging"]
+    environment:
+      MYSQL_ROOT_PASSWORD: staging
+      MYSQL_DATABASE: groovethiopia_staging
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    expose:
+      - "3306"
+    volumes:
+      - staging_mysql_data:/var/lib/mysql
+
+  # Caddy reverse proxy — handles SSL + routing for BOTH prod and staging
   caddy:
     image: caddy:2-alpine
     container_name: groovethiopia-caddy
@@ -35,9 +85,9 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
-    depends_on:
-      - frontend
-      - backend
+    # No `depends_on` here because the upstream services live behind
+    # `prod` and `staging` profiles that may not all be active. Caddy
+    # itself retries backends automatically when they come up.
 
   # Inngest dev server (only for local dev; in prod use Inngest Cloud)
   # inngest:
@@ -50,3 +100,4 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  staging_mysql_data:

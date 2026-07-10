@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -94,13 +95,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  # Deploy to Hetzner
+  # Deploy to PRODUCTION (groovethiopia.com) on every push to main
   deploy:
     runs-on: ubuntu-latest
     needs: [build-backend, build-frontend]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - name: Deploy to Hetzner
+      - name: Deploy to Hetzner (production)
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.HETZNER_HOST }}
@@ -109,7 +110,60 @@ jobs:
           script: |
             cd /opt/groovethiopia
             git pull origin main
-            docker compose pull
-            docker compose up -d --remove-orphans
+            docker compose --profile prod pull
+            docker compose --profile prod up -d --remove-orphans
             docker system prune -f
-            echo "✅ Deployed successfully at $(date)"
+            echo "✅ Production deployed at $(date)"
+
+  # Deploy to PREVIEW (groovethiopia.livejamgames.com) on every push to main
+  # AND on manual dispatch. Uses the same images as prod; staging has its
+  # own env files and DB. The first time it runs on a fresh server it will
+  # bootstrap the staging env files from the templates and generate a
+  # placeholder AUTH_SECRET — replace them later with real Stripe / R2 / etc.
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [build-backend, build-frontend]
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Deploy preview to Hetzner
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USER }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          script: |
+            set -e
+            cd /opt/groovethiopia
+
+            # If the repo isn't on the server yet, clone it.
+            if [ ! -d .git ]; then
+              echo "Cloning groovethiopia…"
+              git clone https://github.com/abrhamt/groovethiopia.git .
+            fi
+            git pull origin main
+
+            # Bootstrap the staging env files from the templates (one-time per server).
+            mkdir -p apps/backend apps/frontend
+            [ -f apps/backend/.env.staging ] || cp apps/backend/.env.staging.example apps/backend/.env.staging
+            [ -f apps/frontend/.env.staging ] || cp apps/frontend/.env.staging.example apps/frontend/.env.staging
+
+            # Generate a real AUTH_SECRET if the placeholder is still there.
+            if grep -q '^AUTH_SECRET="CHANGE-ME' apps/backend/.env.staging; then
+              SECRET=$(openssl rand -base64 32)
+              sed -i "s|^AUTH_SECRET=.*|AUTH_SECRET=\"$SECRET\"|" apps/backend/.env.staging
+              echo "✔ Generated AUTH_SECRET for staging"
+            fi
+
+            # Pull & start.
+            docker compose --profile staging pull
+            docker compose --profile staging up -d --remove-orphans
+
+            # Push schema + seed.
+            docker compose --profile staging exec -T staging-backend \
+              sh -lc 'cd /app/packages/db && ./node_modules/.bin/prisma db push --accept-data-loss --skip-generate'
+            docker compose --profile staging exec -T \
+              -e DATABASE_URL='mysql://root:staging@staging-mysql:3306/groovethiopia_staging' \
+              staging-backend \
+              sh -lc 'node ./node_modules/.bin/tsx ../../scripts/seed-demo.ts || true'
+
+            echo "✅ Preview deployed at https://groovethiopia.livejamgames.com ($(date))"

@@ -235,3 +235,84 @@ When traffic grows:
 - Use Hetzner Load Balancer for multiple backend instances
 - Add Redis for sessions (instead of DB)
 - Move Inngest to a dedicated worker
+
+---
+
+## Preview / Staging Environment
+
+Want to see a change before it lands on `groovethiopia.com`? Spin up the staging profile. It runs alongside production on the same server, serving **`https://groovethiopia.livejamgames.com`** with its own database, env, and container names.
+
+### Architecture
+
+```
+                         ┌──────────────────────────────┐
+    groovethiopia.com    │       Hetzner VPS             │   staging host
+       ──────────────►   │   ┌──────────┐  ┌────────┐    │ ─────────────►
+                         │   │ frontend │  │ backend│    │   groovethiopia
+    admin.<...>          │   │ :3000    │  │ :3001  │    │     .livejamgames
+       ──────────────►   │   └────┬─────┘  └───┬────┘    │        .com
+                         │        │             │         │
+                         │   ┌────▼─────────────▼────┐    │
+                         │   │   Caddy (single)      │    │
+                         │   │   ┌─ prod vhost ─────┤    │
+                         │   │   └─ staging vhost ─┤    │
+                         │   └────────┬─────────────┘    │
+                         │            │                  │
+                         │   ┌────────▼────────┐         │
+                         │   │ staging-frontend │         │
+                         │   │ staging-backend  │         │
+                         │   │ staging-mysql    │         │
+                         │   └─────────────────┘         │
+                         └──────────────────────────────┘
+```
+
+### One-time DNS setup
+
+In your `livejamgames.com` DNS provider, add an A record:
+
+```
+groovethiopia.livejamgames.com    A    <HETZNER_IP>
+```
+
+Caddy will issue a Let's Encrypt certificate on first request.
+
+### One-time environment setup (run on the server)
+
+```bash
+cd /opt/groovethiopia
+
+# Seed env files from the templates (DO NOT commit the real files).
+cp apps/backend/.env.staging.example apps/backend/.env.staging
+cp apps/frontend/.env.staging.example apps/frontend/.env.staging
+$EDITOR apps/backend/.env.staging       # fill in real AUTH_SECRET, R2, etc.
+$EDITOR apps/frontend/.env.staging
+```
+
+Required changes from the example:
+- `AUTH_SECRET` — generate with `openssl rand -base64 32`
+- Same `DATABASE_URL` as the example (`mysql://root:staging@staging-mysql:3306/groovethiopia_staging`)
+- Either real R2 staging bucket + keys, or leave empty to skip uploads
+
+### Deploy staging
+
+The GitHub Actions `deploy.yml` automatically deploys to staging every time `main` updates, mirroring the production flow:
+
+```bash
+# Manual control (run on the server)
+bash scripts/deploy-staging.sh         # bring up the preview
+bash scripts/deploy-staging.sh reseed  # rebuild the staging DB from scratch
+bash scripts/deploy-staging.sh logs    # tail the logs
+bash scripts/deploy-staging.sh down    # stop the preview (keeps the DB)
+```
+
+### Behavior
+
+- **Same code, separate data**: staging uses the latest container image but a fresh MySQL database that you control.
+- **Auto-deploy on `main`**: every merged PR that hits main also rebuilds the preview at `groovethiopia.livejamgames.com`.
+- **No HSTS** on staging — keeps the preview recoverable if cert provisioning flubs.
+- **`/robots.txt` returns `Disallow: /`** for any crawler that wanders in.
+- **Independent secrets**: any secret (Stripe, Resend, Google OAuth, R2) loaded into staging can be a test/empty value without touching prod.
+
+### Custom domain
+
+If you ever want to point staging at a different host, edit the vhost block at the bottom of `Caddyfile` and the `NEXT_PUBLIC_*` URLs in `apps/{frontend,backend}/.env.staging`. No rebuild needed — Caddy picks up the new vhost on `docker compose --profile staging restart caddy`.

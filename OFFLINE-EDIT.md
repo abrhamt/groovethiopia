@@ -16,10 +16,9 @@ groovethiopia/
 │   └── backend/           # Admin CMS panel + API (Next.js 15 · port 3001)
 ├── packages/
 │   └── db/                # Shared Prisma schema + client
-├── scripts/               # Seed, preview, admin setup
-├── previews/              # All preview screenshots
+├── scripts/               # Seed, admin, staging helpers
 ├── docs/                  # Discovery + architecture docs
-└── docker-compose.yml     # Postgres + MinIO + app stack
+└── docker-compose.yml     # Prod + [staging] profile for the live preview
 ```
 
 ---
@@ -100,6 +99,21 @@ cd apps/frontend && pnpm dev
 - Public site: http://localhost:3000
 - Admin panel: http://localhost:3001
 - Email previews: http://localhost:3001/api/preview/emails
+
+ ---
+
+## Preview / Staging
+
+A staging environment runs alongside production on the same Hetzner VPS, serving **https://groovethiopia.livejamgames.com** with an isolated database and env.
+
+```bash
+# On the server, after one-time DNS + .env.staging setup
+bash scripts/deploy-staging.sh         # bring up the preview
+bash scripts/deploy-staging.sh reseed  # rebuild the staging DB
+bash scripts/deploy-staging.sh logs    # tail logs
+```
+
+Every push to `main` automatically rebuilds both prod and the preview via GitHub Actions. Full setup, DNS instructions, and the architecture diagram live in [`docs/DEPLOY.md`](./docs/DEPLOY.md#preview--staging-environment).
 
 ---
 
@@ -310,12 +324,6 @@ Proprietary — © Groovethiopia Trading PLC. All rights reserved.
 - **[`docs/DISCOVERY.md`](./docs/DISCOVERY.md)** — Original discovery document with all decisions
 
 ---
-
 ## Live preview (GitHub Pages)
 
-A static preview of the public site is auto-deployed to GitHub Pages on every push to `main`:
-- **URL:** https://abrhamt.github.io/groovethiopia/
-- **Source:** `apps/web-preview/` (vanilla HTML/CSS/JS, no build step)
-- **Workflow:** `.github/workflows/pages.yml`
-
-This is a design preview only — full dynamic features (booking, tickets, CMS) require the full Next.js stack to be deployed (see DEPLOY.md).
+Static GitHub Pages preview has been retired. The full dynamic site requires the full Next.js stack to be deployed (see DEPLOY.md).
