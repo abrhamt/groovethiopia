@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { api } from "@/lib/api";
 import { formatPrice } from "@/lib/utils";
 import { dummyVehicles, withFallback } from "@/lib/dummy-data";
@@ -11,6 +11,8 @@ export default async function CollectionPage({ params }: { params: Promise<{ loc
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const t = await getTranslations({ locale, namespace: "trading" });
+
   const { items: apiVehicles } = await api
     .getContent({ type: "VEHICLE", locale, limit: 100 })
     .catch(() => ({ items: [] }));
@@ -20,14 +22,19 @@ export default async function CollectionPage({ params }: { params: Promise<{ loc
     <div className="pt-32">
       <section className="px-6 pb-20">
         <div className="max-w-7xl mx-auto">
-          <span className="label-mono">The Collection</span>
+          <span className="label-mono">{t("title")}</span>
           <h1 className="editorial-heading text-6xl md:text-8xl mt-6 mb-8">
             <span className="text-gradient-gold italic">Heritage</span> & Luxury
           </h1>
-          <p className="text-2xl font-serif italic text-ink-200 mb-6">True luxury is timeless.</p>
-          <p className="text-ink-300 max-w-2xl">
-            Our import division is dedicated exclusively to the procurement of high-value automotive assets. We curate a specialized portfolio bridging elite modern luxury vehicles with meticulously refurbished vintage classics.
+          <p className="text-2xl font-serif italic text-ink-200 mb-6">{t("tagline")}</p>
+          <p className="text-ink-300 max-w-3xl mb-8 leading-relaxed">
+            {t("body")}
           </p>
+          {t.has("standard") && (
+            <p className="text-xs font-mono uppercase tracking-widest text-gold-400">
+              {t("standard")}
+            </p>
+          )}
         </div>
       </section>
 

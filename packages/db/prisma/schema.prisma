@@ -246,9 +246,9 @@ model EventBooking {
 model TicketPurchase {
   id            String         @id @default(cuid())
   eventId       String
-  publicUserId  String
+  publicUserId  String?
   ticketType    String
-  quantity      Int
+  quantity      Int            @default(1)
   unitPrice     Decimal        @db.Decimal(12, 2)
   totalPrice    Decimal        @db.Decimal(12, 2)
   currency      String         @default("USD")
@@ -258,14 +258,16 @@ model TicketPurchase {
   passExpiresAt DateTime?
   status        BookingStatus  @default(PENDING)
   phoneNumber   String
+  groupId       String?
   createdAt     DateTime       @default(now())
-  publicUser    PublicUser     @relation(fields: [publicUserId], references: [id])
+  publicUser    PublicUser?    @relation(fields: [publicUserId], references: [id])
   checkout      CheckoutSession?
 
   @@index([eventId])
   @@index([publicUserId])
   @@index([serialNumber])
   @@index([status])
+  @@index([groupId])
 }
 
 model OnDemandRequest {
@@ -470,6 +472,7 @@ model CheckoutSession {
   updatedAt         DateTime         @updatedAt
   ticketPurchaseId  String?          @unique
   ticketPurchase    TicketPurchase?  @relation(fields: [ticketPurchaseId], references: [id])
+  groupId           String?          @unique
 
   @@index([userId])
   @@index([status, expiresAt])

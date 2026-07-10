@@ -1,4 +1,5 @@
 // Client component view for About page — receives all translated strings as props
+import Link from "next/link";
 import { TeamGrid } from "./team-grid";
 
 export function AboutView(props: {
@@ -17,6 +18,11 @@ export function AboutView(props: {
   teamTitle: string;
   teamSubtitle: string;
   team?: any[];
+  partnership?: {
+    title: string;
+    body: string;
+    items: { label: string; value: string; action: string; href: string }[];
+  };
 }) {
   return (
     <div className="pt-32">
@@ -24,8 +30,8 @@ export function AboutView(props: {
       <section className="px-6 pb-32">
         <div className="max-w-5xl mx-auto">
           <span className="label-mono">About</span>
-          <h1 className="editorial-heading text-6xl md:text-8xl mt-6 mb-8">{props.title}</h1>
-          <p className="text-2xl text-ink-200 font-serif font-light leading-relaxed">
+          <h1 className="editorial-heading text-5xl md:text-7xl mt-6 mb-8 leading-tight">{props.title}</h1>
+          <p className="text-xl md:text-2xl text-ink-200 font-serif font-light leading-relaxed whitespace-pre-line">
             {props.subtitle}
           </p>
         </div>
@@ -78,6 +84,32 @@ export function AboutView(props: {
           </div>
         </div>
       </section>
+
+      {/* Partnership */}
+      {props.partnership && (
+        <section className="px-6 py-32 border-t border-ink-800/50 bg-ink-900/10">
+          <div className="max-w-4xl mx-auto">
+            <span className="label-mono">Collaboration</span>
+            <h2 className="editorial-heading text-5xl mt-4 mb-6">{props.partnership.title}</h2>
+            <p className="text-xl font-serif leading-relaxed text-ink-200 mb-12">
+              {props.partnership.body}
+            </p>
+            <div className="space-y-4">
+              {props.partnership.items.map((item, i) => (
+                <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between p-6 border border-ink-800 rounded-2xl bg-ink-900/40 hover:border-gold-500/30 transition-all">
+                  <span className="font-serif text-lg text-ink-100 pr-4">
+                    <span className="text-gold-400 font-semibold">{item.label}: </span>
+                    {item.value}
+                  </span>
+                  <Link href={item.href} className="btn-secondary text-sm px-6 py-2 mt-4 sm:mt-0 text-center inline-block whitespace-nowrap min-w-[120px]">
+                    {item.action}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Team */}
       <section className="px-6 py-32 border-t border-ink-800/50">

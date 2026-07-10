@@ -37,6 +37,31 @@ export default async function AboutPage({
     team = dummyTeam;
   }
 
+  const partnership = {
+    title: t("partnership.title"),
+    body: t("partnership.body"),
+    items: [
+      {
+        label: t("partnership.inquire"),
+        value: t("partnership.inquireDesc"),
+        action: "Inquire",
+        href: `/${locale}/contact`,
+      },
+      {
+        label: t("partnership.consult"),
+        value: t("partnership.consultDesc"),
+        action: "Request",
+        href: `/${locale}/contact`,
+      },
+      {
+        label: t("partnership.invest"),
+        value: t("partnership.investDesc"),
+        action: "Explore",
+        href: `/${locale}/contact`,
+      },
+    ]
+  };
+
   return (
     <AboutView
       title={t("title")}
@@ -54,6 +79,7 @@ export default async function AboutPage({
       teamTitle={t("team.title")}
       teamSubtitle={t("team.subtitle")}
       team={team}
+      partnership={partnership}
     />
   );
 }

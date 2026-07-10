@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     default: "Groovethiopia — Curating the New Horizon",
     template: "%s · Groovethiopia",
   },
-  description: "A premier Ethiopian conglomerate dedicated to excellence across hospitality, lifestyle, and strategic trade.",
+  description: "Groove Ethiopia Trading PLC is a premier Ethiopian conglomerate dedicated to excellence across hospitality, lifestyle, and strategic trade.",
   openGraph: {
     type: "website",
     locale: "en_US",

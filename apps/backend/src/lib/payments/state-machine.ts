@@ -4,6 +4,7 @@
 // are serialized through the unique `providerSessionId` and the row lock.
 
 import type { Prisma } from "@prisma/client";
+import crypto from "crypto";
 import { prisma } from "@groovethiopia/db";
 import type { CheckoutStatus, PaymentProvider } from "@prisma/client";
 import { getDriver } from "./registry";
@@ -136,60 +137,87 @@ export async function markPaid(args: {
 }
 
 /**
- * Promote a PAID session to TICKET_ISSUED. This is the terminal happy state.
+ * Promote a PAID session to TICKET_ISSUED. Each ticket in the quantity becomes
+ * its own TicketPurchase row with a unique serial number + signed gate pass.
+ * The siblings share a `groupId` so the success page can render them
+ * individually.
  */
 export async function issueTicketForSession(args: { sessionId: string }) {
     const session = await prisma.checkoutSession.findUnique({
         where: { id: args.sessionId },
-        include: { ticketPurchase: true },
     });
     if (!session) throw new Error(`Checkout session not found: ${args.sessionId}`);
-    if (session.status === "TICKET_ISSUED" && session.ticketPurchase) {
-        return session.ticketPurchase;
-    }
     if (session.status !== "PAID" && session.status !== "TICKET_ISSUED") {
         throw new Error(`Cannot issue ticket for session in state ${session.status}`);
     }
 
-    // Create the underlying TicketPurchase row if not yet present.
-    let purchase = session.ticketPurchase;
-    if (!purchase) {
-        const serialNumber = await generateUniqueSerialNumber();
-        const expiresAt = await computePassExpiry(session.eventId);
-        purchase = await prisma.ticketPurchase.create({
-            data: {
-                id: session.id, // Re-use the session id for the purchase row — they share a 1:1 lifecycle.
-                eventId: session.eventId,
-                publicUserId: session.publicUserId || `anon-${session.userId}`,
-                ticketType: session.ticketTypeLabel,
-                quantity: session.quantity,
-                unitPrice: session.unitAmount,
-                totalPrice: session.totalAmount,
-                currency: session.currency,
-                paymentRef: session.providerSessionId,
-                serialNumber,
-                passIssuedAt: new Date(),
-                passExpiresAt: expiresAt,
-                status: "CONFIRMED",
-                phoneNumber: session.customerPhone || "",
-                checkout: { connect: { id: session.id } },
-            },
+    // If we already issued N tickets for this session, just return the group.
+    if (session.groupId) {
+        const existing = await prisma.ticketPurchase.findMany({
+            where: { groupId: session.groupId },
+            orderBy: { createdAt: "asc" },
         });
+        if (existing.length >= session.quantity) {
+            const first = existing[0];
+            await prisma.checkoutSession.update({
+                where: { id: session.id },
+                data: {
+                    status: "TICKET_ISSUED",
+                    issuedAt: session.issuedAt || new Date(),
+                    ticketPurchaseId: session.ticketPurchaseId || first.id,
+                },
+            });
+            return first;
+        }
     }
 
-    // Pre-sign the gate pass payload so the success page is one-click away.
-    await issueGatePass(purchase.id);
+    // Establish the groupId for this order — shared by every sibling ticket.
+    const groupId = session.groupId || crypto.randomUUID();
+
+    const expiresAt = await computePassExpiry(session.eventId);
+    const created: { id: string; serialNumber: string }[] = [];
+    for (let i = 0; i < session.quantity; i++) {
+        const serialNumber = await generateUniqueSerialNumber();
+        // When there's no real PublicUser, omit the field so Prisma doesn't
+        // try to attach a relation object.
+        const data: Record<string, unknown> = {
+            eventId: session.eventId,
+            ticketType: session.ticketTypeLabel,
+            quantity: 1,
+            unitPrice: session.unitAmount,
+            totalPrice: session.totalAmount,
+            currency: session.currency,
+            paymentRef: session.providerSessionId,
+            serialNumber,
+            passIssuedAt: new Date(),
+            passExpiresAt: expiresAt,
+            status: "CONFIRMED",
+            phoneNumber: session.customerPhone || "",
+            groupId,
+        };
+        if (session.publicUserId) {
+            data.publicUserId = session.publicUserId;
+        }
+        const ticket = await prisma.ticketPurchase.create({ data });
+        created.push({ id: ticket.id, serialNumber: ticket.serialNumber });
+        // Pre-sign the gate pass payload so the success page is one-click away.
+        await issueGatePass(ticket.id);
+        // Ensure uniqueness when multiple tickets are minted in the same ms.
+        await new Promise((r) => setTimeout(r, 2));
+    }
 
     await prisma.checkoutSession.update({
         where: { id: session.id },
         data: {
             status: "TICKET_ISSUED",
             issuedAt: new Date(),
-            ticketPurchaseId: purchase.id,
+            ticketPurchaseId: created[0].id,
+            groupId,
         },
     });
 
-    return purchase;
+    // The first ticket is treated as the primary ticket for legacy callers.
+    return prisma.ticketPurchase.findUnique({ where: { id: created[0].id } });
 }
 
 /**

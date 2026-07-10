@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { api } from "@/lib/api";
 import { dummyProjects, withFallback } from "@/lib/dummy-data";
 
@@ -10,6 +10,8 @@ export default async function SanctuaryPage({ params }: { params: Promise<{ loca
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const t = await getTranslations({ locale, namespace: "realEstate" });
+
   const { items: apiProjects } = await api
     .getContent({ type: "REAL_ESTATE_PROJECT", locale, limit: 50 })
     .catch(() => ({ items: [] }));
@@ -19,20 +21,25 @@ export default async function SanctuaryPage({ params }: { params: Promise<{ loca
     <div className="pt-32">
       <section className="px-6 pb-20">
         <div className="max-w-7xl mx-auto">
-          <span className="label-mono">The Sanctuary</span>
+          <span className="label-mono">{t("title")}</span>
           <h1 className="editorial-heading text-6xl md:text-8xl mt-6 mb-8">
             Designing the <span className="text-gradient-gold italic">future</span> of hospitality
           </h1>
-          <p className="text-xl font-serif text-ink-200 max-w-3xl leading-relaxed">
-            At Groovethiopia, we view real estate as the ultimate canvas for human connection. Our future developments are immersive destinations that harmonize cutting-edge architecture with the raw beauty of the Ethiopian landscape.
+          <p className="text-xl font-serif text-ink-200 max-w-3xl leading-relaxed mb-6">
+            {t("vision")}
           </p>
+          {t.has("future") && (
+            <p className="text-xs font-mono uppercase tracking-widest text-gold-400">
+              {t("future")}
+            </p>
+          )}
         </div>
       </section>
 
       {/* Project pipeline */}
       <section className="px-6 py-24 border-t border-ink-800/50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="editorial-heading text-4xl mb-12">Project pipeline</h2>
+          <h2 className="editorial-heading text-4xl mb-12">{t("pipeline")}</h2>
           {projects.length === 0 ? (
             <p className="text-ink-400 text-center py-12">Projects in development will appear here.</p>
           ) : (
@@ -62,17 +69,17 @@ export default async function SanctuaryPage({ params }: { params: Promise<{ loca
       <section className="px-6 py-32 border-t border-ink-800/50 bg-ink-900/30">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
           <div>
-            <span className="label-mono">Design philosophy</span>
+            <span className="label-mono">{t("philosophy.title")}</span>
             <h2 className="editorial-heading text-4xl mt-4 mb-6">Sustainable luxury</h2>
             <p className="text-lg text-ink-200 leading-relaxed">
-              Each project is designed with a sustainable-luxury ethos, ensuring our architectural footprint honors the environment while providing guests with an unparalleled, world-class experience.
+              {t("philosophy.body")}
             </p>
           </div>
           <div>
-            <span className="label-mono">Investment thesis</span>
+            <span className="label-mono">{t("investment.title")}</span>
             <h2 className="editorial-heading text-4xl mt-4 mb-6">Once-in-a-generation</h2>
             <p className="text-lg text-ink-200 leading-relaxed">
-              A growing middle class, rising tourism, and a global appetite for authentic African destinations create a unique window for visionary hospitality investment.
+              {t("investment.body")}
             </p>
           </div>
         </div>
@@ -81,12 +88,12 @@ export default async function SanctuaryPage({ params }: { params: Promise<{ loca
       {/* On-demand */}
       <section className="px-6 py-32 border-t border-ink-800/50">
         <div className="max-w-4xl mx-auto text-center">
-          <span className="label-mono">On-demand</span>
+          <span className="label-mono">{t("onDemand.title")}</span>
           <h2 className="editorial-heading text-5xl mt-4 mb-6">
             Have land? Have a vision?
           </h2>
           <p className="text-xl text-ink-200 font-serif mb-8">
-            We build bespoke destinations to specification — from concept to operational handover. Mountain retreats, forest lodges, lakeside sanctuaries.
+            {t("onDemand.body")}
           </p>
           <Link href={`/${locale}/contact`} className="btn-primary text-lg">Start a Conversation</Link>
         </div>

@@ -47,8 +47,18 @@
     }
   },
   "about": {
-    "title": "Acerca de Groovethiopia",
-    "subtitle": "Un conglomerado etíope dedicado a la excelencia.",
+    "title": "Modelando el Futuro del Estilo de Vida y la Cultura Etíope",
+    "subtitle": "Groove Ethiopia Trading PLC es un conglomerado etíope líder dedicado a la excelencia en hospitalidad, estilo de vida y comercio estratégico. Con sede en Addis Abeba y profundamente conectado con los mercados regionales e internacionales, cerramos la brecha entre un servicio de clase mundial y experiencias culturales auténticas.\n\nComo una potencia diversificada, nuestra cartera abarca la producción de eventos de alto concepto, soluciones premium de importación y exportación, y desarrollo inmobiliario con visión de futuro. No solo participamos en el mercado; definimos el panorama curando el futuro de la hospitalidad etíope moderna.",
+    "partnership": {
+      "title": "Una Asociación de Visionarios.",
+      "body": "Groovethiopia es un ecosistema centrado en invitaciones. Priorizamos la colaboración con personas, marcas e inversores que valoran la intersección de la cultura, el lujo y el desarrollo a largo plazo.",
+      "inquire": "Consultar por Asociación",
+      "inquireDesc": "Producción de Eventos, Arquitectura de Sonido y Colaboración Creativa",
+      "consult": "Solicitar Consulta",
+      "consultDesc": "Adquisición de Automóviles de Lujo y Clásicos",
+      "invest": "Explorar Inversión",
+      "investDesc": "Oportunidades de Desarrollo e Inmobiliarias"
+    },
     "manifesto": {
       "title": "Manifiesto",
       "body": "Curamos el estilo de vida africano moderno."
@@ -71,6 +81,8 @@
     "title": "El Pulso",
     "subtitle": "Eventos y Producción",
     "tagline": "No organizamos eventos; diseñamos hitos culturales.",
+    "description": "Nuestras producciones se definen por la convergencia de arte electrónico de clase mundial, tecnología multimedia de vanguardia y entornos íntimos y curados. Al integrar arquitecturas de sonido de alto rendimiento y experiencias visuales inmersivas, diseñamos atmósferas que son tan profundas como eléctricas. Ya sea un speakeasy subterráneo o una odisea al aire libre, nuestros eventos están dirigidos al individuo exigente que busca la vanguardia del entretenimiento sensorial.",
+    "experience": "La Experiencia: Personalizada. Inmersiva. Inolvidable.",
     "shukshuta": { "title": "Shukshuta Speakeasy", "body": "Nuestra serie íntima insignia." },
     "upcoming": "Próximos",
     "past": "Eventos pasados",
@@ -80,7 +92,8 @@
     "title": "La Colección",
     "subtitle": "Automotriz de Lujo y Vintage",
     "tagline": "El verdadero lujo es atemporal.",
-    "body": "Nuestra división de importación se dedica exclusivamente a la adquisición de activos automotrices de alto valor.",
+    "body": "Nuestra división de importación se dedica exclusivamente a la adquisición de activos automotrices de alto valor. Curamos un portafolio especializado que tiende un puente entre vehículos de lujo modernos de élite y clásicos vintage meticulosamente restaurados. No importamos simplemente transporte; abastecemos patrimonio automotriz, excelencia en ingeniería y obras de arte sobre ruedas para el coleccionista de élite y el conocedor moderno.",
+    "standard": "El Estándar: Patrimonio. Rendimiento. Prestigio.",
     "categories": { "all": "Todos", "modern": "Lujo Moderno", "vintage": "Clásico Vintage" },
     "specs": "Especificaciones",
     "history": "Procedencia",
@@ -90,7 +103,8 @@
     "title": "El Santuario",
     "subtitle": "Inmobiliaria y Desarrollo",
     "tagline": "Diseñando el futuro de la hospitalidad.",
-    "vision": "En Groovethiopia, vemos la inmobiliaria como el lienzo definitivo para la conexión humana.",
+    "vision": "Estamos evolucionando el panorama del ocio. Nuestros próximos desarrollos son un diálogo entre la innovación arquitectónica y la belleza indómita de Etiopía. Desde retivos de montaña de lujo hasta santuarios rodeados de bosques, estamos creando espacios que trascienden el alojamiento tradicional, ofreciendo un profundo sentido de pertenencia en un mundo cada vez más transitorio.",
+    "future": "El Futuro: Sostenible. Visionario. Eterno.",
     "pipeline": "Pipeline de proyectos",
     "philosophy": { "title": "Filosofía de diseño", "body": "Ética de lujo sostenible." },
     "investment": { "title": "Tesis de inversión", "body": "Una ventana única para la inversión hotelera visionaria." },

@@ -1,6 +1,6 @@
 // GET /api/public/checkout/status/[id]
 // Polled by the frontend during the booking & polling loop. Returns the current
-// state of a `CheckoutSession` along with the issued ticket (if available).
+// state of a `CheckoutSession` and every ticket in the order group.
 
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@groovethiopia/db";
@@ -15,7 +15,6 @@ export async function GET(
         const id = params.id;
         const session = await prisma.checkoutSession.findUnique({
             where: { id },
-            include: { ticketPurchase: true },
         });
 
         if (!session) {
@@ -31,20 +30,47 @@ export async function GET(
         }
 
         // Lazy issuance when state is PAID but ticket not yet created.
-        let ticket = session.ticketPurchase;
         if (
             (session.status === "PAID" || session.status === "TICKET_ISSUED") &&
-            !ticket
+            !session.groupId
         ) {
-            // Trigger issuance inline; the state machine creates the row.
             const { issueTicketForSession } = await import("@/lib/payments/state-machine");
-            ticket = await issueTicketForSession({ sessionId: id });
+            await issueTicketForSession({ sessionId: id });
         }
 
-        let pass = null;
-        if (ticket) {
+        // Pull every sibling ticket in the order group.
+        const tickets = session.groupId
+            ? await prisma.ticketPurchase.findMany({
+                  where: { groupId: session.groupId },
+                  orderBy: { createdAt: "asc" },
+              })
+            : [];
+
+        // Pre-sign the gate pass for every ticket so the success page is
+        // one-click away regardless of how many were purchased.
+        const passes: Array<{
+            ticketId: string;
+            serialNumber: string;
+            ticketType: string;
+            qrPayloadBase64: string;
+            payload: any;
+            publicKey: string;
+            event: any;
+            phoneNumber: string;
+        }> = [];
+        for (const t of tickets) {
             try {
-                pass = await issueGatePass(ticket.id);
+                const pass = await issueGatePass(t.id);
+                passes.push({
+                    ticketId: t.id,
+                    serialNumber: t.serialNumber,
+                    ticketType: t.ticketType,
+                    qrPayloadBase64: pass.qrPayloadBase64,
+                    payload: pass.payload,
+                    publicKey: pass.publicKey,
+                    event: pass.ticket?.event ?? null,
+                    phoneNumber: t.phoneNumber,
+                });
             } catch (e) {
                 console.error("[checkout/status] gate pass issuance failed", e);
             }
@@ -58,17 +84,16 @@ export async function GET(
             expiresAt: session.expiresAt,
             paidAt: session.paidAt,
             issuedAt: session.issuedAt,
-            ticket: ticket
-                ? {
-                    id: ticket.id,
-                    serialNumber: ticket.serialNumber,
-                    ticketType: ticket.ticketType,
-                    quantity: ticket.quantity,
-                    status: ticket.status,
-                    passExpiresAt: ticket.passExpiresAt,
-                }
-                : null,
-            pass,
+            quantity: session.quantity,
+            groupId: session.groupId,
+            tickets: tickets.map((t) => ({
+                id: t.id,
+                serialNumber: t.serialNumber,
+                ticketType: t.ticketType,
+                status: t.status,
+                passExpiresAt: t.passExpiresAt,
+            })),
+            passes,
         });
     } catch (e: any) {
         console.error("[checkout/status] error", e);

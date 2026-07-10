@@ -200,20 +200,25 @@ export const api = {
       expiresAt: string;
       paidAt: string | null;
       issuedAt: string | null;
-      ticket: {
+      quantity: number;
+      groupId: string | null;
+      tickets: Array<{
         id: string;
         serialNumber: string;
         ticketType: string;
-        quantity: number;
         status: string;
         passExpiresAt: string | null;
-      } | null;
-      pass: {
+      }>;
+      passes: Array<{
+        ticketId: string;
+        serialNumber: string;
+        ticketType: string;
         qrPayloadBase64: string;
         payload: any;
         publicKey: string;
-        ticket: any;
-      } | null;
+        event: any;
+        phoneNumber: string;
+      }>;
     }>;
   },
 

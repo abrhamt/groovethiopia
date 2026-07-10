@@ -67,6 +67,305 @@ body { font-family: 'Söhne', 'Nyala', 'Abyssinica SIL', -apple-system, sans-ser
           </div>
         </div>
       </section>
+
+      <!-- Calendar Section -->
+      <section class="section" style="border-top: 1px solid var(--ink-800); padding: 80px 0;">
+        <div class="container">
+          <style>
+            .calendar-grid {
+              display: grid;
+              grid-template-columns: repeat(7, 1fr);
+              gap: 8px;
+              text-align: center;
+            }
+            .calendar-cell {
+              aspect-ratio: 1;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              border-radius: 12px;
+              font-size: 14px;
+              background: transparent;
+              border: 1px solid transparent;
+              color: var(--ink-500);
+              cursor: default;
+              transition: all 0.2s ease;
+              position: relative;
+              outline: none;
+              padding: 0;
+            }
+            .calendar-cell.has-event {
+              background: rgba(26, 26, 26, 0.5);
+              border-color: var(--ink-800);
+              color: var(--gold-400);
+              font-weight: 600;
+              cursor: pointer;
+            }
+            .calendar-cell.has-event:hover {
+              border-color: var(--gold-500);
+            }
+            .calendar-cell.selected {
+              background: rgba(212, 149, 32, 0.15) !important;
+              border-color: var(--gold-500) !important;
+              color: white !important;
+              box-shadow: 0 0 12px rgba(212, 149, 32, 0.15);
+            }
+            .calendar-cell.has-event::after {
+              content: '';
+              width: 5px;
+              height: 5px;
+              border-radius: 50%;
+              background: var(--gold-500);
+              position: absolute;
+              bottom: 6px;
+            }
+            .calendar-cell.selected::after {
+              display: none;
+            }
+            .event-details-pane {
+              border-left: 1px solid var(--ink-800);
+              padding-left: 32px;
+            }
+            @media (max-width: 991px) {
+              .calendar-layout {
+                grid-template-columns: 1fr !important;
+              }
+              .event-details-pane {
+                border-left: none !important;
+                border-top: 1px solid var(--ink-800) !important;
+                padding-left: 0 !important;
+                padding-top: 32px !important;
+              }
+            }
+          </style>
+          <div class="calendar-wrapper" style="background: rgba(18, 16, 21, 0.6); border: 1px solid var(--ink-800); border-radius: 24px; padding: 32px; backdrop-filter: blur(10px);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+              <h3 class="editorial-heading" style="font-size: 32px; color: white; margin: 0;">Calendrier des Événements</h3>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <button id="prev-month-btn" class="nav-cta" style="margin: 0; padding: 8px 16px; border-radius: 50px; font-size: 12px;">←</button>
+                <span id="month-label" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ink-200); text-transform: uppercase; letter-spacing: 0.1em; min-w: 140px; text-align: center;"></span>
+                <button id="next-month-btn" class="nav-cta" style="margin: 0; padding: 8px 16px; border-radius: 50px; font-size: 12px;">→</button>
+              </div>
+            </div>
+            <div class="calendar-layout" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px;">
+              <!-- Left side: Calendar grid -->
+              <div>
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 16px; border-bottom: 1px solid var(--ink-800); padding-bottom: 12px;">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">DIM</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">LUN</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">MAR</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">MER</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">JEU</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">VEN</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">SAM</span>
+                </div>
+                <div id="calendar-days" class="calendar-grid"></div>
+              </div>
+              <!-- Right side: Details pane -->
+              <div id="event-details-container" class="event-details-pane">
+                <!-- Selected event details dynamically loaded here -->
+              </div>
+            </div>
+          </div>
+          
+          <script>
+            (function() {
+              const events = [];
+              
+              const locale = "fr";
+              
+              const t = {
+                en: {
+                  selectPrompt: "Select a highlighted date to view event details.",
+                  date: "Date",
+                  venue: "Venue",
+                  price: "Price",
+                  view: "View Invitation"
+                },
+                am: {
+                  selectPrompt: "የዝግጅቱን ዝርዝር ለማየት ምልክት የተደረገበትን ቀን ይጫኑ።",
+                  date: "ቀን",
+                  venue: "ቦታ",
+                  price: "ዋጋ",
+                  view: "ግብዣውን ይመልከቱ"
+                },
+                es: {
+                  selectPrompt: "Selecciona una fecha destacada para ver los detalles del evento.",
+                  date: "Fecha",
+                  venue: "Lugar",
+                  price: "Precio",
+                  view: "Ver Invitación"
+                },
+                fr: {
+                  selectPrompt: "Sélectionnez une date en surbrillance pour voir les détails de l'évènement.",
+                  date: "Date",
+                  venue: "Lieu",
+                  price: "Prix",
+                  view: "Voir l'Invitation"
+                }
+              }[locale] || {
+                selectPrompt: "Select a highlighted date to view event details.",
+                date: "Date",
+                venue: "Venue",
+                price: "Price",
+                view: "View Invitation"
+              };
+
+              // Find initial date
+              let initialDate = new Date();
+              if (events.length > 0 && events[0].startsAt) {
+                initialDate = new Date(events[0].startsAt);
+              }
+              
+              let currentYear = initialDate.getFullYear();
+              let currentMonth = initialDate.getMonth();
+              let selectedEvent = events[0] || null;
+
+              function render() {
+                const monthLabel = document.getElementById("month-label");
+                const daysContainer = document.getElementById("calendar-days");
+                if (!monthLabel || !daysContainer) return;
+                
+                // Set Month label
+                const labelDate = new Date(currentYear, currentMonth);
+                monthLabel.innerText = labelDate.toLocaleDateString(locale, { month: "long", year: "numeric" });
+                
+                // Clear container
+                daysContainer.innerHTML = "";
+                
+                // Days count & prefix padding index
+                const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+                
+                // Prefix padding
+                for (let i = 0; i < firstDayIndex; i++) {
+                  const empty = document.createElement("div");
+                  daysContainer.appendChild(empty);
+                }
+                
+                // Days
+                for (let d = 1; d <= totalDays; d++) {
+                  const dayBtn = document.createElement("button");
+                  dayBtn.className = "calendar-cell";
+                  dayBtn.innerText = d;
+                  
+                  const cellDate = new Date(currentYear, currentMonth, d);
+                  cellDate.setHours(12, 0, 0, 0);
+                  
+                  const dayEvents = events.filter(e => {
+                    if (!e.startsAt) return false;
+                    const start = new Date(e.startsAt);
+                    const end = e.endsAt ? new Date(e.endsAt) : start;
+                    
+                    start.setHours(0, 0, 0, 0);
+                    end.setHours(23, 59, 59, 999);
+                    
+                    return cellDate >= start && cellDate <= end;
+                  });
+                  
+                  if (dayEvents.length > 0) {
+                    dayBtn.classList.add("has-event");
+                    
+                    const isSelected = selectedEvent && dayEvents.some(e => e.id === selectedEvent.id);
+                    if (isSelected) {
+                      dayBtn.classList.add("selected");
+                    }
+                    
+                    dayBtn.addEventListener("click", function() {
+                      selectedEvent = dayEvents[0];
+                      render();
+                    });
+                  }
+                  
+                  daysContainer.appendChild(dayBtn);
+                }
+                
+                // Render details
+                renderDetails();
+              }
+              
+              function renderDetails() {
+                const detailsContainer = document.getElementById("event-details-container");
+                if (!detailsContainer) return;
+                
+                if (!selectedEvent) {
+                  detailsContainer.innerHTML = `
+                    <div style="height: 100%; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--ink-400); border: 1px dashed var(--ink-800); border-radius: 16px; padding: 24px; background: rgba(18, 16, 21, 0.1);">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--ink-500); margin-bottom: 12px;"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                      <p style="font-size: 14px; margin: 0; max-width: 240px;">\${t.selectPrompt}</p>
+                    </div>
+                  `;
+                  return;
+                }
+                
+                const eventDate = new Date(selectedEvent.startsAt).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+                const priceFormatted = selectedEvent.ticketPrice === 0 ? "Free" : (new Intl.NumberFormat(locale === "en" ? "en-US" : locale, { style: "currency", currency: selectedEvent.currency || "ETB", maximumFractionDigits: 0 }).format(selectedEvent.ticketPrice));
+                
+                detailsContainer.innerHTML = `
+                  <div class="animate-fade-in" style="display: flex; flex-direction: column; gap: 24px;">
+                    \${selectedEvent.image ? `
+                      <div style="aspect-ratio: 16/10; width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--ink-800); position: relative;">
+                        <img src="../../\${selectedEvent.image}" alt="\${selectedEvent.title}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                      </div>
+                    ` : ''}
+                    <div>
+                      <h4 class="editorial-heading" style="font-size: 24px; color: white; margin: 0 0 8px;">\${selectedEvent.title}</h4>
+                      \${selectedEvent.subtitle ? `<p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--ink-300); margin: 0;">\${selectedEvent.subtitle}</p>` : ''}
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-300);">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="color: var(--gold-400);">•</span>
+                        <span><strong>\${t.date}:</strong> \${eventDate}</span>
+                      </div>
+                      \${selectedEvent.venue ? `
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <span style="color: var(--gold-400);">•</span>
+                          <span><strong>\${t.venue}:</strong> \${selectedEvent.venue}</span>
+                        </div>
+                      ` : ''}
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="color: var(--gold-400);">•</span>
+                        <span><strong>\${t.price}:</strong> \${priceFormatted}</span>
+                      </div>
+                    </div>
+                    <div style="padding-top: 8px;">
+                      <a href="events/\${selectedEvent.slug}.html" class="btn-primary" style="display: block; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-decoration: none; padding: 12px 0; border-radius: 99px;">
+                        View Invitation
+                      </a>
+                    </div>
+                  </div>
+                `;
+              }
+
+              // Event listeners
+              document.getElementById("prev-month-btn").addEventListener("click", function() {
+                if (currentMonth === 0) {
+                  currentMonth = 11;
+                  currentYear -= 1;
+                } else {
+                  currentMonth -= 1;
+                }
+                render();
+              });
+
+              document.getElementById("next-month-btn").addEventListener("click", function() {
+                if (currentMonth === 11) {
+                  currentMonth = 0;
+                  currentYear += 1;
+                } else {
+                  currentMonth += 1;
+                }
+                render();
+              });
+
+              // Initial render
+              render();
+            })();
+          </script>
+        </div>
+      </section>
+
       
 <footer class="footer">
   <div class="container">

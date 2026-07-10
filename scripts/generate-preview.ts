@@ -172,6 +172,10 @@ function renderFooter(locale: string): string {
 
 // Main generation function
 async function generate() {
+  // Read templates before they get deleted by setupDirectories
+  const checkoutTemplate = fs.readFileSync(path.join(PREVIEW_DIR, "en/tickets/checkout.html"), "utf-8");
+  const successTemplate = fs.readFileSync(path.join(PREVIEW_DIR, "en/tickets/success.html"), "utf-8");
+
   console.log("🧹 Setting up directories...");
   setupDirectories();
 
@@ -313,14 +317,67 @@ async function generate() {
     const aboutHtml = `
       ${renderHeader(locale, "About Us", "about.html")}
       <section class="section" style="padding-top: 120px;">
-        <div class="container">
+        <div class="container" style="max-width: 900px;">
           <span class="label-mono">${locale === "am" ? "ስለ እኛ" : "ABOUT US"}</span>
-          <h1 class="editorial-heading text-gradient-gold" style="font-size: 56px; margin-top: 16px; margin-bottom: 24px;">Our Manifesto</h1>
-          <p style="font-size: 24px; line-height: 1.6; color: white; font-family: 'Cormorant Garamond', serif; font-style: italic; max-w: 800px; margin-bottom: 64px;">
-            ${locale === "am" ? "እኛ የምናዘጋጀው ባህላዊ ድንቅ ስራዎችን ነው — የኢትዮጵያ ድንቅ ባህል ከዘመናዊ አርት እና ዲዛይን ጋር የሚቀናጅበት።" : "We do not host events; we engineer cultural milestones. Bringing together high art, custom design, and modern electronics."}
+          <h1 class="editorial-heading text-gradient-gold" style="font-size: 48px; margin-top: 16px; margin-bottom: 32px; line-height: 1.2;">
+            ${locale === "am" ? "የኢትዮጵያን የኑሮ ዘይቤ እና ባህል የወደፊት እጣ መቅረጽ" : locale === "fr" ? "Façonner l'avenir du style de vie et de la culture éthiopiens" : locale === "es" ? "Modelando el Futuro del Estilo de Vida y la Cultura Etíope" : "Shaping the Future of Ethiopian Lifestyle & Culture"}
+          </h1>
+          <p style="font-size: 18px; line-height: 1.7; color: var(--ink-200); margin-bottom: 24px;">
+            ${locale === "am" ? "ግሩቭ ኢትዮጵያ ትሬዲንግ ኃ/የተ/የግል ማኅበር በእንግዳ ተቀባይነት፣ በኑሮ ዘይቤ እና በስትራቴጂካዊ ንግድ ላይ ያተኮረ የኢትዮጵያ ኮንግሎሜሬት ነው። በአዲስ አበባ ላይ የተመሰረተ እና ከክልላዊ እና ዓለም አቀፍ ገበያዎች ጋር በጥልቅ የተገናኘ በመሆኑ በዓለም ደረጃ አገልግሎት እና ትክክለኛ የባህል ተሞክሮዎች መካከል ያለውን ልዩነት እናጠባባለን።" : locale === "fr" ? "Groove Ethiopia Trading PLC est un conglomérat éthiopien de premier plan dédié à l'excellence dans l'hospitalité, le style de vie et le commerce stratégique. Enracinés à Addis-Abeba et profondément connectés aux marchés régionaux et internationaux, nous comblons le fossé entre un service de classe mondiale et des expériences culturelles authentiques." : locale === "es" ? "Groove Ethiopia Trading PLC es un conglomerado etíope líder dedicado a la excelencia en hospitalidad, estilo de vida y comercio estratégico. Con sede en Addis Abeba y profundamente conectado con los mercados regionales e internacionales, cerramos la brecha entre un servicio de clase mundial y experiencias culturales auténticas." : "Groove Ethiopia Trading PLC is a premier Ethiopian conglomerate dedicated to excellence across hospitality, lifestyle, and strategic trade. Rooted in Addis Ababa and deeply connected to regional and international markets, we bridge the gap between world-class service and authentic cultural experiences."}
           </p>
-
-          <h2 class="editorial-heading" style="font-size: 32px; color: white; margin-bottom: 32px;">The Roster</h2>
+          <p style="font-size: 18px; line-height: 1.7; color: var(--ink-200); margin-bottom: 48px;">
+            ${locale === "am" ? "እንደተለያየ የኃይል ምንጭ፣ ፖርትፎሊዮአችን ከፍተኛ ፅንሰ-ሀሳብ ያላቸውን ዝግጅቶች ዝግጅት፣ ዋና የማስመጣት እና ኤክስፖርት መፍትሄዎችን እና ወደፊት-አስተሳሰብ የሪል እስቴት ልማትን ያጠቃልላል። እኛ በገበያው ውስጥ ብቻ አንሳተፍም፤ የዘመናዊ የኢትዮጵያ መስተንግዶን የወደፊት ሁኔታ በማዘጋጀት ገጽታውን እንገልፃለን።" : locale === "fr" ? "En tant que force diversifiée, notre portefeuille englobe la production d'événements à concept élevé, des solutions d'import-export premium et le développement immobilier avant-gardiste. Nous ne nous contentons pas de participer au marché ; nous définissent le paysage en façonnant l'avenir de l'hospitalité éthiopienne moderne." : locale === "es" ? "Como una potencia diversificada, nuestra cartera abarca la producción de eventos de alto concepto, soluciones premium de importación y exportación, y desarrollo inmobiliario con visión de futuro. No solo participamos en el mercado; definimos el panorama curando el futuro de la hospitalidad etíope moderna." : "As a diversified powerhouse, our portfolio spans high-concept event production, premium import-export solutions, and forward-thinking real estate development. We don't just participate in the market; we define the landscape by curating the future of modern Ethiopian hospitality."}
+          </p>
+        </div>
+      </section>
+ 
+      <section class="section" style="border-top: 1px solid var(--ink-800); background: rgba(18, 16, 21, 0.3); padding: 80px 0;">
+        <div class="container" style="max-width: 900px;">
+          <span class="label-mono">${locale === "am" ? "ማኒፌስቶ" : "MANIFESTO"}</span>
+          <p style="font-size: 24px; line-height: 1.6; color: white; font-family: 'Cormorant Garamond', serif; font-style: italic; margin-top: 16px; margin-bottom: 0;">
+            ${locale === "am" ? "እኛ የምናዘጋጀው ባህላዊ ድንቅ ስራዎችን ነው — የኢትዮጵያ ድንቅ ባህል ከዘመናዊ አርት እና ዲዛይን ጋር የሚቀናጅበት።" : locale === "fr" ? "Nous organisons le mode de vie africain moderne. Nous comblons le patrimoine de notre terre avec l'innovation de l'avenir." : locale === "es" ? "Curamos el estilo de vida africano moderno. Conectamos la herencia de nuestra tierra con la innovación del futuro." : "We curate the modern African lifestyle. We bridge the heritage of our land with the innovation of the future. We are specialists in high-concept living."}
+          </p>
+        </div>
+      </section>
+ 
+      <section class="section" style="border-top: 1px solid var(--ink-800); padding: 80px 0;">
+        <div class="container" style="max-width: 900px;">
+          <span class="label-mono">${locale === "am" ? "ትብብር" : "COLLABORATION"}</span>
+          <h2 class="editorial-heading" style="font-size: 36px; color: white; margin-top: 16px; margin-bottom: 24px;">
+            ${locale === "am" ? "የባለራዕዮች አጋርነት።" : locale === "fr" ? "Un Partenariat de Visionnaires." : locale === "es" ? "Una Asociación de Visionarios." : "A Partnership of Visionaries."}
+          </h2>
+          <p style="font-size: 16px; line-height: 1.7; color: var(--ink-200); margin-bottom: 32px;">
+            ${locale === "am" ? "ግሩቭኢትዮጵያ በግብዣ ላይ ያተኮረ ሥነ-ምህዳር ነው። በባህል፣ በቅንጦት እና በረጅም ጊዜ ልማት መገናኛ ዋጋ ለሚሰጡ ግለሰቦች፣ ብራንዶች እና ባለሀብቶች ጋር መተባበርን ቅድሚያ እንሰጣለን።" : locale === "fr" ? "Groovethiopia est un écosystème centré sur les invitations. Nous privilégions la collaboration avec des individus, des marques et des investisseurs qui valorisent l'intersection de la culture, du luxe et du développement à long terme." : locale === "es" ? "Groovethiopia es un ecosistema centrado en invitaciones. Priorizamos la colaboración con personas, marcas e inversores que valoran la intersección de la cultura, el lujo y el desarrollo a largo plazo." : "Groovethiopia is an invitation-centric ecosystem. We prioritize collaboration with individuals, brands, and investors who value the intersection of culture, luxury, and long-term development."}
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="padding: 24px; border: 1px solid var(--ink-800); border-radius: 16px; background: rgba(18, 16, 21, 0.4); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+              <div>
+                <strong style="color: var(--gold-400); display: block; font-family: 'JetBrains Mono', monospace; font-size: 13px;">${locale === "am" ? "ለአጋርነት ይጠይቁ" : locale === "fr" ? "Demande de partenariat" : locale === "es" ? "Consultar por Asociación" : "Inquire for Partnership"}</strong>
+                <span style="color: var(--ink-200); font-size: 15px;">${locale === "am" ? "የዝግጅት ምርት፣ የድምጽ አርክቴክቸር እና ፈጠራ ትብብር" : locale === "fr" ? "Production d'événements, architecture sonore & collaboration créative" : locale === "es" ? "Producción de Eventos, Arquitectura de Sonido y Colaboración Creativa" : "Event Production, Sound Architecture & Creative Collaboration"}</span>
+              </div>
+              <a href="../contact.html" class="nav-cta" style="margin: 0; padding: 10px 24px;">Inquire</a>
+            </div>
+            <div style="padding: 24px; border: 1px solid var(--ink-800); border-radius: 16px; background: rgba(18, 16, 21, 0.4); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+              <div>
+                <strong style="color: var(--gold-400); display: block; font-family: 'JetBrains Mono', monospace; font-size: 13px;">${locale === "am" ? "ማማከር ይጠይቁ" : locale === "fr" ? "Demander une consultation" : locale === "es" ? "Solicitar Consulta" : "Request Consultation"}</strong>
+                <span style="color: var(--ink-200); font-size: 15px;">${locale === "am" ? "የቅንጦት እና ቪንቴጅ አውቶሞቲቭ ግዥ" : locale === "fr" ? "Approvisionnement automobile de luxe & vintage" : locale === "es" ? "Adquisición de Automóviles de Lujo y Clásicos" : "Luxury & Vintage Automotive Procurement"}</span>
+              </div>
+              <a href="../contact.html" class="nav-cta" style="margin: 0; padding: 10px 24px;">Request</a>
+            </div>
+            <div style="padding: 24px; border: 1px solid var(--ink-800); border-radius: 16px; background: rgba(18, 16, 21, 0.4); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+              <div>
+                <strong style="color: var(--gold-400); display: block; font-family: 'JetBrains Mono', monospace; font-size: 13px;">${locale === "am" ? "ኢንቨስትመንትን ይመልከቱ" : locale === "fr" ? "Explorer l'investissement" : locale === "es" ? "Explorar Inversión" : "Explore Investment"}</strong>
+                <span style="color: var(--ink-200); font-size: 15px;">${locale === "am" ? "ሪል እስቴት እና የልማት እድሎች" : locale === "fr" ? "Opportunités immobilières & de développement" : locale === "es" ? "Oportunidades de Desarrollo e Inmobiliarias" : "Real Estate & Developmental Opportunities"}</span>
+              </div>
+              <a href="../contact.html" class="nav-cta" style="margin: 0; padding: 10px 24px;">Explore</a>
+            </div>
+          </div>
+        </div>
+      </section>
+ 
+      <section class="section" style="border-top: 1px solid var(--ink-800); padding: 80px 0;">
+        <div class="container">
+          <h2 class="editorial-heading" style="font-size: 36px; color: white; margin-bottom: 32px;">${locale === "am" ? "አመራር" : "Leadership"}</h2>
           <div class="grid grid-4">
             ${team
               .map(
@@ -378,6 +435,316 @@ async function generate() {
           </div>
         </div>
       </section>
+
+      <!-- Calendar Section -->
+      <section class="section" style="border-top: 1px solid var(--ink-800); padding: 80px 0;">
+        <div class="container">
+          <style>
+            .calendar-grid {
+              display: grid;
+              grid-template-columns: repeat(7, 1fr);
+              gap: 8px;
+              text-align: center;
+            }
+            .calendar-cell {
+              aspect-ratio: 1;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              border-radius: 12px;
+              font-size: 14px;
+              background: transparent;
+              border: 1px solid transparent;
+              color: var(--ink-500);
+              cursor: default;
+              transition: all 0.2s ease;
+              position: relative;
+              outline: none;
+              padding: 0;
+            }
+            .calendar-cell.has-event {
+              background: rgba(26, 26, 26, 0.5);
+              border-color: var(--ink-800);
+              color: var(--gold-400);
+              font-weight: 600;
+              cursor: pointer;
+            }
+            .calendar-cell.has-event:hover {
+              border-color: var(--gold-500);
+            }
+            .calendar-cell.selected {
+              background: rgba(212, 149, 32, 0.15) !important;
+              border-color: var(--gold-500) !important;
+              color: white !important;
+              box-shadow: 0 0 12px rgba(212, 149, 32, 0.15);
+            }
+            .calendar-cell.has-event::after {
+              content: '';
+              width: 5px;
+              height: 5px;
+              border-radius: 50%;
+              background: var(--gold-500);
+              position: absolute;
+              bottom: 6px;
+            }
+            .calendar-cell.selected::after {
+              display: none;
+            }
+            .event-details-pane {
+              border-left: 1px solid var(--ink-800);
+              padding-left: 32px;
+            }
+            @media (max-width: 991px) {
+              .calendar-layout {
+                grid-template-columns: 1fr !important;
+              }
+              .event-details-pane {
+                border-left: none !important;
+                border-top: 1px solid var(--ink-800) !important;
+                padding-left: 0 !important;
+                padding-top: 32px !important;
+              }
+            }
+          </style>
+          <div class="calendar-wrapper" style="background: rgba(18, 16, 21, 0.6); border: 1px solid var(--ink-800); border-radius: 24px; padding: 32px; backdrop-filter: blur(10px);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+              <h3 class="editorial-heading" style="font-size: 32px; color: white; margin: 0;">${locale === "am" ? "የዝግጅት የቀን መቁጠሪያ" : locale === "fr" ? "Calendrier des Événements" : locale === "es" ? "Calendario de Eventos" : "Event Calendar"}</h3>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <button id="prev-month-btn" class="nav-cta" style="margin: 0; padding: 8px 16px; border-radius: 50px; font-size: 12px;">←</button>
+                <span id="month-label" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ink-200); text-transform: uppercase; letter-spacing: 0.1em; min-w: 140px; text-align: center;"></span>
+                <button id="next-month-btn" class="nav-cta" style="margin: 0; padding: 8px 16px; border-radius: 50px; font-size: 12px;">→</button>
+              </div>
+            </div>
+            <div class="calendar-layout" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px;">
+              <!-- Left side: Calendar grid -->
+              <div>
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 16px; border-bottom: 1px solid var(--ink-800); padding-bottom: 12px;">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">${locale === "am" ? "እሁድ" : locale === "fr" ? "DIM" : locale === "es" ? "DOM" : "SUN"}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">${locale === "am" ? "ሰኞ" : locale === "fr" ? "LUN" : locale === "es" ? "LUN" : "MON"}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">${locale === "am" ? "ማክሰኞ" : locale === "fr" ? "MAR" : locale === "es" ? "MAR" : "TUE"}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">${locale === "am" ? "ረቡዕ" : locale === "fr" ? "MER" : locale === "es" ? "MIÉ" : "WED"}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">${locale === "am" ? "ሐሙስ" : locale === "fr" ? "JEU" : locale === "es" ? "JUE" : "THU"}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">${locale === "am" ? "አርብ" : locale === "fr" ? "VEN" : locale === "es" ? "VIE" : "FRI"}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ink-400); letter-spacing: 0.1em; text-transform: uppercase;">${locale === "am" ? "ቅዳሜ" : locale === "fr" ? "SAM" : locale === "es" ? "SÁB" : "SAT"}</span>
+                </div>
+                <div id="calendar-days" class="calendar-grid"></div>
+              </div>
+              <!-- Right side: Details pane -->
+              <div id="event-details-container" class="event-details-pane">
+                <!-- Selected event details dynamically loaded here -->
+              </div>
+            </div>
+          </div>
+          
+          <script>
+            (function() {
+              const events = ${JSON.stringify(events.map(ev => ({
+                id: ev.id,
+                title: ev.title,
+                subtitle: ev.subtitle || "",
+                slug: ev.slug,
+                startsAt: ev.startsAt,
+                endsAt: ev.endsAt || null,
+                venue: ev.venue || "",
+                ticketPrice: ev.ticketPrice || 0,
+                currency: ev.currency || "ETB",
+                image: ev.media[0]?.publicUrl || ""
+              })))};
+              
+              const locale = "${locale}";
+              
+              const t = {
+                en: {
+                  selectPrompt: "Select a highlighted date to view event details.",
+                  date: "Date",
+                  venue: "Venue",
+                  price: "Price",
+                  view: "View Invitation"
+                },
+                am: {
+                  selectPrompt: "የዝግጅቱን ዝርዝር ለማየት ምልክት የተደረገበትን ቀን ይጫኑ።",
+                  date: "ቀን",
+                  venue: "ቦታ",
+                  price: "ዋጋ",
+                  view: "ግብዣውን ይመልከቱ"
+                },
+                es: {
+                  selectPrompt: "Selecciona una fecha destacada para ver los detalles del evento.",
+                  date: "Fecha",
+                  venue: "Lugar",
+                  price: "Precio",
+                  view: "Ver Invitación"
+                },
+                fr: {
+                  selectPrompt: "Sélectionnez une date en surbrillance pour voir les détails de l'évènement.",
+                  date: "Date",
+                  venue: "Lieu",
+                  price: "Prix",
+                  view: "Voir l'Invitation"
+                }
+              }[locale] || {
+                selectPrompt: "Select a highlighted date to view event details.",
+                date: "Date",
+                venue: "Venue",
+                price: "Price",
+                view: "View Invitation"
+              };
+
+              // Find initial date
+              let initialDate = new Date();
+              if (events.length > 0 && events[0].startsAt) {
+                initialDate = new Date(events[0].startsAt);
+              }
+              
+              let currentYear = initialDate.getFullYear();
+              let currentMonth = initialDate.getMonth();
+              let selectedEvent = events[0] || null;
+
+              function render() {
+                const monthLabel = document.getElementById("month-label");
+                const daysContainer = document.getElementById("calendar-days");
+                if (!monthLabel || !daysContainer) return;
+                
+                // Set Month label
+                const labelDate = new Date(currentYear, currentMonth);
+                monthLabel.innerText = labelDate.toLocaleDateString(locale, { month: "long", year: "numeric" });
+                
+                // Clear container
+                daysContainer.innerHTML = "";
+                
+                // Days count & prefix padding index
+                const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+                
+                // Prefix padding
+                for (let i = 0; i < firstDayIndex; i++) {
+                  const empty = document.createElement("div");
+                  daysContainer.appendChild(empty);
+                }
+                
+                // Days
+                for (let d = 1; d <= totalDays; d++) {
+                  const dayBtn = document.createElement("button");
+                  dayBtn.className = "calendar-cell";
+                  dayBtn.innerText = d;
+                  
+                  const cellDate = new Date(currentYear, currentMonth, d);
+                  cellDate.setHours(12, 0, 0, 0);
+                  
+                  const dayEvents = events.filter(e => {
+                    if (!e.startsAt) return false;
+                    const start = new Date(e.startsAt);
+                    const end = e.endsAt ? new Date(e.endsAt) : start;
+                    
+                    start.setHours(0, 0, 0, 0);
+                    end.setHours(23, 59, 59, 999);
+                    
+                    return cellDate >= start && cellDate <= end;
+                  });
+                  
+                  if (dayEvents.length > 0) {
+                    dayBtn.classList.add("has-event");
+                    
+                    const isSelected = selectedEvent && dayEvents.some(e => e.id === selectedEvent.id);
+                    if (isSelected) {
+                      dayBtn.classList.add("selected");
+                    }
+                    
+                    dayBtn.addEventListener("click", function() {
+                      selectedEvent = dayEvents[0];
+                      render();
+                    });
+                  }
+                  
+                  daysContainer.appendChild(dayBtn);
+                }
+                
+                // Render details
+                renderDetails();
+              }
+              
+              function renderDetails() {
+                const detailsContainer = document.getElementById("event-details-container");
+                if (!detailsContainer) return;
+                
+                if (!selectedEvent) {
+                  detailsContainer.innerHTML = \`
+                    <div style="height: 100%; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--ink-400); border: 1px dashed var(--ink-800); border-radius: 16px; padding: 24px; background: rgba(18, 16, 21, 0.1);">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--ink-500); margin-bottom: 12px;"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                      <p style="font-size: 14px; margin: 0; max-width: 240px;">\\\${t.selectPrompt}</p>
+                    </div>
+                  \`;
+                  return;
+                }
+                
+                const eventDate = new Date(selectedEvent.startsAt).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+                const priceFormatted = selectedEvent.ticketPrice === 0 ? "Free" : (new Intl.NumberFormat(locale === "en" ? "en-US" : locale, { style: "currency", currency: selectedEvent.currency || "ETB", maximumFractionDigits: 0 }).format(selectedEvent.ticketPrice));
+                
+                detailsContainer.innerHTML = \`
+                  <div class="animate-fade-in" style="display: flex; flex-direction: column; gap: 24px;">
+                    \\\${selectedEvent.image ? \`
+                      <div style="aspect-ratio: 16/10; width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid var(--ink-800); position: relative;">
+                        <img src="../../\\\${selectedEvent.image}" alt="\\\${selectedEvent.title}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                      </div>
+                    \` : ''}
+                    <div>
+                      <h4 class="editorial-heading" style="font-size: 24px; color: white; margin: 0 0 8px;">\\\${selectedEvent.title}</h4>
+                      \\\${selectedEvent.subtitle ? \`<p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--ink-300); margin: 0;">\\\${selectedEvent.subtitle}</p>\` : ''}
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-300);">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="color: var(--gold-400);">•</span>
+                        <span><strong>\\\${t.date}:</strong> \\\${eventDate}</span>
+                      </div>
+                      \\\${selectedEvent.venue ? \`
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <span style="color: var(--gold-400);">•</span>
+                          <span><strong>\\\${t.venue}:</strong> \\\${selectedEvent.venue}</span>
+                        </div>
+                      \` : ''}
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="color: var(--gold-400);">•</span>
+                        <span><strong>\\\${t.price}:</strong> \\\${priceFormatted}</span>
+                      </div>
+                    </div>
+                    <div style="padding-top: 8px;">
+                      <a href="events/\\\${selectedEvent.slug}.html" class="btn-primary" style="display: block; text-align: center; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-decoration: none; padding: 12px 0; border-radius: 99px;">
+                        ${locale === "am" ? "የበለጠ ይመልከቱ" : "View Invitation"}
+                      </a>
+                    </div>
+                  </div>
+                \`;
+              }
+
+              // Event listeners
+              document.getElementById("prev-month-btn").addEventListener("click", function() {
+                if (currentMonth === 0) {
+                  currentMonth = 11;
+                  currentYear -= 1;
+                } else {
+                  currentMonth -= 1;
+                }
+                render();
+              });
+
+              document.getElementById("next-month-btn").addEventListener("click", function() {
+                if (currentMonth === 11) {
+                  currentMonth = 0;
+                  currentYear += 1;
+                } else {
+                  currentMonth += 1;
+                }
+                render();
+              });
+
+              // Initial render
+              render();
+            })();
+          </script>
+        </div>
+      </section>
+
       ${renderFooter(locale)}
     `;
     fs.writeFileSync(path.join(PREVIEW_DIR, `${locale}/events.html`), eventsHtml.trim());
@@ -682,8 +1049,6 @@ async function generate() {
     // ─────────────────────────────────────────────────────────────────────────
     // TICKETS CHECKOUT & SUCCESS PAGES
     // ─────────────────────────────────────────────────────────────────────────
-    const checkoutTemplate = fs.readFileSync(path.join(PREVIEW_DIR, "checkout.html"), "utf-8");
-    const successTemplate = fs.readFileSync(path.join(PREVIEW_DIR, "success.html"), "utf-8");
 
     // Replace relative paths in checkout template for nested folder
     const localizedCheckout = checkoutTemplate

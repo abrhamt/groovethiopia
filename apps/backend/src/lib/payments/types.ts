@@ -1,4 +1,4 @@
-scr// Shared types for the unified payment driver system.
+// Shared types for the unified payment driver system.
 // Each driver implements `PaymentDriver` and produces an opaque payload that
 // the frontend renders either as a hosted redirect URL or as a QR code.
 
