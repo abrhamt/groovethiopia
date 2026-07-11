@@ -178,9 +178,9 @@ export async function issueTicketForSession(args: { sessionId: string }) {
     const created: { id: string; serialNumber: string }[] = [];
     for (let i = 0; i < session.quantity; i++) {
         const serialNumber = await generateUniqueSerialNumber();
-        // When there's no real PublicUser, omit the field so Prisma doesn't
-        // try to attach a relation object.
-        const data: Record<string, unknown> = {
+        // When there's no real PublicUser, omit the FK so Prisma doesn't try
+        // to attach a relation object.
+        const data: Prisma.TicketPurchaseUncheckedCreateInput = {
             eventId: session.eventId,
             ticketType: session.ticketTypeLabel,
             quantity: 1,
