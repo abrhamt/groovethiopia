@@ -8,10 +8,10 @@ import { markPaid, issueTicketForSession } from "@/lib/payments/state-machine";
 
 export async function POST(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const id = params.id;
+        const { id } = await params;
         const session = await prisma.checkoutSession.findUnique({ where: { id } });
         if (!session) {
             return NextResponse.json({ error: "Checkout session not found" }, { status: 404 });
@@ -31,6 +31,12 @@ export async function POST(
         });
 
         const ticket = await issueTicketForSession({ sessionId: id });
+        if (!ticket) {
+            return NextResponse.json(
+                { error: "Could not issue a ticket for this session." },
+                { status: 500 }
+            );
+        }
 
         return NextResponse.json({
             success: true,

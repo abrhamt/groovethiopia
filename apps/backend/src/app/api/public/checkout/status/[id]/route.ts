@@ -9,10 +9,10 @@ import { issueGatePass } from "@/lib/gatepass/issue";
 
 export async function GET(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const id = params.id;
+        const { id } = await params;
         const session = await prisma.checkoutSession.findUnique({
             where: { id },
         });

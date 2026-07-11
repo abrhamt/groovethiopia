@@ -14,7 +14,7 @@ const patchSchema = z.object({
 
 export async function PATCH(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     const session = await auth();
     if (!session?.user || (session.user as any).role !== "ADMIN") {
@@ -36,8 +36,9 @@ export async function PATCH(
         );
     }
 
+    const { id } = await params;
     const updated = await prisma.gateDevice.update({
-        where: { id: params.id },
+        where: { id },
         data: parsed.data,
     });
     return NextResponse.json({ device: updated });
@@ -45,13 +46,14 @@ export async function PATCH(
 
 export async function DELETE(
     _req: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     const session = await auth();
     if (!session?.user || (session.user as any).role !== "ADMIN") {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await prisma.gateDevice.delete({ where: { id: params.id } });
+    const { id } = await params;
+    await prisma.gateDevice.delete({ where: { id } });
     return NextResponse.json({ success: true });
 }
