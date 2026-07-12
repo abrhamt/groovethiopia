@@ -38,12 +38,12 @@ export function MobileCarouselDots({ count }: { count: number }) {
     observerRef.current = new IntersectionObserver(
       (entries) => {
         let best: { idx: number; ratio: number } | null = null;
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           const idx = Number(entry.target.getAttribute("data-carousel-card"));
-          if (!isNaN(idx) && (best === null || entry.intersectionRatio > (best?.ratio ?? -1))) {
+          if (!isNaN(idx) && (best === null || entry.intersectionRatio > best.ratio)) {
             best = { idx, ratio: entry.intersectionRatio };
           }
-        });
+        }
         if (best && best.ratio > 0.5) {
           setActive(best.idx);
         }
