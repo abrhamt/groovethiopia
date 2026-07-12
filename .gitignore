@@ -64,3 +64,6 @@ backups/
 
 # Inngest
 .inngest/
+
+# archives
+*.zip

@@ -29,7 +29,7 @@ export default async function ProjectDetailPage({
   if (!item) notFound();
 
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-28 md:pt-32 pb-16 md:pb-24">
       <article className="max-w-5xl mx-auto px-6">
         <div className="mb-8">
           <Link href={`/${locale}/sanctuary`} className="text-xs font-mono uppercase tracking-widest text-gold-400 hover:text-gold-300">
@@ -48,7 +48,7 @@ export default async function ProjectDetailPage({
           {item.location && <span className="text-ink-400 text-sm">{item.location}</span>}
         </div>
 
-        <h1 className="editorial-heading text-5xl md:text-7xl mb-8">{item.title}</h1>
+        <h1 className="editorial-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-8">{item.title}</h1>
 
         {item.excerpt && (
           <p className="text-2xl font-serif text-ink-200 leading-relaxed mb-12">

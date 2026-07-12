@@ -19,11 +19,11 @@ export default async function CollectionPage({ params }: { params: Promise<{ loc
   const vehicles = withFallback(apiVehicles, dummyVehicles);
 
   return (
-    <div className="pt-32">
+    <div className="pt-28 md:pt-32">
       <section className="px-6 pb-20">
         <div className="max-w-7xl mx-auto">
           <span className="label-mono">{t("title")}</span>
-          <h1 className="editorial-heading text-6xl md:text-8xl mt-6 mb-8">
+          <h1 className="editorial-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-6 mb-8">
             <span className="text-gradient-gold italic">Heritage</span> & Luxury
           </h1>
           <p className="text-2xl font-serif italic text-ink-200 mb-6">{t("tagline")}</p>

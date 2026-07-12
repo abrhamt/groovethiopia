@@ -18,7 +18,7 @@ export default function Error({
     <div className="min-h-screen flex items-center justify-center px-6">
       <div className="text-center max-w-md">
         <p className="label-mono mb-4 text-red-400">Error</p>
-        <h1 className="editorial-heading text-5xl md:text-7xl mb-6">
+        <h1 className="editorial-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl mb-6">
           Something broke
         </h1>
         <p className="text-ink-300 mb-8 font-serif">

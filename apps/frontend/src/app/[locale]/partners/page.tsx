@@ -25,11 +25,11 @@ export default async function PartnersPage({
   const featured = strategic.find((p: any) => p.isFeatured) || strategic[0];
 
   return (
-    <div className="pt-32">
+    <div className="pt-28 md:pt-32">
       <section className="px-6 pb-20">
         <div className="max-w-7xl mx-auto">
           <span className="label-mono">Partners</span>
-          <h1 className="editorial-heading text-6xl md:text-8xl mt-6 mb-8">
+          <h1 className="editorial-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-6 mb-8">
             Trusted by <span className="text-gradient-gold italic">the best</span>
           </h1>
           <p className="text-lg text-ink-300 font-serif max-w-2xl">
@@ -40,11 +40,11 @@ export default async function PartnersPage({
       </section>
 
       {featured && (
-        <section className="px-6 py-24 border-y border-ink-800/50 bg-ink-900/30">
+        <section className="px-6 py-16 md:py-24 border-y border-ink-800/50 bg-ink-900/30">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <span className="label-mono">Featured Partner</span>
-              <h2 className="editorial-heading text-5xl mt-4 mb-6">
+              <h2 className="editorial-heading text-3xl sm:text-4xl md:text-5xl mt-4 mb-6">
                 {featured.name}
               </h2>
               {featured.description && (

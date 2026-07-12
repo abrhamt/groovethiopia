@@ -33,11 +33,11 @@ export async function Ecosystem() {
   ];
 
   return (
-    <section className="py-32 px-6">
+    <section className="py-16 md:py-32 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-20">
           <span className="label-mono">The Ecosystem</span>
-          <h2 className="editorial-heading text-5xl md:text-7xl mt-4 mb-6">{t("title")}</h2>
+          <h2 className="editorial-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl mt-4 mb-6">{t("title")}</h2>
           <p className="text-ink-300 max-w-xl text-lg">{t("subtitle")}</p>
         </div>
 

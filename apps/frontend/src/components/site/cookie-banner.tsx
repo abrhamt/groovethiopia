@@ -31,7 +31,7 @@ export function CookieBanner() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-6 left-6 right-6 md:right-auto md:max-w-md z-40">
+    <div className="fixed bottom-24 md:bottom-6 left-4 right-4 sm:left-6 sm:right-6 md:right-auto md:max-w-md z-40">
       <div className="glass rounded-2xl p-6 shadow-2xl">
         <p className="text-sm text-ink-200 mb-4 font-serif">
           We use cookies to enhance your experience and analyze site traffic. By continuing, you agree to our use of cookies.

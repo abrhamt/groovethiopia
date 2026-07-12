@@ -25,12 +25,12 @@ export function AboutView(props: {
   };
 }) {
   return (
-    <div className="pt-32">
+    <div className="pt-28 md:pt-32">
       {/* Hero */}
-      <section className="px-6 pb-32">
+      <section className="px-6 pb-16 md:pb-32">
         <div className="max-w-5xl mx-auto">
           <span className="label-mono">About</span>
-          <h1 className="editorial-heading text-5xl md:text-7xl mt-6 mb-8 leading-tight">{props.title}</h1>
+          <h1 className="editorial-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl mt-6 mb-8 leading-tight">{props.title}</h1>
           <p className="text-xl md:text-2xl text-ink-200 font-serif font-light leading-relaxed whitespace-pre-line">
             {props.subtitle}
           </p>
@@ -38,7 +38,7 @@ export function AboutView(props: {
       </section>
 
       {/* Manifesto */}
-      <section className="px-6 py-32 border-y border-ink-800/50 bg-ink-900/30">
+      <section className="px-6 py-16 md:py-32 border-y border-ink-800/50 bg-ink-900/30">
         <div className="max-w-4xl mx-auto">
           <span className="label-mono">{props.manifestoTitle}</span>
           <p className="text-2xl md:text-3xl font-serif font-light leading-relaxed mt-8 text-foreground">
@@ -48,7 +48,7 @@ export function AboutView(props: {
       </section>
 
       {/* Mission & Vision */}
-      <section className="px-6 py-32">
+      <section className="px-6 py-16 md:py-32">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
           <div>
             <span className="label-mono">{props.missionTitle}</span>
@@ -62,7 +62,7 @@ export function AboutView(props: {
       </section>
 
       {/* Story */}
-      <section className="px-6 py-32 border-t border-ink-800/50">
+      <section className="px-6 py-16 md:py-32 border-t border-ink-800/50">
         <div className="max-w-4xl mx-auto">
           <span className="label-mono">{props.storyTitle}</span>
           <p className="text-xl font-serif mt-8 leading-relaxed text-ink-200">{props.storyBody}</p>
@@ -70,9 +70,9 @@ export function AboutView(props: {
       </section>
 
       {/* Values */}
-      <section className="px-6 py-32 border-t border-ink-800/50">
+      <section className="px-6 py-16 md:py-32 border-t border-ink-800/50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="editorial-heading text-5xl mb-16">{props.valuesTitle}</h2>
+          <h2 className="editorial-heading text-3xl sm:text-4xl md:text-5xl mb-16">{props.valuesTitle}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {props.values.map((v, i) => (
               <div key={i} className="p-8 border border-ink-800 rounded-2xl bg-ink-900/40">
@@ -87,10 +87,10 @@ export function AboutView(props: {
 
       {/* Partnership */}
       {props.partnership && (
-        <section className="px-6 py-32 border-t border-ink-800/50 bg-ink-900/10">
+        <section className="px-6 py-16 md:py-32 border-t border-ink-800/50 bg-ink-900/10">
           <div className="max-w-4xl mx-auto">
             <span className="label-mono">Collaboration</span>
-            <h2 className="editorial-heading text-5xl mt-4 mb-6">{props.partnership.title}</h2>
+            <h2 className="editorial-heading text-3xl sm:text-4xl md:text-5xl mt-4 mb-6">{props.partnership.title}</h2>
             <p className="text-xl font-serif leading-relaxed text-ink-200 mb-12">
               {props.partnership.body}
             </p>
@@ -112,9 +112,9 @@ export function AboutView(props: {
       )}
 
       {/* Team */}
-      <section className="px-6 py-32 border-t border-ink-800/50">
+      <section className="px-6 py-16 md:py-32 border-t border-ink-800/50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="editorial-heading text-5xl mb-4">{props.teamTitle}</h2>
+          <h2 className="editorial-heading text-3xl sm:text-4xl md:text-5xl mb-4">{props.teamTitle}</h2>
           <p className="text-ink-400 mb-16">{props.teamSubtitle}</p>
           <TeamGrid team={props.team || []} />
         </div>

@@ -27,9 +27,9 @@ export function PartnersStrip({
       </div>
       <div className="relative">
         {/* Edge fades for a polished marquee */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
-        <div className="flex gap-12 animate-marquee whitespace-nowrap">
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10" />
+        <div className="flex gap-6 md:gap-12 animate-marquee whitespace-nowrap">
           {[...displayPartners, ...displayPartners].map((p, i) => (
             <div
               key={i}

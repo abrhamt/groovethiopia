@@ -34,6 +34,8 @@ const connectSrc = [
   "http://127.0.0.1:3001",
 ].filter(Boolean) as string[];
 
+const isProd = process.env.NODE_ENV === "production";
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   output: "standalone",
@@ -49,34 +51,44 @@ const nextConfig: NextConfig = {
     ],
   },
   async headers() {
+    // Base security headers applied in all environments
+    const securityHeaders = [
+      { key: "X-Frame-Options", value: "SAMEORIGIN" },
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "X-XSS-Protection", value: "1; mode=block" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+    ];
+
+    // Only apply strict CSP in production. In development, the
+    // `upgrade-insecure-requests` directive causes mobile browsers to
+    // upgrade all HTTP resource requests to HTTPS when accessing the dev
+    // server via a LAN IP, which silently breaks CSS/JS loading.
+    if (isProd) {
+      securityHeaders.push({
+        key: "Content-Security-Policy",
+        value: [
+          "default-src 'self'",
+          "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com",
+          "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+          "font-src 'self' https://fonts.gstatic.com data:",
+          "img-src 'self' data: blob: https:",
+          "media-src 'self' blob:",
+          `connect-src ${connectSrc.join(" ")}`,
+          "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
+          "object-src 'none'",
+          "base-uri 'self'",
+          "form-action 'self'",
+          "frame-ancestors 'none'",
+          "upgrade-insecure-requests",
+        ].join("; "),
+      });
+    }
+
     return [
       {
         source: "/:path*",
-        headers: [
-          { key: "X-Frame-Options", value: "SAMEORIGIN" },
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-XSS-Protection", value: "1; mode=block" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-          {
-            key: "Content-Security-Policy",
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "font-src 'self' https://fonts.gstatic.com data:",
-              "img-src 'self' data: blob: https:",
-              "media-src 'self' blob:",
-              `connect-src ${connectSrc.join(" ")}`,
-              "frame-src 'self' https://js.stripe.com https://hooks.stripe.com",
-              "object-src 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-              "frame-ancestors 'none'",
-              "upgrade-insecure-requests",
-            ].join("; "),
-          },
-        ],
+        headers: securityHeaders,
       },
     ];
   },

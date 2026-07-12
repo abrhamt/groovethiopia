@@ -10,12 +10,12 @@ export async function CollectionPreview({ vehicles }: { vehicles: ContentItem[] 
   const lp = (p: string) => localePath(locale, p);
 
   return (
-    <section className="py-32 px-6 border-t border-ink-800/50">
+    <section className="py-16 md:py-32 px-6 border-t border-ink-800/50">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-end justify-between mb-16">
           <div>
             <span className="label-mono">The Collection</span>
-            <h2 className="editorial-heading text-5xl md:text-7xl mt-4">Heritage & Modernity</h2>
+            <h2 className="editorial-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl mt-4">Heritage & Modernity</h2>
           </div>
           <Link href={lp("/collection")} className="hidden md:inline-flex btn-ghost">
             View all

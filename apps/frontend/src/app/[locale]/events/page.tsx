@@ -20,11 +20,11 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
   const events = withFallback(apiEvents, dummyEvents);
 
   return (
-    <div className="pt-32">
+    <div className="pt-28 md:pt-32">
       <section className="px-6 pb-20">
         <div className="max-w-7xl mx-auto">
           <span className="label-mono">{t("title")}</span>
-          <h1 className="editorial-heading text-6xl md:text-8xl mt-6 mb-8">
+          <h1 className="editorial-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-6 mb-8">
             <span className="text-gradient-gold italic">Events</span> & Production
           </h1>
           <p className="text-2xl font-serif italic text-ink-200 mb-6">
@@ -40,14 +40,14 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
       </section>
 
       {/* Shukshuta */}
-      <section className="px-6 py-24 border-y border-ink-800/50 bg-ink-900/30">
+      <section className="px-6 py-16 md:py-24 border-y border-ink-800/50 bg-ink-900/30">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="aspect-[4/5] rounded-2xl overflow-hidden">
             <img src={dummyImages.heroAlt} alt="Shukshuta Speakeasy" className="w-full h-full object-cover" />
           </div>
           <div>
             <span className="label-mono">{t("shukshuta.title")}</span>
-            <h2 className="editorial-heading text-5xl md:text-6xl mt-4 mb-6">Shukshuta</h2>
+            <h2 className="editorial-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-4 mb-6">Shukshuta</h2>
             <p className="text-xl text-ink-200 font-serif leading-relaxed mb-8">
               {t("shukshuta.body")}
             </p>
@@ -57,7 +57,7 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
       </section>
 
       {/* Upcoming */}
-      <section className="px-6 py-24">
+      <section className="px-6 py-16 md:py-24">
         <div className="max-w-7xl mx-auto">
           <h2 className="editorial-heading text-4xl mb-12">{t("upcoming")}</h2>
           {events.length === 0 ? (
@@ -88,14 +88,14 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
       </section>
 
       {/* Calendar Section */}
-      <section className="px-6 pb-24">
+      <section className="px-6 pb-16 md:pb-24">
         <div className="max-w-7xl mx-auto">
           <EventCalendar events={events} locale={locale} />
         </div>
       </section>
 
       {/* Services */}
-      <section className="px-6 py-24 border-t border-ink-800/50">
+      <section className="px-6 py-16 md:py-24 border-t border-ink-800/50">
         <div className="max-w-7xl mx-auto">
           <h2 className="editorial-heading text-4xl mb-12">{t("services.title")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

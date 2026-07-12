@@ -26,16 +26,16 @@ export default async function LegalPage({
   const page = legalPages[slug];
   if (!page) {
     return (
-      <div className="pt-32 px-6 pb-24 max-w-4xl mx-auto">
-        <h1 className="editorial-heading text-5xl">Page not found</h1>
+      <div className="pt-28 md:pt-32 px-6 pb-16 md:pb-24 max-w-4xl mx-auto">
+        <h1 className="editorial-heading text-3xl sm:text-4xl md:text-5xl">Page not found</h1>
       </div>
     );
   }
 
   return (
-    <div className="pt-32 px-6 pb-24">
+    <div className="pt-28 md:pt-32 px-6 pb-16 md:pb-24">
       <div className="max-w-3xl mx-auto">
-        <h1 className="editorial-heading text-5xl md:text-7xl mb-12">{page.title}</h1>
+        <h1 className="editorial-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl mb-12">{page.title}</h1>
         <div className="prose prose-invert max-w-none">
           <p className="text-ink-300 leading-relaxed">{page.content}</p>
           <p className="text-ink-400 text-sm mt-8 italic">

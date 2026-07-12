@@ -25,6 +25,20 @@ export function Nav() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Auto-close mobile menu on route change
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
   // Hide nav on /admin
   if (pathname.includes("/admin")) return null;
 
@@ -101,7 +115,7 @@ export function Nav() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-ink-900 border-b border-ink-800 p-6">
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-ink-900 border-b border-ink-800 p-6 shadow-2xl">
           <nav className="flex flex-col gap-4">
             {links.map((l) => (
               <Link

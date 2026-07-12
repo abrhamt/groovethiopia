@@ -55,7 +55,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className="dark" suppressHydrationWarning>
-      <body className={`${inter.variable} ${mono.variable} ${serif.variable} font-sans bg-background text-foreground antialiased min-h-screen`}>
+      <body className={`${inter.variable} ${mono.variable} ${serif.variable} font-sans bg-background text-foreground antialiased min-h-screen overflow-x-clip`}>
         <NextIntlClientProvider messages={messages}>
           <Nav />
           <main>{children}</main>

@@ -36,7 +36,7 @@ export default async function EventDetailPage({
   const isUpcoming = !item.endsAt || eventEnd! > new Date();
 
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-28 md:pt-32 pb-16 md:pb-24">
       <article className="max-w-5xl mx-auto px-6">
         <div className="mb-8">
           <Link
@@ -60,7 +60,7 @@ export default async function EventDetailPage({
         <span className="label-mono">
           {item.type === "SHUKSHUTA_EVENT" ? "Shukshuta" : "Event"}
         </span>
-        <h1 className="editorial-heading text-5xl md:text-7xl mt-4 mb-6">
+        <h1 className="editorial-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl mt-4 mb-6">
           {item.title}
         </h1>
 

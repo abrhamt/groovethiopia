@@ -9,11 +9,11 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
   setRequestLocale(locale);
 
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-28 md:pt-32 pb-16 md:pb-24">
       <section className="px-6 pb-16">
         <div className="max-w-7xl mx-auto">
           <span className="label-mono">Contact</span>
-          <h1 className="editorial-heading text-6xl md:text-8xl mt-6 mb-8">
+          <h1 className="editorial-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-6 mb-8">
             Let's build <span className="text-gradient-gold italic">the future</span> together
           </h1>
           <p className="text-xl font-serif text-ink-200 max-w-2xl">

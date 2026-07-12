@@ -10,12 +10,12 @@ export async function SanctuaryPreview({ projects }: { projects: ContentItem[] }
   const lp = (p: string) => localePath(locale, p);
 
   return (
-    <section className="py-32 px-6">
+    <section className="py-16 md:py-32 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="order-2 lg:order-1">
             <span className="label-mono">The Sanctuary</span>
-            <h2 className="editorial-heading text-5xl md:text-7xl mt-4 mb-6">
+            <h2 className="editorial-heading text-3xl sm:text-4xl md:text-6xl lg:text-7xl mt-4 mb-6">
               Designing the future of hospitality
             </h2>
             <p className="text-ink-300 text-lg mb-8 font-serif leading-relaxed">

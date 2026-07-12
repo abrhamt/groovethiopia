@@ -41,11 +41,11 @@ async function DivisionsContent({ params }: { params: Promise<{ locale: string }
   ];
 
   return (
-    <div className="pt-32">
+    <div className="pt-28 md:pt-32">
       <section className="px-6 pb-20">
         <div className="max-w-7xl mx-auto">
           <span className="label-mono">Divisions</span>
-          <h1 className="editorial-heading text-6xl md:text-8xl mt-6 mb-8">
+          <h1 className="editorial-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-6 mb-8">
             Three worlds. <span className="text-gradient-gold italic">One vision.</span>
           </h1>
         </div>
@@ -61,7 +61,7 @@ async function DivisionsContent({ params }: { params: Promise<{ locale: string }
                 </div>
                 <div className={i % 2 === 1 ? "lg:order-1" : ""}>
                   <span className="label-mono text-gold-400">{d.label}</span>
-                  <h2 className="editorial-heading text-5xl md:text-7xl mt-4 mb-6 group-hover:text-gold-400 transition-colors">
+                  <h2 className="editorial-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl mt-4 mb-6 group-hover:text-gold-400 transition-colors">
                     {d.title}
                   </h2>
                   <p className="text-xl text-ink-200 font-serif italic mb-4">{d.tagline}</p>
@@ -76,9 +76,9 @@ async function DivisionsContent({ params }: { params: Promise<{ locale: string }
         </section>
       ))}
 
-      <section className="px-6 py-32 border-t border-ink-800/50">
+      <section className="px-6 py-16 md:py-32 border-t border-ink-800/50">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-2xl font-serif font-light leading-relaxed text-ink-200">
+          <p className="text-base sm:text-xl md:text-2xl font-serif font-light leading-relaxed text-ink-200">
             Each division reinforces the others. Events fund the cultural capital.
             Trading builds commercial velocity. Real estate creates destinations that anchor it all.
           </p>

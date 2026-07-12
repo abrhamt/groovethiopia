@@ -39,11 +39,11 @@ export default async function GalleryPage({ params }: { params: Promise<{ locale
   ];
 
   return (
-    <div className="pt-32">
+    <div className="pt-28 md:pt-32">
       <section className="px-6 pb-12">
         <div className="max-w-7xl mx-auto">
           <span className="label-mono">Portfolio</span>
-          <h1 className="editorial-heading text-6xl md:text-8xl mt-6 mb-6">
+          <h1 className="editorial-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-6 mb-6">
             A <span className="text-gradient-gold italic">visual</span> journey
           </h1>
         </div>

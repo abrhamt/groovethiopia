@@ -18,11 +18,11 @@ export default async function SanctuaryPage({ params }: { params: Promise<{ loca
   const projects = withFallback(apiProjects, dummyProjects);
 
   return (
-    <div className="pt-32">
+    <div className="pt-28 md:pt-32">
       <section className="px-6 pb-20">
         <div className="max-w-7xl mx-auto">
           <span className="label-mono">{t("title")}</span>
-          <h1 className="editorial-heading text-6xl md:text-8xl mt-6 mb-8">
+          <h1 className="editorial-heading text-4xl sm:text-5xl md:text-7xl lg:text-8xl mt-6 mb-8">
             Designing the <span className="text-gradient-gold italic">future</span> of hospitality
           </h1>
           <p className="text-xl font-serif text-ink-200 max-w-3xl leading-relaxed mb-6">
@@ -66,7 +66,7 @@ export default async function SanctuaryPage({ params }: { params: Promise<{ loca
       </section>
 
       {/* Design philosophy */}
-      <section className="px-6 py-32 border-t border-ink-800/50 bg-ink-900/30">
+      <section className="px-6 py-16 md:py-32 border-t border-ink-800/50 bg-ink-900/30">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
           <div>
             <span className="label-mono">{t("philosophy.title")}</span>
@@ -86,10 +86,10 @@ export default async function SanctuaryPage({ params }: { params: Promise<{ loca
       </section>
 
       {/* On-demand */}
-      <section className="px-6 py-32 border-t border-ink-800/50">
+      <section className="px-6 py-16 md:py-32 border-t border-ink-800/50">
         <div className="max-w-4xl mx-auto text-center">
           <span className="label-mono">{t("onDemand.title")}</span>
-          <h2 className="editorial-heading text-5xl mt-4 mb-6">
+          <h2 className="editorial-heading text-3xl sm:text-4xl md:text-5xl mt-4 mb-6">
             Have land? Have a vision?
           </h2>
           <p className="text-xl text-ink-200 font-serif mb-8">

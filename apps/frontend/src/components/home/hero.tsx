@@ -107,15 +107,16 @@ export function Hero({ events }: { events?: EventMediaItem[] }) {
       </div>
 
       {/* Content */}
-      <div className="relative z-30 max-w-6xl mx-auto px-6 text-center pt-32">
+      <div className="relative z-30 max-w-6xl mx-auto px-6 text-center pt-28 md:pt-32">
         <div className="mb-8 animate-fade-up">
           <span className="label-mono tracking-[0.25em] text-gold-400 text-xs md:text-sm">
             EST. 2019 &middot; ADDIS ABABA
           </span>
         </div>
 
-        <h1 className="editorial-heading text-6xl md:text-8xl lg:text-9xl mb-8 animate-fade-up text-foreground">
-          Curating the <br />
+        <h1 className="editorial-heading text-4xl sm:text-6xl md:text-8xl lg:text-9xl mb-8 animate-fade-up text-foreground">
+          Curating the{" "}
+          <br className="hidden sm:inline" />
           <span className="text-gradient-gold italic font-serif">New Horizon</span>
         </h1>
       </div>

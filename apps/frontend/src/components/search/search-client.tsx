@@ -69,10 +69,10 @@ export function SearchClient() {
   }
 
   return (
-    <div className="pt-32 pb-24 px-6">
+    <div className="pt-28 md:pt-32 pb-16 md:pb-24 px-6">
       <div className="max-w-4xl mx-auto">
         <span className="label-mono">Search</span>
-        <h1 className="editorial-heading text-5xl md:text-7xl mt-4 mb-12">
+        <h1 className="editorial-heading text-3xl sm:text-4xl md:text-5xl lg:text-7xl mt-4 mb-12">
           Find what <span className="text-gradient-gold italic">matters</span>
         </h1>
 

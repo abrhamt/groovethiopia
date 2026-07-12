@@ -30,7 +30,7 @@ export default async function VehicleDetailPage({
   if (!item) notFound();
 
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-28 md:pt-32 pb-16 md:pb-24">
       <article className="max-w-6xl mx-auto px-6">
         <div className="mb-8">
           <Link href={`/${locale}/collection`} className="text-xs font-mono uppercase tracking-widest text-gold-400 hover:text-gold-300">
@@ -55,7 +55,7 @@ export default async function VehicleDetailPage({
 
           <div>
             <span className="label-mono">{item.category?.replace("_", " ")}</span>
-            <h1 className="editorial-heading text-5xl md:text-6xl mt-4 mb-4">{item.title}</h1>
+            <h1 className="editorial-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-4 mb-4">{item.title}</h1>
             <p className="text-xl text-ink-300 font-serif mb-2">
               {item.year} · {item.make} {item.model}
             </p>
