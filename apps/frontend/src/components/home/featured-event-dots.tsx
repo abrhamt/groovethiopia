@@ -40,7 +40,7 @@ export function MobileCarouselDots({ count }: { count: number }) {
         let best: { idx: number; ratio: number } | null = null;
         entries.forEach((entry) => {
           const idx = Number(entry.target.getAttribute("data-carousel-card"));
-          if (!isNaN(idx) && (best === null || entry.intersectionRatio > best.ratio)) {
+          if (!isNaN(idx) && (best === null || entry.intersectionRatio > (best?.ratio ?? -1))) {
             best = { idx, ratio: entry.intersectionRatio };
           }
         });
