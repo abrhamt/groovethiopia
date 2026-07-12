@@ -1,12 +1,13 @@
-version: "3.9"
-
 services:
   # Frontend (public site) — groovethiopia.com
   frontend:
     image: ghcr.io/abrhamt/groovethiopia-frontend:latest
+    build:
+      context: .
+      dockerfile: ./apps/frontend/Dockerfile
     container_name: groovethiopia-frontend
     restart: unless-stopped
-    profiles: ["prod"]
+    profiles: [ "prod" ]
     expose:
       - "3000"
     env_file:
@@ -17,9 +18,12 @@ services:
   # Backend (admin + API) — admin.groovethiopia.com
   backend:
     image: ghcr.io/abrhamt/groovethiopia-backend:latest
+    build:
+      context: .
+      dockerfile: ./apps/backend/Dockerfile
     container_name: groovethiopia-backend
     restart: unless-stopped
-    profiles: ["prod"]
+    profiles: [ "prod" ]
     expose:
       - "3001"
     env_file:
@@ -34,9 +38,12 @@ services:
   # ------------------------------------------------------------------
   staging-frontend:
     image: ghcr.io/abrhamt/groovethiopia-frontend:latest
+    build:
+      context: .
+      dockerfile: ./apps/frontend/Dockerfile
     container_name: groovethiopia-staging-frontend
     restart: unless-stopped
-    profiles: ["staging"]
+    profiles: [ "staging" ]
     expose:
       - "3000"
     env_file:
@@ -46,9 +53,12 @@ services:
 
   staging-backend:
     image: ghcr.io/abrhamt/groovethiopia-backend:latest
+    build:
+      context: .
+      dockerfile: ./apps/backend/Dockerfile
     container_name: groovethiopia-staging-backend
     restart: unless-stopped
-    profiles: ["staging"]
+    profiles: [ "staging" ]
     expose:
       - "3001"
     env_file:
@@ -60,7 +70,7 @@ services:
     image: mysql:8.0
     container_name: groovethiopia-staging-mysql
     restart: unless-stopped
-    profiles: ["staging"]
+    profiles: [ "staging" ]
     environment:
       MYSQL_ROOT_PASSWORD: staging
       MYSQL_DATABASE: groovethiopia_staging
@@ -79,8 +89,8 @@ services:
     container_name: groovethiopia-caddy
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      - "8443:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
@@ -89,13 +99,13 @@ services:
     # `prod` and `staging` profiles that may not all be active. Caddy
     # itself retries backends automatically when they come up.
 
-  # Inngest dev server (only for local dev; in prod use Inngest Cloud)
-  # inngest:
-  #   image: inngest/inngest:latest
-  #   container_name: inngest
-  #   command: ["inngest", "dev", "-u", "http://backend:3001/api/inngest"]
-  #   ports:
-  #     - "8288:8288"
+    # Inngest dev server (only for local dev; in prod use Inngest Cloud)
+    # inngest:
+    #   image: inngest/inngest:latest
+    #   container_name: inngest
+    #   command: ["inngest", "dev", "-u", "http://backend:3001/api/inngest"]
+    #   ports:
+    #     - "8288:8288"
 
 volumes:
   caddy_data:

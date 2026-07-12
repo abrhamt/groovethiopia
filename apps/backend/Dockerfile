@@ -5,7 +5,7 @@ RUN corepack enable && corepack prepare pnpm@9.0.0 --activate
 # --- Dependencies stage ---
 FROM base AS deps
 WORKDIR /app
-COPY package.json pnpm-workspace.yaml ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY apps/backend/package.json ./apps/backend/
 COPY packages/db/package.json ./packages/db/
 RUN pnpm install --frozen-lockfile

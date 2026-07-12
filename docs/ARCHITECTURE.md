@@ -59,15 +59,12 @@ groovethiopia/
 │   └── backend/           # Admin panel + API (Next.js)
 ├── packages/
 │   └── db/                # Shared Prisma schema + client
-├── scripts/               # Seed, preview, admin setup
-├── previews/              # All preview screenshots
-├── apps/web-preview/      # GitHub Pages static site
+├── scripts/               # Seed, admin setup
 ├── docs/                  # You are here
 ├── docker-compose.yml     # Local full-stack
 ├── Caddyfile              # Reverse proxy config
 ├── .github/workflows/     # CI/CD
-│   ├── deploy.yml         # Hetzner Docker deploy
-│   └── pages.yml          # GitHub Pages
+│   └── deploy.yml         # Hetzner Docker deploy
 └── OFFLINE-EDIT.md        # Local dev guide
 ```
 
@@ -212,4 +209,4 @@ Glossary preserves terms like **Shukshuta**, **Horizon**, **Sanctuary** across a
 
 See [DEPLOY.md](./DEPLOY.md) for Hetzner deployment guide.
 
-GitHub Pages: a static preview is auto-deployed to `gh-pages` on every push to `main` — see [`apps/web-preview/README.md`](../apps/web-preview/README.md).
+GitHub Pages preview has been retired — see [DEPLOY.md](./DEPLOY.md) for the only deployment target (Hetzner).
